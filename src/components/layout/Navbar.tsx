@@ -121,15 +121,6 @@ export default function Navbar() {
                       Corporate Solutions
                     </Link>
 
-                    <Link
-                      href="/admin"
-                      onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-all"
-                    >
-                      <ShieldAlert className="w-4 h-4 text-red-500" />
-                      Admin Dashboard
-                    </Link>
-
                     <hr className="border-white/5 my-1.5" />
 
                     <button
@@ -209,7 +200,7 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-center text-xs">
+                <div className="grid grid-cols-3 gap-2 text-center text-xs">
                   <Link
                     href="/dashboard"
                     onClick={() => setIsOpen(false)}
@@ -230,13 +221,6 @@ export default function Navbar() {
                     className="py-2.5 rounded-lg border border-white/10 text-white hover:bg-white/5"
                   >
                     Corporate App
-                  </Link>
-                  <Link
-                    href="/admin"
-                    onClick={() => setIsOpen(false)}
-                    className="py-2.5 rounded-lg border border-white/10 text-white hover:bg-white/5"
-                  >
-                    Admin Control
                   </Link>
                 </div>
 
