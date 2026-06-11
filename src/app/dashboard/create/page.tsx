@@ -49,6 +49,15 @@ export default function CreateOrder() {
 
   const [booking, setBooking] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) {
+      router.push("/auth/login");
+    }
+  }, [user, authLoading, router]);
 
   // Sync pricing rules from Firebase
   useEffect(() => {
@@ -106,8 +115,12 @@ export default function CreateOrder() {
 
   // Submit Order booking
   const handleBookOrder = async () => {
-    if (!user || !pickup || !drop) return;
+    if (!user || !pickup || !drop) {
+      setErrorMsg("Missing user session or coordinates.");
+      return;
+    }
     setBooking(true);
+    setErrorMsg(null);
     try {
       const ordersRef = ref(db, "orders");
       const newOrderRef = push(ordersRef);
@@ -171,8 +184,9 @@ export default function CreateOrder() {
       setTimeout(() => {
         router.push(`/dashboard/track?id=${orderId}`);
       }, 2000);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to write booking order:", error);
+      setErrorMsg(error?.message || "Failed to confirm booking. Check your database rules or connection.");
       setBooking(false);
     }
   };
@@ -198,6 +212,13 @@ export default function CreateOrder() {
               <div className="p-3.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-xs font-semibold flex items-center gap-2">
                 <CheckCircle className="w-4 h-4 shrink-0" />
                 {successMsg}
+              </div>
+            )}
+
+            {errorMsg && (
+              <div className="p-3.5 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-semibold flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 shrink-0" />
+                {errorMsg}
               </div>
             )}
 
