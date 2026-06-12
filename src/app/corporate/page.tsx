@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useFirebase } from "@/context/FirebaseContext";
 import { db } from "@/utils/firebase";
 import { ref, onValue, set, push } from "firebase/database";
-import { Briefcase, CreditCard, Users, FileSpreadsheet, Plus, Upload, CheckCircle2, DollarSign, Calendar } from "lucide-react";
+import { Briefcase, CreditCard, Users, FileSpreadsheet, Plus, Upload, CheckCircle2, DollarSign, Calendar, Sparkles } from "lucide-react";
 
 interface Employee {
   id: string;
@@ -45,15 +45,35 @@ export default function CorporateDashboard() {
   const [bulkSuccess, setBulkSuccess] = useState("");
   const [bulkLoading, setBulkLoading] = useState(false);
 
+  // Set page-level light mode background override
+  useEffect(() => {
+    const body = document.body;
+    const prevBg = body.style.backgroundColor;
+    const prevColor = body.style.color;
+    
+    body.style.backgroundColor = "#fafaff";
+    body.style.color = "#0f172a";
+    
+    const html = document.documentElement;
+    const hasDark = html.classList.contains("dark");
+    if (hasDark) {
+      html.classList.remove("dark");
+    }
+
+    return () => {
+      body.style.backgroundColor = prevBg;
+      body.style.color = prevColor;
+      if (hasDark) {
+        html.classList.add("dark");
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (authLoading) return;
     if (!user) {
       router.push("/auth/login");
       return;
-    }
-    if (profile && profile.role !== "corporate") {
-      // Allow testing but alert
-      console.log("Logged in profile is not corporate. Allowed for test sandbox.");
     }
 
     // Sync corporate employees
@@ -152,8 +172,8 @@ export default function CorporateDashboard() {
 
   if (authLoading || loading) {
     return (
-      <div className="w-full min-h-screen bg-gray-950 flex justify-center items-center">
-        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      <div className="w-full min-h-screen bg-[#fafaff] flex justify-center items-center">
+        <div className="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -161,17 +181,24 @@ export default function CorporateDashboard() {
   const creditUsed = orders.reduce((sum, o) => sum + o.price, 0);
 
   return (
-    <div className="w-full min-h-screen bg-gray-950 grid-bg py-12 px-6 md:px-12 text-left">
-      <div className="max-w-7xl mx-auto flex flex-col gap-8">
+    <div className="w-full min-h-screen bg-[#fafaff] py-12 px-6 md:px-12 text-left relative overflow-hidden">
+      {/* Decorative background glows */}
+      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-purple-100/30 blur-[130px] pointer-events-none -z-10" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-blue-100/20 blur-[120px] pointer-events-none -z-10" />
+
+      {/* Grid Pattern overlay */}
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none -z-20" />
+
+      <div className="max-w-7xl mx-auto flex flex-col gap-8 relative z-10">
         
         {/* Header Title */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-white/5 pb-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200/60 pb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-white flex items-center gap-2">
-              <Briefcase className="w-8 h-8 text-primary" />
+            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-800 flex items-center gap-2">
+              <Briefcase className="w-8 h-8 text-purple-650" />
               Corporate Logistics Portal
             </h1>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-slate-505 mt-1">
               Company profile: {profile?.companyName || "Stark Industries Logistics"}. Batch coordinate routes and employees invoicing.
             </p>
           </div>
@@ -179,35 +206,35 @@ export default function CorporateDashboard() {
 
         {/* Corporate Metrics cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="glass-card p-6 rounded-2xl border border-white/5 flex items-center gap-4">
-            <div className="bg-primary/20 p-3.5 rounded-xl border border-primary/30 text-primary">
+          <div className="glass-card-light p-6 rounded-2xl border border-slate-200/60 flex items-center gap-4 bg-white/60">
+            <div className="bg-purple-100 p-3.5 rounded-xl border border-purple-200 text-purple-600">
               <CreditCard className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] text-gray-400 font-bold uppercase block">Credit Limit Available</span>
-              <span className="text-xl font-extrabold text-white mt-1 block">
+              <span className="text-[10px] text-slate-450 font-bold uppercase tracking-wider block">Credit Limit Available</span>
+              <span className="text-xl font-extrabold text-slate-800 mt-1 block">
                 ₹{((profile?.balance || 50000) - creditUsed).toFixed(2)}
               </span>
             </div>
           </div>
 
-          <div className="glass-card p-6 rounded-2xl border border-white/5 flex items-center gap-4">
-            <div className="bg-green-500/20 p-3.5 rounded-xl border border-green-500/30 text-green-500">
+          <div className="glass-card-light p-6 rounded-2xl border border-slate-200/60 flex items-center gap-4 bg-white/60">
+            <div className="bg-blue-100 p-3.5 rounded-xl border border-blue-200 text-blue-600">
               <Users className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] text-gray-400 font-bold uppercase block">Staff Authorized List</span>
-              <span className="text-xl font-extrabold text-white mt-1 block">{employees.length} Users</span>
+              <span className="text-[10px] text-slate-450 font-bold uppercase tracking-wider block">Staff Authorized List</span>
+              <span className="text-xl font-extrabold text-slate-800 mt-1 block">{employees.length} Users</span>
             </div>
           </div>
 
-          <div className="glass-card p-6 rounded-2xl border border-white/5 flex items-center gap-4">
-            <div className="bg-yellow-500/20 p-3.5 rounded-xl border border-yellow-500/30 text-yellow-500">
+          <div className="glass-card-light p-6 rounded-2xl border border-slate-200/60 flex items-center gap-4 bg-white/60">
+            <div className="bg-emerald-100 p-3.5 rounded-xl border border-emerald-200 text-emerald-600">
               <Calendar className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] text-gray-400 font-bold uppercase block">Invoiced Dispatches</span>
-              <span className="text-xl font-extrabold text-white mt-1 block">{orders.length} Deliveries</span>
+              <span className="text-[10px] text-slate-450 font-bold uppercase tracking-wider block">Invoiced Dispatches</span>
+              <span className="text-xl font-extrabold text-slate-800 mt-1 block">{orders.length} Deliveries</span>
             </div>
           </div>
         </div>
@@ -218,22 +245,22 @@ export default function CorporateDashboard() {
           <div className="lg:col-span-6 flex flex-col gap-6">
             
             {/* Bulk Dispatcher input */}
-            <div className="glass-card p-6 rounded-3xl border border-white/10 shadow-2xl flex flex-col gap-4">
-              <h3 className="text-sm font-extrabold text-white flex items-center gap-2">
-                <FileSpreadsheet className="w-5 h-5 text-primary" />
+            <div className="glass-card-light p-6 rounded-3xl border border-slate-200/80 shadow-md flex flex-col gap-4 bg-white/70">
+              <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 tracking-tight">
+                <FileSpreadsheet className="w-5 h-5 text-purple-600" />
                 Batch Shipment Manifest Dispatcher
               </h3>
               
               {bulkSuccess && (
-                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-xl flex items-center gap-1.5">
+                <div className="p-3 bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-semibold rounded-xl flex items-center gap-1.5 animate-fadeIn">
                   <CheckCircle2 className="w-4.5 h-4.5 shrink-0" /> {bulkSuccess}
                 </div>
               )}
 
-              <form onSubmit={handleBulkDispatch} className="flex flex-col gap-3.5 text-xs">
-                <label className="text-gray-400 leading-relaxed block">
+              <form onSubmit={handleBulkDispatch} className="flex flex-col gap-3.5 text-xs text-left">
+                <label className="text-slate-500 leading-relaxed block font-medium">
                   Paste delivery addresses. Separate lines using the format:<br />
-                  <code className="text-primary font-mono block mt-1.5 bg-white/5 p-2 rounded border border-white/5">
+                  <code className="text-purple-600 font-mono block mt-1.5 bg-slate-50 p-2 rounded border border-slate-200/50">
                     Pickup Location | Drop Destination | Est. Fare (INR)
                   </code>
                 </label>
@@ -241,13 +268,13 @@ export default function CorporateDashboard() {
                   rows={5}
                   value={bulkInput}
                   onChange={(e) => setBulkInput(e.target.value)}
-                  placeholder={`e.g. Stark Tower A | Saket Depot | 450&#10;Stark Tower A | Noida Cargo Terminal | 920`}
-                  className="w-full px-3 py-2.5 rounded-xl glass-input text-white font-mono focus:outline-none resize-none text-xs"
+                  placeholder={`e.g. Stark Tower A | Saket Depot | 450\nStark Tower A | Noida Cargo Terminal | 920`}
+                  className="w-full px-3 py-2.5 rounded-xl glass-input-light text-slate-850 font-mono focus:outline-none resize-none text-xs border border-slate-200/80 bg-white"
                 />
                 <button
                   type="submit"
                   disabled={bulkLoading || !bulkInput}
-                  className="w-full py-3 bg-primary hover:bg-primary-hover text-white font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer disabled:opacity-50"
+                  className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold rounded-xl flex items-center justify-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 shadow-md shadow-purple-500/10 text-xs"
                 >
                   <Upload className="w-4 h-4" />
                   {bulkLoading ? "Dispatched Manifest..." : "Submit Batch Manifest Dispatch"}
@@ -256,16 +283,16 @@ export default function CorporateDashboard() {
             </div>
 
             {/* Roster list */}
-            <div className="glass-card p-6 rounded-3xl border border-white/5 flex flex-col gap-4">
-              <h3 className="text-sm font-extrabold text-white">Roster Authorized Employees</h3>
+            <div className="glass-card-light p-6 rounded-3xl border border-slate-200/60 flex flex-col gap-4 bg-white/50">
+              <h3 className="text-sm font-bold text-slate-800 tracking-tight">Roster Authorized Employees</h3>
               <div className="flex flex-col gap-3 max-h-[200px] overflow-y-auto pr-1">
                 {employees.map((emp) => (
-                  <div key={emp.id} className="bg-white/5 p-3 rounded-xl border border-white/5 flex justify-between items-center text-xs">
+                  <div key={emp.id} className="bg-slate-50/50 p-3 rounded-xl border border-slate-200/50 flex justify-between items-center text-xs">
                     <div>
-                      <p className="font-bold text-white">{emp.name}</p>
-                      <p className="text-gray-400 mt-0.5">{emp.email}</p>
+                      <p className="font-bold text-slate-800">{emp.name}</p>
+                      <p className="text-slate-500 text-[10px] mt-0.5">{emp.email}</p>
                     </div>
-                    <span className="text-[10px] bg-white/5 border border-white/10 px-2 py-0.5 rounded text-gray-300 uppercase font-bold">
+                    <span className="text-[9px] bg-white border border-slate-200/60 px-2 py-0.5 rounded text-slate-600 uppercase font-bold tracking-wider">
                       {emp.department}
                     </span>
                   </div>
@@ -279,14 +306,14 @@ export default function CorporateDashboard() {
           <div className="lg:col-span-6 flex flex-col gap-6">
             
             {/* Add Employee Form */}
-            <div className="glass-card p-6 rounded-3xl border border-white/10 shadow-2xl flex flex-col gap-4">
-              <h3 className="text-sm font-extrabold text-white flex items-center gap-2">
-                <Plus className="w-4 h-4 text-primary animate-pulse" />
+            <div className="glass-card-light p-6 rounded-3xl border border-slate-200/80 shadow-md flex flex-col gap-4 bg-white/70">
+              <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2 tracking-tight">
+                <Plus className="w-4 h-4 text-purple-600 animate-pulse" />
                 Authorize Employee Account
               </h3>
               
               {empSuccess && (
-                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold rounded-xl flex items-center gap-1.5">
+                <div className="p-3 bg-emerald-50 border border-emerald-100 text-emerald-700 text-xs font-semibold rounded-xl flex items-center gap-1.5 animate-fadeIn">
                   <CheckCircle2 className="w-4.5 h-4.5 shrink-0" /> Employee authorized successfully.
                 </div>
               )}
@@ -294,46 +321,46 @@ export default function CorporateDashboard() {
               <form onSubmit={handleAddEmployee} className="flex flex-col gap-3 text-xs text-left">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-gray-400 font-bold uppercase text-[9px]">Full Name</label>
+                    <label className="text-slate-450 font-bold uppercase text-[9px] tracking-wider">Full Name</label>
                     <input
                       type="text"
                       required
                       value={empName}
                       onChange={(e) => setEmpName(e.target.value)}
                       placeholder="Pepper Potts"
-                      className="px-3 py-2.5 rounded-xl glass-input text-white focus:outline-none text-xs"
+                      className="px-3 py-2.5 rounded-xl glass-input-light text-slate-800 focus:outline-none text-xs border border-slate-200/80 bg-white"
                     />
                   </div>
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-gray-400 font-bold uppercase text-[9px]">Email Address</label>
+                    <label className="text-slate-455 font-bold uppercase text-[9px] tracking-wider">Email Address</label>
                     <input
                       type="email"
                       required
                       value={empEmail}
                       onChange={(e) => setEmpEmail(e.target.value)}
                       placeholder="pepper@stark.com"
-                      className="px-3 py-2.5 rounded-xl glass-input text-white focus:outline-none text-xs"
+                      className="px-3 py-2.5 rounded-xl glass-input-light text-slate-800 focus:outline-none text-xs border border-slate-200/80 bg-white"
                     />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-gray-400 font-bold uppercase text-[9px]">Department</label>
+                  <label className="text-slate-455 font-bold uppercase text-[9px] tracking-wider">Department</label>
                   <select
                     value={empDept}
                     onChange={(e) => setEmpDept(e.target.value)}
-                    className="px-3 py-2.5 rounded-xl glass-input text-white focus:outline-none cursor-pointer text-xs"
+                    className="px-3 py-2.5 rounded-xl glass-input-light text-slate-800 focus:outline-none cursor-pointer text-xs border border-slate-200/80 bg-white"
                   >
-                    <option value="Logistics" className="bg-gray-950">Logistics & Supply Chain</option>
-                    <option value="Operations" className="bg-gray-950">Operations Control</option>
-                    <option value="Procurement" className="bg-gray-950">Procurement</option>
-                    <option value="Executive" className="bg-gray-950">Executive Office</option>
+                    <option value="Logistics" className="text-slate-800">Logistics & Supply Chain</option>
+                    <option value="Operations" className="text-slate-800">Operations Control</option>
+                    <option value="Procurement" className="text-slate-800">Procurement</option>
+                    <option value="Executive" className="text-slate-800">Executive Office</option>
                   </select>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 bg-primary hover:bg-primary-hover text-white text-xs font-bold rounded-xl transition-all cursor-pointer"
+                  className="w-full py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold rounded-xl transition-all cursor-pointer shadow-md shadow-purple-500/10"
                 >
                   Confirm Authorization
                 </button>
@@ -341,19 +368,19 @@ export default function CorporateDashboard() {
             </div>
 
             {/* Invoices List */}
-            <div className="glass-card p-6 rounded-3xl border border-white/5 flex flex-col gap-4 text-left">
-              <h3 className="text-sm font-extrabold text-white">Monthly Credit Invoices</h3>
+            <div className="glass-card-light p-6 rounded-3xl border border-slate-200/60 flex flex-col gap-4 text-left bg-white/50">
+              <h3 className="text-sm font-bold text-slate-800 tracking-tight">Monthly Credit Invoices</h3>
               {orders.length === 0 ? (
-                <p className="text-xs text-gray-500 py-6 text-center">No logistics invoices generated for this period.</p>
+                <p className="text-xs text-slate-400 py-6 text-center font-medium">No logistics invoices generated for this period.</p>
               ) : (
                 <div className="flex flex-col gap-3 max-h-[200px] overflow-y-auto pr-1">
                   {orders.map((ord) => (
-                    <div key={ord.id} className="bg-white/5 p-3 rounded-xl border border-white/5 flex justify-between items-center text-xs">
+                    <div key={ord.id} className="bg-slate-50/50 p-3 rounded-xl border border-slate-200/50 flex justify-between items-center text-xs">
                       <div>
-                        <p className="font-bold text-white truncate max-w-[150px]">To: {ord.drop.address}</p>
-                        <p className="text-gray-400 text-[10px] mt-0.5">{new Date(ord.createdAt).toLocaleDateString()}</p>
+                        <p className="font-bold text-slate-800 truncate max-w-[150px]">To: {ord.drop.address}</p>
+                        <p className="text-slate-500 text-[10px] mt-0.5">{new Date(ord.createdAt).toLocaleDateString()}</p>
                       </div>
-                      <div className="text-right font-bold text-white">
+                      <div className="text-right font-extrabold text-slate-850 text-sm">
                         ₹{ord.price.toFixed(0)}
                       </div>
                     </div>
