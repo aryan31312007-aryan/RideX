@@ -70,7 +70,7 @@ export default function CustomerDashboard() {
   const pastOrders = orders.filter((ord) => ["delivered", "cancelled"].includes(ord.status));
 
   const getStatusBadge = (status: string) => {
-    const badges: Record<string, JSX.Element> = {
+    const badges: Record<string, React.ReactNode> = {
       pending: <span className="text-[10px] px-2 py-0.5 bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 rounded font-bold uppercase">Pending</span>,
       assigned: <span className="text-[10px] px-2 py-0.5 bg-purple-500/10 border border-purple-500/20 text-purple-500 rounded font-bold uppercase">Assigned</span>,
       accepted: <span className="text-[10px] px-2 py-0.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 rounded font-bold uppercase">Accepted</span>,
