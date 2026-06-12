@@ -8,6 +8,8 @@ import {
   Smartphone, Activity, Compass, Users, Sparkles, AlertCircle, Share2, Eye
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import CinematicCityCanvas from "@/components/layout/CinematicCityCanvas";
+import { useFirebase } from "@/context/FirebaseContext";
 
 // Interface for simulated route points
 interface MapPoint {
@@ -17,6 +19,8 @@ interface MapPoint {
 }
 
 export default function LandingPage() {
+  const { user, profile } = useFirebase();
+
   // 1. Page-level Light Mode override
   useEffect(() => {
     const body = document.body;
@@ -216,100 +220,164 @@ export default function LandingPage() {
   return (
     <div className="bg-[#fafaff] text-slate-900 min-h-screen relative font-sans overflow-x-hidden">
       
-      {/* Dynamic Ambient Background Glows */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-purple-100/40 to-blue-50/20 blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute top-[800px] left-[-200px] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-purple-50/50 to-indigo-100/40 blur-[130px] pointer-events-none -z-10" />
-      <div className="absolute bottom-[200px] right-[-100px] w-[600px] h-[600px] rounded-full bg-purple-100/30 blur-[150px] pointer-events-none -z-10" />
+      {/* ================= HERO SECTION (CINEMATIC) ================= */}
+      <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden py-20 px-6 md:px-12 w-full">
+        {/* Full bleed smart city simulation background */}
+        <CinematicCityCanvas />
 
-      {/* Grid Pattern overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none -z-20" />
+        {/* Ambient overlay */}
+        <div className="absolute inset-0 bg-white/20 pointer-events-none -z-10" />
 
-      {/* ================= HERO SECTION ================= */}
-      <section className="max-w-7xl mx-auto px-6 pt-12 pb-24 md:py-32 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full">
-        {/* Left Side Content */}
-        <div className="lg:col-span-7 flex flex-col gap-6 text-left relative">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 border border-purple-100 w-fit"
-          >
-            <Sparkles className="w-4 h-4 text-purple-600 animate-pulse" />
-            <span className="text-[11px] font-semibold text-purple-700 tracking-wider uppercase">
-              Next-Gen Autonomous Assisted Fleet
-            </span>
-          </motion.div>
-
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1]"
-          >
-            Future Mobility for <br />
-            <span className="text-gradient-purple-blue">Everyday Life</span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-base md:text-lg text-slate-600 max-w-xl leading-relaxed"
-          >
-            Unified urban transit made luxurious. Book rapid electric bike-taxis, hail premium self-navigating EVs, or schedule customizable rentals on a single, emotionally engaging platform.
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap gap-4 mt-2"
-          >
-            <a 
-              href="#book-now"
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-purple-500/20"
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full relative z-10">
+          {/* Left Side Content */}
+          <div className="lg:col-span-7 flex flex-col gap-6 text-left relative">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-slate-200/50 w-fit shadow-sm"
             >
-              Get Started <ArrowRight className="w-4 h-4" />
-            </a>
-            <a 
-              href="#categories"
-              className="px-8 py-4 rounded-xl bg-white border border-slate-200/80 hover:bg-slate-50 text-slate-700 font-semibold transition-all hover:border-slate-300"
-            >
-              Explore Fleet
-            </a>
-          </motion.div>
+              <Sparkles className="w-4 h-4 text-purple-600 animate-pulse" />
+              <span className="text-[11px] font-semibold text-purple-700 tracking-wider uppercase">
+                Next-Gen Autonomous Assisted Fleet
+              </span>
+            </motion.div>
 
-          {/* Micro Stat pills */}
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="flex gap-6 mt-6 pt-6 border-t border-slate-200/60"
-          >
-            <div>
-              <p className="text-2xl font-bold text-slate-900">4.9★</p>
-              <p className="text-xs text-slate-500">App Store Rating</p>
-            </div>
-            <div className="border-l border-slate-200/80 pl-6">
-              <p className="text-2xl font-bold text-slate-900">100%</p>
-              <p className="text-xs text-slate-500">Electric Vehicles</p>
-            </div>
-            <div className="border-l border-slate-200/80 pl-6">
-              <p className="text-2xl font-bold text-slate-900">&lt;5 min</p>
-              <p className="text-xs text-slate-500">Average Pickup ETA</p>
-            </div>
-          </motion.div>
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.05]"
+            >
+              Your City.<br />
+              Your Ride.<br />
+              <span className="text-gradient-purple-blue">Your Future.</span>
+            </motion.h1>
+
+            <motion.p 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-base md:text-xl text-slate-600 max-w-xl leading-relaxed mt-2"
+            >
+              AI-powered mobility built for the next generation of urban transportation. Experience zero-emission transit synchronized in real-time.
+            </motion.p>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="flex flex-wrap gap-4 mt-2"
+            >
+              <button 
+                onClick={() => {
+                  const el = document.getElementById("booking-section");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-purple-500/25 cursor-pointer"
+              >
+                Book a Ride <ArrowRight className="w-4 h-4" />
+              </button>
+              <button 
+                onClick={() => {
+                  const el = document.getElementById("categories");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="px-8 py-4 rounded-xl bg-white/80 backdrop-blur-sm border border-slate-200/80 hover:bg-slate-50 text-slate-700 font-semibold transition-all hover:border-slate-300 cursor-pointer"
+              >
+                Explore Fleet
+              </button>
+            </motion.div>
+          </div>
+
+          {/* Right Side Content - Secure Gateway Panel */}
+          <div className="lg:col-span-5 w-full flex flex-col gap-6 relative">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 25 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="w-full max-w-sm ml-auto glass-card-light p-8 rounded-3xl border border-slate-200/60 bg-white/70 backdrop-blur-xl shadow-xl flex flex-col gap-6 text-left"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-purple-100/80 rounded-xl border border-purple-200 text-purple-600">
+                  <Shield className="w-5 h-5 text-purple-600" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">SECURE TELEMETRY NODE</span>
+                  <span className="text-sm font-extrabold text-slate-800">RideX Secure Gateway</span>
+                </div>
+              </div>
+
+              <p className="text-xs text-slate-500 leading-relaxed">
+                Connect your account to sync ride metrics, customize climate settings, lock coordinates, and share live safety alerts.
+              </p>
+
+              <hr className="border-slate-200/40" />
+
+              {user && profile ? (
+                <div className="flex flex-col gap-3">
+                  <div className="bg-white/85 p-3 rounded-xl border border-slate-200/50 flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-purple-100 border border-purple-200 flex items-center justify-center font-bold text-purple-700 text-sm">
+                      {profile.name[0]}
+                    </div>
+                    <div className="min-w-0 flex-grow">
+                      <p className="text-xs font-bold text-slate-800 truncate">{profile.name}</p>
+                      <p className="text-[10px] text-slate-500 capitalize">{profile.role}</p>
+                    </div>
+                  </div>
+                  <Link
+                    href="/dashboard"
+                    className="w-full py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold rounded-xl text-center shadow-md shadow-purple-500/10 hover:scale-[1.01] active:scale-[0.98] transition-all"
+                  >
+                    Access User Console
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  <Link
+                    href="/auth/login"
+                    className="w-full py-3.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/80 text-xs font-bold rounded-xl text-center transition-all hover:scale-[1.01] active:scale-[0.98] shadow-sm flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    Sign In to Account
+                  </Link>
+                  <Link
+                    href="/auth/register"
+                    className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold rounded-xl text-center shadow-md shadow-purple-500/15 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer"
+                  >
+                    Create Free Account
+                  </Link>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================= BOOKING SECTION (REVEAL ON SCROLL) ================= */}
+      <section id="booking-section" className="max-w-7xl mx-auto px-6 py-24 w-full relative">
+        {/* Decorative background glows */}
+        <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-purple-100/30 blur-[130px] pointer-events-none -z-10" />
+        <div className="absolute bottom-[20%] left-[-10%] w-[400px] h-[400px] rounded-full bg-blue-100/20 blur-[120px] pointer-events-none -z-10" />
+
+        <div className="text-center max-w-xl mx-auto mb-16">
+          <h2 className="text-xs font-bold text-purple-600 uppercase tracking-widest mb-3">AI DISPATCH SYSTEM</h2>
+          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Reserve your ride in real-time
+          </h3>
+          <p className="text-sm text-slate-500 mt-3">
+            Lock in optimized rates, scan available EV drivers, and trigger GPS tracking instantly below.
+          </p>
         </div>
 
-        {/* Right Side Card & Map widgets */}
-        <div id="book-now" className="lg:col-span-5 w-full flex flex-col gap-6 relative">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch"
+        >
           {/* Main Booking Interface Card */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="w-full bg-white/70 backdrop-blur-xl p-6 rounded-3xl border border-slate-200/80 shadow-xl relative"
-          >
+          <div className="lg:col-span-7 w-full bg-white/70 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-slate-200/80 shadow-xl relative flex flex-col justify-between">
             <div className="absolute top-4 right-4 flex items-center gap-1.5 px-2 py-1 rounded bg-purple-50 border border-purple-100 text-[10px] font-bold text-purple-600 uppercase">
               <Zap className="w-3.5 h-3.5 animate-bounce text-purple-600" /> AI Pricing Locked
             </div>
@@ -428,49 +496,45 @@ export default function LandingPage() {
                 )}
               </button>
             </form>
-          </motion.div>
+          </div>
 
           {/* Floating Map Preview Bubble (SVG Canvas) */}
-          <motion.div 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="w-full h-[140px] bg-white/70 backdrop-blur-xl border border-slate-200/80 rounded-2xl overflow-hidden shadow-lg p-2.5 relative flex items-center"
-          >
+          <div className="lg:col-span-5 w-full bg-white/70 backdrop-blur-xl border border-slate-200/80 rounded-3xl overflow-hidden shadow-lg p-3 relative flex flex-col justify-between">
             {/* Embedded Live Map Canvas */}
-            <div className="w-full h-full relative rounded-xl overflow-hidden bg-slate-100">
-              <svg className="w-full h-full" viewBox="0 0 300 120">
+            <div className="w-full h-[260px] md:h-full relative rounded-2xl overflow-hidden bg-slate-100">
+              <svg className="w-full h-full min-h-[220px]" viewBox="0 0 300 200">
                 {/* Simulated background street grid */}
-                <path d="M 0,20 L 300,20 M 0,60 L 300,60 M 0,100 L 300,100 M 40,0 L 40,120 M 120,0 L 120,120 M 200,0 L 200,120 M 280,0 L 280,120" stroke="#e2e8f0" strokeWidth="1" />
+                <path d="M 0,40 L 300,40 M 0,100 L 300,100 M 0,160 L 300,160 M 60,0 L 60,200 M 150,0 L 150,200 M 240,0 L 240,200" stroke="#e2e8f0" strokeWidth="1" />
                 
                 {/* Main routing road curvature */}
-                <path d="M 30,80 Q 120,30 200,90 T 270,40" fill="transparent" stroke="#ddd" strokeWidth="6" strokeLinecap="round" />
+                <path d="M 40,140 Q 150,60 260,110" fill="transparent" stroke="#ddd" strokeWidth="6" strokeLinecap="round" />
                 {/* Active path indicator (purple glow) */}
-                <path d="M 30,80 Q 120,30 200,90 T 270,40" fill="transparent" stroke="#8b5cf6" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="6 8" className="animate-[pulse_2s_infinite]" />
+                <path d="M 40,140 Q 150,60 260,110" fill="transparent" stroke="#8b5cf6" strokeWidth="3.5" strokeLinecap="round" strokeDasharray="6 8" className="animate-[pulse_2s_infinite]" />
 
                 {/* Pickup marker */}
-                <circle cx="30" cy="80" r="6" fill="#3b82f6" stroke="#fff" strokeWidth="1.5" />
-                <circle cx="30" cy="80" r="12" fill="transparent" stroke="rgba(59, 130, 246, 0.4)" strokeWidth="1.5" className="animate-ping" />
+                <circle cx="40" cy="140" r="6" fill="#3b82f6" stroke="#fff" strokeWidth="1.5" />
+                <circle cx="40" cy="140" r="12" fill="transparent" stroke="rgba(59, 130, 246, 0.4)" strokeWidth="1.5" className="animate-ping" />
                 
                 {/* Drop marker */}
-                <circle cx="270" cy="40" r="6" fill="#ec4899" stroke="#fff" strokeWidth="1.5" />
-                <circle cx="270" cy="40" r="12" fill="transparent" stroke="rgba(236, 72, 153, 0.4)" strokeWidth="1.5" className="animate-ping" />
+                <circle cx="260" cy="110" r="6" fill="#ec4899" stroke="#fff" strokeWidth="1.5" />
+                <circle cx="260" cy="110" r="12" fill="transparent" stroke="rgba(236, 72, 153, 0.4)" strokeWidth="1.5" className="animate-ping" />
 
                 {/* Simulated Vehicle marker moving along path */}
-                <g transform={`translate(${currentVehiclePos.x}, ${currentVehiclePos.y / 1.7 + 10})`}>
+                <g transform={`translate(${currentVehiclePos.x * 0.95 + 10}, ${currentVehiclePos.y * 0.65 + 40})`}>
                   <circle cx="0" cy="0" r="7" fill="#8b5cf6" stroke="#fff" strokeWidth="2" className="glow-purple shadow-lg" />
                   <circle cx="0" cy="0" r="12" fill="transparent" stroke="rgba(139, 92, 246, 0.3)" strokeWidth="1.5" className="animate-ping" />
                 </g>
               </svg>
 
               {/* Overlay telemetry info */}
-              <div className="absolute top-2 left-3 bg-white/90 backdrop-blur px-2.5 py-1 rounded-full border border-slate-200/50 text-[9px] font-bold text-slate-600 flex items-center gap-1.5">
+              <div className="absolute top-2 left-3 bg-white/95 backdrop-blur px-2.5 py-1 rounded-full border border-slate-200/50 text-[9px] font-bold text-slate-600 flex items-center gap-1.5 shadow-sm">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live Fleet Tracking simulation
               </div>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </section>
+
 
       {/* ================= TRUSTED BRANDS SECTION ================= */}
       <section className="w-full bg-[#f8fafc]/50 border-y border-slate-200/60 py-12 px-6">
