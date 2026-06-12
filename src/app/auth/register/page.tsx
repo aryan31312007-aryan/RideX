@@ -19,14 +19,22 @@ export default function RegisterPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email || !name) {
+    const cleanEmail = email.trim();
+    if (!cleanEmail || !name.trim()) {
       setError("Please fill in email and name.");
       return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(cleanEmail)) {
+      setError("Please enter a valid email address (e.g., name@company.com).");
+      return;
+    }
+
     setError(null);
     setLoading(true);
     try {
-      await login(email, role, name, phone);
+      await login(cleanEmail, role, name, phone);
       router.push("/dashboard");
     } catch (err: any) {
       setError(err.message || "Failed to register account.");

@@ -21,15 +21,23 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) {
+    const cleanEmail = email.trim();
+    if (!cleanEmail) {
       setError("Email address is required.");
       return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(cleanEmail)) {
+      setError("Please enter a valid email address (e.g., name@company.com).");
+      return;
+    }
+
     setError(null);
     setLoading(true);
 
     try {
-      const userProfile = await login(email, role, name, phone, company);
+      const userProfile = await login(cleanEmail, role, name, phone, company);
       // Redirect based on role
       if (userProfile.role === "admin") {
         router.push("/admin");
