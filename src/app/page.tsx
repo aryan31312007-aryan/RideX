@@ -280,18 +280,23 @@ export default function LandingPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { title: "Bike", desc: "Fast & Affordable", icon: <Bike className="w-6 h-6 text-yellow-600" />, bg: "bg-yellow-50/50" },
-            { title: "Auto", desc: "Quick & Easy", icon: <Compass className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50" },
-            { title: "Cab", desc: "Comfort Rides", icon: <Car className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50/50" },
-            { title: "Premium", desc: "Luxury Rides", icon: <Zap className="w-6 h-6 text-purple-600" />, bg: "bg-purple-50/50" },
-            { title: "Parcel", desc: "Send Anything", icon: <Activity className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50/50" },
-            { title: "Food", desc: "Food Delivery", icon: <Heart className="w-6 h-6 text-red-600" />, bg: "bg-red-50/50" },
-            { title: "Mini Truck", desc: "For Small Load", icon: <Sliders className="w-6 h-6 text-orange-600" />, bg: "bg-orange-50/50" },
-            { title: "Pickup", desc: "Move Anything", icon: <Navigation className="w-6 h-6 text-indigo-600 rotate-45" />, bg: "bg-indigo-50/50" },
-            { title: "Tempo", desc: "For Large Load", icon: <Users className="w-6 h-6 text-teal-600" />, bg: "bg-teal-50/50" },
+            { title: "Bike", desc: "Fast & Affordable", icon: <Bike className="w-6 h-6 text-yellow-600" />, bg: "bg-yellow-50/50", tab: "ride", type: "bike" },
+            { title: "Auto", desc: "Quick & Easy", icon: <Compass className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "ride", type: "auto" },
+            { title: "Cab", desc: "Comfort Rides", icon: <Car className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50/50", tab: "ride", type: "mini" },
+            { title: "Premium", desc: "Luxury Rides", icon: <Zap className="w-6 h-6 text-purple-600" />, bg: "bg-purple-50/50", tab: "ride", type: "ev" },
+            { title: "Parcel", desc: "Send Anything", icon: <Activity className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50/50", tab: "delivery", type: "mini" },
+            { title: "Food", desc: "Food Delivery", icon: <Heart className="w-6 h-6 text-red-600" />, bg: "bg-red-50/50", tab: "delivery", type: "mini" },
+            { title: "Mini Truck", desc: "For Small Load", icon: <Sliders className="w-6 h-6 text-orange-600" />, bg: "bg-orange-50/50", tab: "transport", type: "mini" },
+            { title: "Pickup", desc: "Move Anything", icon: <Navigation className="w-6 h-6 text-indigo-600 rotate-45" />, bg: "bg-indigo-50/50", tab: "transport", type: "mini" },
+            { title: "Tempo", desc: "For Large Load", icon: <Users className="w-6 h-6 text-teal-600" />, bg: "bg-teal-50/50", tab: "transport", type: "mini" },
           ].map((service, idx) => (
             <div 
               key={idx}
+              onClick={() => {
+                setActiveTab(service.tab as any);
+                setVehicleType(service.type as any);
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               className="bg-white border border-slate-100 rounded-3xl p-6 flex items-center justify-between hover:shadow-md transition-all group cursor-pointer"
             >
               <div className="flex items-center gap-4">
