@@ -14,12 +14,13 @@ export default function Navbar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const navLinks = [
-    { name: "Features", href: "/features" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "Business Solutions", href: "/business" },
-    { name: "About", href: "/about" },
-    { name: "Contact", href: "/contact" },
-    { name: "Help Center", href: "/help" },
+    { name: "Home", href: "/" },
+    { name: "Rides", href: "/#booking-section" },
+    { name: "Delivery", href: "/#categories" },
+    { name: "Transport", href: "/#categories" },
+    { name: "Safety", href: "/#safety" },
+    { name: "About Us", href: "/about" },
+    { name: "Support", href: "/help" },
   ];
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
@@ -36,26 +37,26 @@ export default function Navbar() {
     : "text-white";
     
   const logoIconBg = isHome
-    ? "bg-purple-100 border-purple-200/80 group-hover:border-purple-300/80"
+    ? "bg-amber-100 border-amber-200/80 group-hover:border-amber-300/80"
     : "bg-primary/20 border-primary/30 group-hover:border-primary/60";
-
-  const logoIcon = isHome ? "text-purple-600" : "text-primary";
+ 
+  const logoIcon = isHome ? "text-amber-500" : "text-primary";
     
   const linkText = (isActive: boolean) => {
     if (isHome) {
-      return isActive ? "text-purple-600 font-semibold" : "text-slate-600 hover:text-slate-900";
+      return isActive ? "text-amber-500 font-semibold" : "text-slate-600 hover:text-slate-900";
     }
     return isActive ? "text-primary" : "text-gray-300 hover:text-white";
   };
   
-  const indicatorColor = isHome ? "bg-purple-600" : "bg-primary";
+  const indicatorColor = isHome ? "bg-amber-500" : "bg-primary";
   
   const actionBtn = isHome
     ? "bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 hover:border-slate-300"
     : "bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20";
     
   const registerBtn = isHome
-    ? "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg shadow-purple-500/20"
+    ? "bg-[#fbbf24] hover:bg-[#f59e0b] text-slate-900 font-bold shadow-sm"
     : "bg-primary hover:bg-primary-hover text-white shadow-lg shadow-primary/20";
     
   const signInText = isHome
@@ -88,18 +89,12 @@ export default function Navbar() {
     <nav className={`sticky top-0 z-50 w-full py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300 ${navBg}`}>
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2 group">
-        <div className={`p-2 rounded-xl border transition-all duration-300 ${logoIconBg}`}>
-          <Navigation className={`w-6 h-6 rotate-45 group-hover:rotate-90 transition-transform duration-500 ${logoIcon}`} />
-        </div>
-        <span className={`text-2xl font-bold tracking-tight flex items-center gap-1 ${logoText}`}>
-          RIDE<span className={isHome ? "text-purple-600 font-extrabold" : "text-primary font-extrabold"}>X</span>
-          <span className={`text-[10px] uppercase font-mono px-1.5 py-0.5 rounded border ${
-            isHome 
-              ? "bg-purple-50 text-purple-600 border-purple-200" 
-              : "bg-primary/20 text-primary border-primary/30"
-          }`}>
-            v1
-          </span>
+        <svg className="w-8 h-8 text-[#fbbf24]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 20H55C70 20 80 30 80 42.5C80 55 70 65 55 65H40V85H20V20ZM40 37V48H55C58 48 60 46 60 42.5C60 39 58 37 55 37H40Z" fill="currentColor" />
+          <path d="M50 55L75 85H55L35 60H50Z" fill="currentColor" />
+        </svg>
+        <span className={`text-2xl font-black tracking-tight flex items-center gap-0.5 ${logoText}`}>
+          RIDE<span className={isHome ? "text-slate-800 font-extrabold" : "text-primary font-extrabold"}>X</span>
         </span>
       </Link>
 
@@ -201,20 +196,31 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
         ) : (
-          <>
+          <div className="flex items-center gap-4">
+            {/* Language Selector */}
+            <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 cursor-pointer">
+              <svg className="w-4.5 h-4.5 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+              <span>English</span>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+            </div>
+
             <Link
               href="/auth/login"
-              className={`text-sm px-4 py-2 transition-all ${signInText}`}
+              className={`text-sm font-medium px-4 py-2 transition-all ${signInText}`}
             >
-              Sign In
+              Login
             </Link>
             <Link
               href="/auth/register"
-              className={`text-sm font-semibold px-5 py-2.5 rounded-xl border border-transparent hover:scale-[1.02] active:scale-[0.98] transition-all ${registerBtn}`}
+              className={`text-sm font-bold px-5 py-2.5 rounded-xl hover:scale-[1.02] active:scale-[0.98] transition-all ${registerBtn}`}
             >
-              Register
+              Sign Up
             </Link>
-          </>
+          </div>
         )}
       </div>
 
