@@ -5,7 +5,7 @@ import Link from "next/link";
 import { 
   Bike, Car, Navigation, Zap, Shield, MapPin, ArrowRight, Star, Clock, 
   Heart, ShieldAlert, CheckCircle, ChevronRight, Sliders, Award, DollarSign, 
-  Smartphone, Activity, Compass, Users, Sparkles, AlertCircle, Share2
+  Smartphone, Activity, Compass, Users
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFirebase } from "@/context/FirebaseContext";
@@ -37,13 +37,77 @@ export default function LandingPage() {
     };
   }, []);
 
+  // Sub-services configurations for all categories
+  const subServices = {
+    bike: [
+      { id: "scooty", name: "Electric Scooty", base: 15, perKm: 5 },
+      { id: "normal_bike", name: "Normal Commuter Bike", base: 20, perKm: 6.5 },
+      { id: "super_bike", name: "Super Bike (Sport)", base: 45, perKm: 12 },
+      { id: "heavy_bike", name: "Heavy Cruiser Bike", base: 35, perKm: 9.5 }
+    ],
+    auto: [
+      { id: "e_auto", name: "Electric Auto", base: 30, perKm: 8 },
+      { id: "cng_auto", name: "CNG Auto", base: 35, perKm: 9 },
+      { id: "shared_auto", name: "Shared Route Auto", base: 15, perKm: 4 }
+    ],
+    cab: [
+      { id: "mini_cab", name: "Mini Hatchback Cab", base: 55, perKm: 12 },
+      { id: "sedan_cab", name: "Sedan Comfort Cab", base: 75, perKm: 15 },
+      { id: "suv_cab", name: "Spacious SUV Cab", base: 110, perKm: 20 }
+    ],
+    premium: [
+      { id: "premium_sedan", name: "Premium Sedan (Audi/BMW)", base: 150, perKm: 28 },
+      { id: "tesla_ev", name: "Tesla Prime EV SUV", base: 130, perKm: 24 },
+      { id: "luxury_limo", name: "Luxury Limousine Chauffeur", base: 300, perKm: 50 }
+    ],
+    parcel: [
+      { id: "doc_courier", name: "Instant Document Courier", base: 40, perKm: 8 },
+      { id: "box_express", name: "Medium Box Express", base: 60, perKm: 12 },
+      { id: "heavy_cargo", name: "Heavy Box Cargo", base: 120, perKm: 18 }
+    ],
+    food: [
+      { id: "meal_delivery", name: "Express Meal Delivery", base: 25, perKm: 5 },
+      { id: "grocery_express", name: "Fresh Grocery Delivery", base: 30, perKm: 6 },
+      { id: "store_pickup", name: "Store Package Pickup", base: 35, perKm: 7 }
+    ],
+    mini_truck: [
+      { id: "tata_ace", name: "Tata Ace (Mini Truck)", base: 180, perKm: 22 },
+      { id: "e_loader", name: "E-Loader Box Truck", base: 150, perKm: 18 }
+    ],
+    pickup: [
+      { id: "mahindra_pickup", name: "Mahindra Pickup Truck", base: 220, perKm: 25 },
+      { id: "flatbed", name: "Open Flatbed Tow Truck", base: 350, perKm: 35 }
+    ],
+    tempo: [
+      { id: "force_tempo", name: "Force Tempo (Large Load)", base: 280, perKm: 30 },
+      { id: "box_container", name: "Closed Box Container", base: 400, perKm: 40 }
+    ]
+  };
+
   // State management for booking card
   const [pickup, setPickup] = useState("Connaught Place, New Delhi");
   const [drop, setDrop] = useState("Indira Gandhi Airport, Delhi");
-  const [vehicleType, setVehicleType] = useState<"bike" | "auto" | "mini" | "rentals" | "ev">("mini");
+  const [selectedCategory, setSelectedCategory] = useState<keyof typeof subServices>("cab");
+  const [selectedSubService, setSelectedSubService] = useState<string>("mini_cab");
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [activeTab, setActiveTab] = useState<"ride" | "delivery" | "transport">("ride");
+
+  const changeCategory = (cat: keyof typeof subServices) => {
+    setSelectedCategory(cat);
+    const defaults: Record<string, string> = {
+      bike: "scooty",
+      auto: "e_auto",
+      cab: "mini_cab",
+      premium: "premium_sedan",
+      parcel: "doc_courier",
+      food: "meal_delivery",
+      mini_truck: "tata_ace",
+      pickup: "mahindra_pickup",
+      tempo: "force_tempo"
+    };
+    setSelectedSubService(defaults[cat]);
+  };
 
   // State for Live Map simulation inside smartphone mock
   const [simProgress, setSimProgress] = useState(0.35);
@@ -87,6 +151,12 @@ export default function LandingPage() {
   };
 
   const currentVehiclePos = getCoordinatesAlongRoute(simProgress);
+
+  const getFareValue = () => {
+    const list = subServices[selectedCategory] || [];
+    const item = list.find((s) => s.id === selectedSubService) || list[0] || { base: 50, perKm: 10 };
+    return item.base + (14 * item.perKm) + 15;
+  };
 
   const handleBookRide = (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,7 +224,12 @@ export default function LandingPage() {
                   <button
                     key={tab.id}
                     type="button"
-                    onClick={() => setActiveTab(tab.id as any)}
+                    onClick={() => {
+                      setActiveTab(tab.id as any);
+                      if (tab.id === "ride") changeCategory("cab");
+                      else if (tab.id === "delivery") changeCategory("parcel");
+                      else if (tab.id === "transport") changeCategory("mini_truck");
+                    }}
                     className={`flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       activeTab === tab.id
                         ? "bg-white text-slate-800 shadow-sm border border-slate-100"
@@ -166,6 +241,79 @@ export default function LandingPage() {
                   </button>
                 ))}
               </div>
+
+              {/* Sub-Category Selection Pills */}
+              {activeTab === "ride" && (
+                <div className="flex gap-2 justify-between">
+                  {[
+                    { id: "cab", label: "Car", icon: <Car className="w-3.5 h-3.5" /> },
+                    { id: "bike", label: "Bike", icon: <Bike className="w-3.5 h-3.5" /> },
+                    { id: "auto", label: "Auto", icon: <Compass className="w-3.5 h-3.5" /> },
+                    { id: "premium", label: "Premium", icon: <Zap className="w-3.5 h-3.5" /> }
+                  ].map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => changeCategory(cat.id as any)}
+                      className={`flex-1 py-1.5 rounded-xl border text-[10px] font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${
+                        selectedCategory === cat.id
+                          ? "bg-amber-50 border-[#fbbf24] text-amber-700"
+                          : "bg-slate-50/50 border-slate-100 text-slate-500 hover:bg-slate-100"
+                      }`}
+                    >
+                      {cat.icon}
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {activeTab === "delivery" && (
+                <div className="flex gap-2">
+                  {[
+                    { id: "parcel", label: "Parcel Courier", icon: <Activity className="w-3.5 h-3.5" /> },
+                    { id: "food", label: "Food Delivery", icon: <Heart className="w-3.5 h-3.5" /> }
+                  ].map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => changeCategory(cat.id as any)}
+                      className={`flex-1 py-1.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        selectedCategory === cat.id
+                          ? "bg-amber-50 border-[#fbbf24] text-amber-700"
+                          : "bg-slate-50/50 border-slate-100 text-slate-500 hover:bg-slate-100"
+                      }`}
+                    >
+                      {cat.icon}
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {activeTab === "transport" && (
+                <div className="flex gap-2">
+                  {[
+                    { id: "mini_truck", label: "Mini Truck", icon: <Sliders className="w-3.5 h-3.5" /> },
+                    { id: "pickup", label: "Pickup Loader", icon: <Navigation className="w-3.5 h-3.5 rotate-45" /> },
+                    { id: "tempo", label: "Large Tempo", icon: <Users className="w-3.5 h-3.5" /> }
+                  ].map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => changeCategory(cat.id as any)}
+                      className={`flex-1 py-1.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        selectedCategory === cat.id
+                          ? "bg-amber-50 border-[#fbbf24] text-amber-700"
+                          : "bg-slate-50/50 border-slate-100 text-slate-500 hover:bg-slate-100"
+                      }`}
+                    >
+                      {cat.icon}
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* Form */}
               <form onSubmit={handleBookRide} className="flex flex-col gap-4">
@@ -212,28 +360,41 @@ export default function LandingPage() {
                   <div>
                     <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Vehicle Type</label>
                     <select
-                      value={vehicleType}
-                      onChange={(e) => setVehicleType(e.target.value as any)}
-                      className="w-full px-3 py-3 rounded-xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:outline-none text-xs text-slate-800 font-semibold"
+                      value={selectedSubService}
+                      onChange={(e) => setSelectedSubService(e.target.value)}
+                      className="w-full px-3 py-3 rounded-xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:outline-none text-xs text-slate-805 font-bold"
                     >
-                      <option value="mini">Mini</option>
-                      <option value="bike">Bike</option>
-                      <option value="auto">Auto</option>
-                      <option value="ev">Prime EV</option>
-                      <option value="rentals">Rentals</option>
+                      {(subServices[selectedCategory] || []).map((sub) => (
+                        <option key={sub.id} value={sub.id}>
+                          {sub.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
                   <div>
                     <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Payment</label>
                     <select
-                      className="w-full px-3 py-3 rounded-xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:outline-none text-xs text-slate-800 font-semibold"
+                      className="w-full px-3 py-3 rounded-xl border border-slate-100 bg-slate-50/50 focus:bg-white focus:outline-none text-xs text-slate-808 font-bold"
                     >
                       <option>RIDEX Wallet</option>
                       <option>Credit / Debit Card</option>
                       <option>UPI / Net Banking</option>
                       <option>Cash</option>
                     </select>
+                  </div>
+                </div>
+
+                {/* Pricing Box */}
+                <div className="p-3.5 rounded-2xl bg-amber-50/30 border border-amber-100/40 flex justify-between items-center text-xs">
+                  <div>
+                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Estimated Fare</span>
+                    <span className="text-lg font-black text-slate-800">₹{getFareValue().toFixed(2)}</span>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 border border-emerald-100 rounded-full">
+                      ✓ Fares Locked
+                    </span>
                   </div>
                 </div>
 
@@ -282,19 +443,19 @@ export default function LandingPage() {
           {[
             { title: "Bike", desc: "Fast & Affordable", icon: <Bike className="w-6 h-6 text-yellow-600" />, bg: "bg-yellow-50/50", tab: "ride", type: "bike" },
             { title: "Auto", desc: "Quick & Easy", icon: <Compass className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "ride", type: "auto" },
-            { title: "Cab", desc: "Comfort Rides", icon: <Car className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50/50", tab: "ride", type: "mini" },
-            { title: "Premium", desc: "Luxury Rides", icon: <Zap className="w-6 h-6 text-purple-600" />, bg: "bg-purple-50/50", tab: "ride", type: "ev" },
-            { title: "Parcel", desc: "Send Anything", icon: <Activity className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50/50", tab: "delivery", type: "mini" },
-            { title: "Food", desc: "Food Delivery", icon: <Heart className="w-6 h-6 text-red-600" />, bg: "bg-red-50/50", tab: "delivery", type: "mini" },
-            { title: "Mini Truck", desc: "For Small Load", icon: <Sliders className="w-6 h-6 text-orange-600" />, bg: "bg-orange-50/50", tab: "transport", type: "mini" },
-            { title: "Pickup", desc: "Move Anything", icon: <Navigation className="w-6 h-6 text-indigo-600 rotate-45" />, bg: "bg-indigo-50/50", tab: "transport", type: "mini" },
-            { title: "Tempo", desc: "For Large Load", icon: <Users className="w-6 h-6 text-teal-600" />, bg: "bg-teal-50/50", tab: "transport", type: "mini" },
+            { title: "Cab", desc: "Comfort Rides", icon: <Car className="w-6 h-6 text-blue-600" />, bg: "bg-blue-50/50", tab: "ride", type: "cab" },
+            { title: "Premium", desc: "Luxury Rides", icon: <Zap className="w-6 h-6 text-purple-600" />, bg: "bg-purple-50/50", tab: "ride", type: "premium" },
+            { title: "Parcel", desc: "Send Anything", icon: <Activity className="w-6 h-6 text-emerald-600" />, bg: "bg-emerald-50/50", tab: "delivery", type: "parcel" },
+            { title: "Food", desc: "Food Delivery", icon: <Heart className="w-6 h-6 text-red-600" />, bg: "bg-red-50/50", tab: "delivery", type: "food" },
+            { title: "Mini Truck", desc: "For Small Load", icon: <Sliders className="w-6 h-6 text-orange-600" />, bg: "bg-orange-50/50", tab: "transport", type: "mini_truck" },
+            { title: "Pickup", desc: "Move Anything", icon: <Navigation className="w-6 h-6 text-indigo-600 rotate-45" />, bg: "bg-indigo-50/50", tab: "transport", type: "pickup" },
+            { title: "Tempo", desc: "For Large Load", icon: <Users className="w-6 h-6 text-teal-600" />, bg: "bg-teal-50/50", tab: "transport", type: "tempo" },
           ].map((service, idx) => (
             <div 
               key={idx}
               onClick={() => {
                 setActiveTab(service.tab as any);
-                setVehicleType(service.type as any);
+                changeCategory(service.type as any);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               className="bg-white border border-slate-100 rounded-3xl p-6 flex items-center justify-between hover:shadow-md transition-all group cursor-pointer"
@@ -363,6 +524,7 @@ export default function LandingPage() {
               Your safety is our highest priority. We use verified drivers, live tracking algorithms, and instant emergency alerts to secure every single trip.
             </p>
             <button 
+              type="button"
               onClick={() => setShowBookingModal(true)} 
               className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold w-fit mt-2 transition-all cursor-pointer"
             >
