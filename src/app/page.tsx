@@ -571,8 +571,13 @@ export default function LandingPage() {
 
           <div className="flex flex-wrap gap-4 mt-2">
             <button className="flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-2xl transition-all cursor-pointer shadow-md">
-              <svg className="w-5 h-5 fill-current text-[#fbbf24]" viewBox="0 0 24 24">
-                <path d="M5 3c-.28 0-.5.22-.5.5v17c0 .28.22.5.5.5.15 0 .28-.06.38-.16l9.62-9.62-9.62-9.62c-.1-.1-.23-.16-.38-.16zM16 11.25l-2.25 2.25 2.25 2.25c.41-.41.41-1.09 0-1.5l-1.5-1.5 1.5-1.5zm.75.75c0 .28-.11.53-.3.72l-2.28 2.28c-.39.39-1.02.39-1.41 0l-2.28-2.28c-.39-.39-.39-1.02 0-1.41l2.28-2.28c.39-.39 1.02-.39 1.41 0l2.28 2.28c.19.19.3.44.3.72z" />
+              <svg className="w-5 h-5" viewBox="0 0 466 511.98">
+                <g fillRule="nonzero">
+                  <path fill="#EA4335" d="M199.9 237.8 1.4 470.17c7.22 24.57 30.16 41.81 55.8 41.81 11.16 0 20.93-2.79 29.3-8.37l244.16-139.46L199.9 237.8z" />
+                  <path fill="#FBBC04" d="m433.91 205.1-104.65-60-111.61 110.22 113.01 108.83 104.64-58.6c18.14-9.77 30.7-29.3 30.7-50.23-1.4-20.93-13.95-40.46-32.09-50.22z" />
+                  <path fill="#34A853" d="M199.42 273.45 329.27 145.1 87.9 8.37C79.53 2.79 68.36 0 57.2 0 30.7 0 6.98 18.14 1.4 41.86l198.02 231.59z" />
+                  <path fill="#4285F4" d="M1.39 41.86C0 46.04 0 51.63 0 57.2v397.64c0 5.57 0 9.76 1.4 15.34l216.27-214.86L1.39 41.86z" />
+                </g>
               </svg>
               <div className="text-left leading-none">
                 <span className="text-[8px] block text-slate-400 uppercase font-mono">Get it on</span>
