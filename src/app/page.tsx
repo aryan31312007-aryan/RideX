@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFirebase } from "@/context/FirebaseContext";
+import CinematicCityCanvas from "@/components/layout/CinematicCityCanvas";
 
 export default function LandingPage() {
   const { user, profile } = useFirebase();
@@ -464,6 +465,21 @@ export default function LandingPage() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ================= DYNAMIC DISPATCH SIMULATION ================= */}
+      <section className="max-w-7xl mx-auto px-6 py-12 w-full border-t border-slate-100 relative">
+        <div className="flex flex-col gap-3 mb-10 text-left">
+          <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">Experience the AI Network</span>
+          <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Autonomous Dispatch Simulator</h2>
+          <p className="text-sm text-slate-500 max-w-xl leading-relaxed font-semibold">
+            See the RideX neural dispatcher at work. Vikram Solanki's Tesla and cargo logistics vehicles traverse Delhi NCR green expressways with biometrics tracking, latency logs, and automated corridor optimization.
+          </p>
+        </div>
+        
+        <div className="w-full h-[550px] rounded-[32px] overflow-hidden border border-slate-200/60 relative shadow-xl bg-slate-900">
+          <CinematicCityCanvas />
         </div>
       </section>
 

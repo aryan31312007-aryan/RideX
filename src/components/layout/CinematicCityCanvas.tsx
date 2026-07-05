@@ -344,18 +344,12 @@ export default function CinematicCityCanvas() {
       }
 
       // 6. DRAW THE DRIVER VEHICLE (SLEEK EV POD)
-      // Animate vehicle position based on story step
+      // Animate vehicle position based on story step (progresses smoothly forward along path)
       let targetT = 0;
-      if (currentStep <= 2) targetT = 0; // Wait at start
-      else if (currentStep === 3) targetT = 0.05;
-      else if (currentStep === 4) targetT = 0.18;
-      else if (currentStep === 5) targetT = 0.32;
-      else if (currentStep === 6) targetT = 0.0; // Back tracking pickup
-      else if (currentStep === 7) targetT = 0.0; // Boarding
-      else if (currentStep === 8) targetT = 0.45; // Commenced
-      else if (currentStep === 9) targetT = 0.72; // Cruising
-      else if (currentStep === 10) targetT = 1.0; // Dropping
-      else if (currentStep >= 11) targetT = 1.0; // Completed
+      if (currentStep < 8) targetT = 0.0;
+      else if (currentStep === 8) targetT = 0.35;
+      else if (currentStep === 9) targetT = 0.70;
+      else if (currentStep >= 10) targetT = 1.0;
 
       // Smooth interpolation for vehicle coordinate path
       vehicleT += (targetT - vehicleT) * 0.05;
