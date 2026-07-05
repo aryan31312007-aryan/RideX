@@ -7,27 +7,19 @@ import { Navigation, Twitter, Facebook, Instagram, Linkedin, GitBranch } from "l
 
 export default function Footer() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
 
-  // Dynamic styling styles
-  const footerBg = isHome 
-    ? "bg-slate-50 border-t border-slate-200/60 text-slate-700" 
-    : "bg-gray-950 border-t border-white/5 text-gray-400";
-    
-  const headingColor = isHome ? "text-slate-900 font-bold" : "text-white font-semibold";
-  const textColor = isHome ? "text-slate-500" : "text-gray-400";
-  const linkHoverColor = isHome ? "text-slate-600 hover:text-purple-600" : "text-gray-400 hover:text-white";
-  const iconColor = isHome ? "text-slate-400 hover:text-purple-600" : "text-gray-400 hover:text-white";
-  
-  const logoText = isHome ? "text-slate-800" : "text-white";
-  const logoIconBg = isHome 
-    ? "bg-purple-100 border-purple-200/50" 
-    : "bg-primary/20 border-primary/30";
-  const logoIconColor = isHome ? "text-purple-600" : "text-primary";
-  
-  const bottomBorder = isHome ? "border-slate-200/60" : "border-white/5";
-  const bottomText = isHome ? "text-slate-400" : "text-gray-500";
-  const bottomHover = isHome ? "hover:text-purple-600 text-slate-400" : "hover:text-gray-300 text-gray-500";
+  // Premium dark-mode variables for a consistent look
+  const footerBg = "bg-gray-950 border-t border-white/5 text-gray-400";
+  const headingColor = "text-white font-semibold";
+  const textColor = "text-gray-400";
+  const linkHoverColor = "text-gray-400 hover:text-white";
+  const iconColor = "text-gray-400 hover:text-white";
+  const logoText = "text-white";
+  const logoIconBg = "bg-primary/20 border-primary/30";
+  const logoIconColor = "text-primary";
+  const bottomBorder = "border-white/5";
+  const bottomText = "text-gray-500";
+  const bottomHover = "hover:text-gray-300 text-gray-500";
 
   return (
     <footer className={`w-full py-12 px-6 md:px-12 mt-auto transition-all duration-300 ${footerBg}`}>
@@ -39,7 +31,7 @@ export default function Footer() {
               <Navigation className={`w-5 h-5 rotate-45 ${logoIconColor}`} />
             </div>
             <span className={`text-xl font-bold tracking-tight ${logoText}`}>
-              RIDE<span className={isHome ? "text-purple-600 font-extrabold" : "text-primary"}>X</span>
+              RIDE<span className="text-[#fbbf24] font-extrabold">X</span>
             </span>
           </div>
           <p className={`text-sm leading-relaxed max-w-xs ${textColor}`}>
@@ -97,15 +89,9 @@ export default function Footer() {
             <input
               type="email"
               placeholder="name@company.com"
-              className={`flex-1 px-3 py-2 text-xs focus:outline-none ${
-                isHome ? "glass-input-light bg-white" : "glass-input text-white"
-              }`}
+              className="flex-1 px-3 py-2 text-xs focus:outline-none glass-input text-white"
             />
-            <button className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-              isHome 
-                ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700" 
-                : "bg-primary hover:bg-primary-hover text-white"
-            }`}>
+            <button className="px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer bg-primary hover:bg-[#e5ae20] text-slate-950 font-bold">
               Join
             </button>
           </div>
@@ -116,7 +102,7 @@ export default function Footer() {
         <div>
           &copy; {new Date().getFullYear()} RIDEX Inc. All rights reserved.
         </div>
-        <div className={`flex items-center gap-2 font-mono ${isHome ? "text-slate-400" : "text-gray-600"}`}>
+        <div className="flex items-center gap-2 font-mono text-gray-600">
           <GitBranch className="w-3.5 h-3.5" />
           <span>v1.0.0-MVP (Firebase Engine)</span>
         </div>

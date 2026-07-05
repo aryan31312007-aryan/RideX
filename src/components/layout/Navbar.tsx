@@ -27,63 +27,22 @@ export default function Navbar() {
 
   const isHome = pathname === "/";
 
-  // Dynamic style variables based on active path
-  const navBg = isHome 
-    ? "glass-panel-light border-b border-slate-200/50" 
-    : "glass-panel border-b border-white/5";
-    
-  const logoText = isHome
-    ? "text-slate-800"
-    : "text-white";
-    
-  const logoIconBg = isHome
-    ? "bg-amber-100 border-amber-200/80 group-hover:border-amber-300/80"
-    : "bg-primary/20 border-primary/30 group-hover:border-primary/60";
- 
-  const logoIcon = isHome ? "text-amber-500" : "text-primary";
-    
-  const linkText = (isActive: boolean) => {
-    if (isHome) {
-      return isActive ? "text-amber-500 font-semibold" : "text-slate-600 hover:text-slate-900";
-    }
-    return isActive ? "text-primary" : "text-gray-300 hover:text-white";
-  };
-  
-  const indicatorColor = isHome ? "bg-amber-500" : "bg-primary";
-  
-  const actionBtn = isHome
-    ? "bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 hover:border-slate-300"
-    : "bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20";
-    
-  const registerBtn = isHome
-    ? "bg-[#fbbf24] hover:bg-[#f59e0b] text-slate-900 font-bold shadow-sm"
-    : "bg-primary hover:bg-primary-hover text-white shadow-lg shadow-primary/20";
-    
-  const signInText = isHome
-    ? "text-slate-600 hover:text-slate-900"
-    : "text-gray-300 hover:text-white";
-    
-  const mobileMenuBtn = isHome
-    ? "text-slate-600 hover:text-slate-900 border border-slate-200/60 bg-slate-50"
-    : "text-gray-300 hover:text-white border border-white/5 bg-white/5";
-    
-  const dropdownBg = isHome
-    ? "bg-white border border-slate-200/80 shadow-2xl text-slate-800"
-    : "bg-gray-950 border border-white/10 shadow-2xl text-white";
-
-  const dropdownItem = isHome
-    ? "text-slate-600 hover:text-purple-700 hover:bg-purple-50/50"
-    : "text-gray-300 hover:text-white hover:bg-white/5";
-
-  const dropdownHeader = isHome
-    ? "border-slate-100 text-slate-500"
-    : "border-white/5 text-gray-400";
-
-  const dividerStyle = isHome ? "border-slate-100" : "border-white/5";
-
-  const profileBadgeBg = isHome
-    ? "bg-purple-100 border-purple-200 text-purple-700 font-bold"
-    : "bg-primary/20 border-primary/30 text-primary font-bold";
+  // Dynamic style variables based on active path (unified to premium dark theme)
+  const navBg = "glass-panel border-b border-white/5 bg-gray-950/80 backdrop-blur-xl";
+  const logoText = "text-white";
+  const logoIconBg = "bg-primary/20 border-primary/30 group-hover:border-primary/60";
+  const logoIcon = "text-primary";
+  const linkText = (isActive: boolean) => isActive ? "text-primary font-semibold" : "text-gray-300 hover:text-white";
+  const indicatorColor = "bg-primary";
+  const actionBtn = "bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20";
+  const registerBtn = "bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-950 font-bold shadow-lg shadow-[#fbbf24]/10";
+  const signInText = "text-gray-300 hover:text-white";
+  const mobileMenuBtn = "text-gray-300 hover:text-white border border-white/5 bg-white/5";
+  const dropdownBg = "bg-gray-950 border border-white/10 shadow-2xl text-white";
+  const dropdownItem = "text-gray-300 hover:text-white hover:bg-white/5";
+  const dropdownHeader = "border-white/5 text-gray-400";
+  const dividerStyle = "border-white/5";
+  const profileBadgeBg = "bg-primary/20 border-primary/30 text-primary font-bold";
 
   return (
     <nav className={`sticky top-0 z-50 w-full py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300 ${navBg}`}>
@@ -94,7 +53,7 @@ export default function Navbar() {
           <path d="M50 55L75 85H55L35 60H50Z" fill="currentColor" />
         </svg>
         <span className={`text-2xl font-black tracking-tight flex items-center gap-0.5 ${logoText}`}>
-          RIDE<span className={isHome ? "text-slate-800 font-extrabold" : "text-primary font-extrabold"}>X</span>
+          RIDE<span className="text-[#fbbf24] font-extrabold">X</span>
         </span>
       </Link>
 
@@ -156,7 +115,7 @@ export default function Navbar() {
                       onClick={() => setDropdownOpen(false)}
                       className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${dropdownItem}`}
                     >
-                      <Sparkles className={`w-4 h-4 ${isHome ? "text-purple-600" : "text-primary"}`} />
+                      <Sparkles className="w-4 h-4 text-[#fbbf24]" />
                       Customer Dashboard
                     </Link>
 
@@ -165,7 +124,7 @@ export default function Navbar() {
                       onClick={() => setDropdownOpen(false)}
                       className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${dropdownItem}`}
                     >
-                      <Navigation className="w-4 h-4 text-yellow-500" />
+                      <Navigation className="w-4 h-4 text-[#fbbf24]" />
                       Driver Portal
                     </Link>
 
@@ -174,7 +133,7 @@ export default function Navbar() {
                       onClick={() => setDropdownOpen(false)}
                       className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all ${dropdownItem}`}
                     >
-                      <UserIcon className="w-4 h-4 text-green-500" />
+                      <UserIcon className="w-4 h-4 text-emerald-500" />
                       Corporate Solutions
                     </Link>
 
@@ -198,14 +157,14 @@ export default function Navbar() {
         ) : (
           <div className="flex items-center gap-4">
             {/* Language Selector */}
-            <div className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 cursor-pointer">
-              <svg className="w-4.5 h-4.5 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <div className="flex items-center gap-1.5 text-sm font-medium text-gray-300 hover:text-white cursor-pointer">
+              <svg className="w-4.5 h-4.5 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="2" y1="12" x2="22" y2="12" />
                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
               </svg>
               <span>English</span>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
             </div>
 
             <Link
@@ -239,7 +198,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className={`absolute top-full left-0 right-0 border-b lg:hidden flex flex-col p-6 gap-4 z-50 ${isHome ? "glass-panel-light" : "glass-panel"}`}
+            className={`absolute top-full left-0 right-0 border-b lg:hidden flex flex-col p-6 gap-4 z-50 ${navBg}`}
           >
             {navLinks.map((link) => (
               <Link
@@ -248,8 +207,8 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
                 className={`py-2 text-base transition-colors ${
                   pathname === link.href 
-                    ? isHome ? "text-purple-600 font-bold" : "text-primary font-bold" 
-                    : isHome ? "text-slate-600 hover:text-slate-900" : "text-gray-300 hover:text-white"
+                    ? "text-[#fbbf24] font-bold" 
+                    : "text-gray-300 hover:text-white"
                 }`}
               >
                 {link.name}
@@ -260,15 +219,13 @@ export default function Navbar() {
 
             {user && profile ? (
               <div className="flex flex-col gap-3">
-                <div className={`flex items-center gap-3 py-2 px-3 rounded-xl border ${
-                  isHome ? "bg-slate-50 border-slate-200" : "bg-white/5 border-white/10"
-                }`}>
+                <div className="flex items-center gap-3 py-2 px-3 rounded-xl border border-white/10 bg-white/5">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${profileBadgeBg}`}>
                     {profile.name[0]}
                   </div>
                   <div>
-                    <p className={`text-sm font-semibold ${isHome ? "text-slate-800" : "text-white"}`}>{profile.name}</p>
-                    <p className={`text-xs capitalize ${isHome ? "text-slate-500" : "text-gray-400"}`}>{profile.role}</p>
+                    <p className="text-sm font-semibold text-white">{profile.name}</p>
+                    <p className="text-xs capitalize text-gray-400">{profile.role}</p>
                   </div>
                 </div>
 
@@ -276,27 +233,21 @@ export default function Navbar() {
                   <Link
                     href="/dashboard"
                     onClick={() => setIsOpen(false)}
-                    className={`py-2.5 rounded-lg border transition-all ${
-                      isHome ? "border-slate-200 text-slate-700 hover:bg-slate-50" : "border-white/10 text-white hover:bg-white/5"
-                    }`}
+                    className="py-2.5 rounded-lg border border-white/10 text-white hover:bg-white/5"
                   >
                     Customer App
                   </Link>
                   <Link
                     href="/driver"
                     onClick={() => setIsOpen(false)}
-                    className={`py-2.5 rounded-lg border transition-all ${
-                      isHome ? "border-slate-200 text-slate-700 hover:bg-slate-50" : "border-white/10 text-white hover:bg-white/5"
-                    }`}
+                    className="py-2.5 rounded-lg border border-white/10 text-white hover:bg-white/5"
                   >
                     Driver Portal
                   </Link>
                   <Link
                     href="/corporate"
                     onClick={() => setIsOpen(false)}
-                    className={`py-2.5 rounded-lg border transition-all ${
-                      isHome ? "border-slate-200 text-slate-700 hover:bg-slate-50" : "border-white/10 text-white hover:bg-white/5"
-                    }`}
+                    className="py-2.5 rounded-lg border border-white/10 text-white hover:bg-white/5"
                   >
                     Corporate App
                   </Link>
@@ -317,9 +268,7 @@ export default function Navbar() {
                 <Link
                   href="/auth/login"
                   onClick={() => setIsOpen(false)}
-                  className={`w-full py-3 rounded-xl border text-center transition-all ${
-                    isHome ? "border-slate-200 text-slate-700 hover:bg-slate-50" : "border-white/10 text-white hover:bg-white/5"
-                  }`}
+                  className="w-full py-3 rounded-xl border border-white/10 text-white hover:bg-white/5 text-center transition-all"
                 >
                   Sign In
                 </Link>
