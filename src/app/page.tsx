@@ -131,21 +131,13 @@ export default function LandingPage() {
   }, [simPlaying]);
 
   const getCoordinatesAlongRoute = (t: number) => {
-    const p0 = { x: 30, y: 150 };
-    const p1 = { x: 90, y: 50 };
-    const p2 = { x: 190, y: 250 };
-    const p3 = { x: 260, y: 90 };
+    const p0 = { x: 40, y: 240 };
+    const p1 = { x: 120, y: 40 };
+    const p2 = { x: 200, y: 160 };
 
-    const cx = 3 * (p1.x - p0.x);
-    const bx = 3 * (p2.x - p1.x) - cx;
-    const ax = p3.x - p0.x - cx - bx;
-
-    const cy = 3 * (p1.y - p0.y);
-    const by = 3 * (p2.y - p1.y) - cy;
-    const ay = p3.y - p0.y - cy - by;
-
-    const x = ax * Math.pow(t, 3) + bx * Math.pow(t, 2) + cx * t + p0.x;
-    const y = ay * Math.pow(t, 3) + by * Math.pow(t, 2) + cy * t + p0.y;
+    const mt = 1 - t;
+    const x = mt * mt * p0.x + 2 * mt * t * p1.x + t * t * p2.x;
+    const y = mt * mt * p0.y + 2 * mt * t * p1.y + t * t * p2.y;
 
     return { x, y };
   };
@@ -622,7 +614,7 @@ export default function LandingPage() {
                   <circle cx="200" cy="160" r="5" fill="#f43f5e" stroke="#fff" strokeWidth="1.5" />
 
                   {/* Car dot moving */}
-                  <g transform={`translate(${currentVehiclePos.x * 0.7 + 10}, ${currentVehiclePos.y * 0.8 + 40})`}>
+                  <g transform={`translate(${currentVehiclePos.x}, ${currentVehiclePos.y})`}>
                     <circle cx="0" cy="0" r="7" fill="#fbbf24" stroke="#fff" strokeWidth="1.5" className="shadow-md" />
                     <circle cx="0" cy="0" r="12" fill="transparent" stroke="rgba(251, 191, 36, 0.3)" strokeWidth="1" className="animate-ping" />
                   </g>
