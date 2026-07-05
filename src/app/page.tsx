@@ -418,12 +418,12 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Center overlay background car illustration */}
-        <div className="absolute inset-x-0 bottom-0 top-[20%] z-0 flex justify-center items-center pointer-events-none opacity-90">
+        {/* Left-aligned overlay background car illustration (scaled up to cover the space) */}
+        <div className="absolute left-0 bottom-0 top-[10%] w-[120%] lg:w-[90%] z-0 flex justify-start items-end pointer-events-none opacity-95 -translate-x-[12%]">
           <img 
             src="/ridex_hero_car.png" 
             alt="RIDEX Premium Sedan" 
-            className="w-full max-w-4xl object-contain object-bottom translate-y-[10%]"
+            className="w-full max-w-[140%] h-[115%] object-contain object-left-bottom"
           />
         </div>
       </section>
