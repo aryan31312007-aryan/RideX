@@ -8,18 +8,18 @@ import { Navigation, Twitter, Facebook, Instagram, Linkedin, GitBranch } from "l
 export default function Footer() {
   const pathname = usePathname();
 
-  // Premium dark-mode variables for a consistent look
-  const footerBg = "bg-gray-950 border-t border-white/5 text-gray-400";
-  const headingColor = "text-white font-semibold";
-  const textColor = "text-gray-400";
-  const linkHoverColor = "text-gray-400 hover:text-white";
-  const iconColor = "text-gray-400 hover:text-white";
-  const logoText = "text-white";
-  const logoIconBg = "bg-primary/20 border-primary/30";
-  const logoIconColor = "text-primary";
-  const bottomBorder = "border-white/5";
-  const bottomText = "text-gray-500";
-  const bottomHover = "hover:text-gray-300 text-gray-500";
+  // Standardized premium light-mode variables
+  const footerBg = "bg-slate-50 border-t border-slate-200/60 text-slate-700";
+  const headingColor = "text-slate-900 font-bold";
+  const textColor = "text-slate-500";
+  const linkHoverColor = "text-slate-600 hover:text-amber-500";
+  const iconColor = "text-slate-400 hover:text-amber-500";
+  const logoText = "text-slate-900";
+  const logoIconBg = "bg-amber-100 border-amber-200/50";
+  const logoIconColor = "text-amber-500";
+  const bottomBorder = "border-slate-200/60";
+  const bottomText = "text-slate-400";
+  const bottomHover = "hover:text-amber-500 text-slate-400";
 
   return (
     <footer className={`w-full py-12 px-6 md:px-12 mt-auto transition-all duration-300 ${footerBg}`}>

@@ -27,22 +27,22 @@ export default function Navbar() {
 
   const isHome = pathname === "/";
 
-  // Dynamic style variables based on active path (unified to premium dark theme)
-  const navBg = "glass-panel border-b border-white/5 bg-gray-950/80 backdrop-blur-xl";
-  const logoText = "text-white";
-  const logoIconBg = "bg-primary/20 border-primary/30 group-hover:border-primary/60";
-  const logoIcon = "text-primary";
-  const linkText = (isActive: boolean) => isActive ? "text-primary font-semibold" : "text-gray-300 hover:text-white";
-  const indicatorColor = "bg-primary";
-  const actionBtn = "bg-white/5 border border-white/10 text-white hover:bg-white/10 hover:border-white/20";
-  const registerBtn = "bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-950 font-bold shadow-lg shadow-[#fbbf24]/10";
-  const signInText = "text-gray-300 hover:text-white";
-  const mobileMenuBtn = "text-gray-300 hover:text-white border border-white/5 bg-white/5";
-  const dropdownBg = "bg-gray-950 border border-white/10 shadow-2xl text-white";
-  const dropdownItem = "text-gray-300 hover:text-white hover:bg-white/5";
-  const dropdownHeader = "border-white/5 text-gray-400";
-  const dividerStyle = "border-white/5";
-  const profileBadgeBg = "bg-primary/20 border-primary/30 text-primary font-bold";
+  // Dynamic style variables based on active path (standardized to premium clean light theme)
+  const navBg = "bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm";
+  const logoText = "text-slate-900";
+  const logoIconBg = "bg-amber-100 border-amber-200/80 group-hover:border-amber-300/80";
+  const logoIcon = "text-amber-500";
+  const linkText = (isActive: boolean) => isActive ? "text-amber-500 font-semibold" : "text-slate-600 hover:text-slate-900";
+  const indicatorColor = "bg-[#fbbf24]";
+  const actionBtn = "bg-slate-50 border border-slate-200/60 text-slate-700 hover:bg-slate-100 hover:border-slate-300 shadow-sm";
+  const registerBtn = "bg-[#fbbf24] hover:bg-[#f59e0b] text-slate-900 font-bold shadow-sm shadow-[#fbbf24]/10";
+  const signInText = "text-slate-600 hover:text-slate-900";
+  const mobileMenuBtn = "text-slate-600 hover:text-slate-900 border border-slate-200/60 bg-slate-50";
+  const dropdownBg = "bg-white border border-slate-200/80 shadow-2xl text-slate-800";
+  const dropdownItem = "text-slate-600 hover:text-slate-900 hover:bg-slate-50";
+  const dropdownHeader = "border-slate-100 text-slate-500";
+  const dividerStyle = "border-slate-100";
+  const profileBadgeBg = "bg-amber-100 border-amber-200 text-amber-800 font-bold";
 
   return (
     <nav className={`sticky top-0 z-50 w-full py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300 ${navBg}`}>

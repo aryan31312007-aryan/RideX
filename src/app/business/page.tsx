@@ -9,38 +9,38 @@ export default function BusinessPage() {
     {
       title: "Shared Corporate Billing",
       desc: "Consolidate your staff logistics under a single credit account. Review trip sheets, manage employee limits, and pay monthly invoices.",
-      icon: <FileText className="w-5 h-5 text-[#fbbf24]" />
+      icon: <FileText className="w-5 h-5 text-amber-600" />
     },
     {
       title: "Bulk Order Upload",
       desc: "Import spreadsheets containing hundreds of delivery destinations. Our batch dispatching engine instantly schedules drivers.",
-      icon: <Zap className="w-5 h-5 text-[#fbbf24]" />
+      icon: <Zap className="w-5 h-5 text-amber-600" />
     },
     {
       title: "Employee Roster Management",
       desc: "Add or remove personnel, view their dispatch records, and restrict delivery budgets directly from the corporate portal.",
-      icon: <Users className="w-5 h-5 text-[#fbbf24]" />
+      icon: <Users className="w-5 h-5 text-amber-600" />
     },
     {
       title: "Logistics Analytics",
       desc: "Export real-time audit trails, delivery times, peak hours performance, and spend reports to CSV/PDF.",
-      icon: <BarChart3 className="w-5 h-5 text-[#fbbf24]" />
+      icon: <BarChart3 className="w-5 h-5 text-amber-600" />
     }
   ];
 
-  // Set page-level styling reset to sleek premium dark-mode default
+  // Page-level styling reset to clean light-mode reference image layout
   useEffect(() => {
     const body = document.body;
     const prevBg = body.style.backgroundColor;
     const prevColor = body.style.color;
     
-    body.style.backgroundColor = "#030712";
-    body.style.color = "#f3f4f6";
+    body.style.backgroundColor = "#ffffff";
+    body.style.color = "#0f172a";
     
     const html = document.documentElement;
     const hasDark = html.classList.contains("dark");
-    if (!hasDark) {
-      html.classList.add("dark");
+    if (hasDark) {
+      html.classList.remove("dark");
     }
 
     return () => {
@@ -50,24 +50,24 @@ export default function BusinessPage() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-[#030712] py-24 px-6 md:px-12 flex flex-col items-center relative overflow-hidden">
+    <div className="w-full min-h-screen bg-[#f8fafc] py-24 px-6 md:px-12 flex flex-col items-center relative overflow-hidden text-slate-850">
       {/* Decorative ambient background gradients */}
       <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-[#fbbf24]/5 blur-[130px] pointer-events-none -z-10" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] rounded-full bg-[#6366f1]/5 blur-[120px] pointer-events-none -z-10" />
 
       {/* Grid Pattern overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none -z-20" />
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-60 pointer-events-none -z-20" />
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full mb-16 relative z-10">
         <div className="lg:col-span-7 text-left flex flex-col gap-6">
-          <span className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-[#fbbf24] w-fit tracking-wider">
+          <span className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border border-slate-200/60 text-xs font-bold text-[#fbbf24] w-fit tracking-wider">
             RIDEX FOR BUSINESS
           </span>
-          <h1 className="text-3xl md:text-5.5xl font-black text-white leading-tight tracking-tight">
+          <h1 className="text-3xl md:text-5.5xl font-black text-slate-900 leading-tight tracking-tight">
             Streamline Your Fleet & <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]">Corporate Deliveries</span>
+            <span className="text-[#fbbf24]">Corporate Deliveries</span>
           </h1>
-          <p className="text-sm md:text-base text-gray-400 leading-relaxed max-w-xl">
+          <p className="text-sm md:text-base text-slate-500 leading-relaxed max-w-xl font-semibold">
             Empower your operations team to orchestrate regional delivery dispatch, optimize routes, and manage employee rides under a central business account.
           </p>
 
@@ -77,8 +77,8 @@ export default function BusinessPage() {
               "Consolidated monthly credit invoicing",
               "Real-time driver assignment maps & verification status"
             ].map((text, idx) => (
-              <div key={idx} className="flex items-center gap-3 text-xs text-gray-300 font-semibold">
-                <CheckCircle2 className="w-4 h-4 text-[#fbbf24] shrink-0" />
+              <div key={idx} className="flex items-center gap-3 text-xs text-slate-600 font-semibold">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                 <span>{text}</span>
               </div>
             ))}
@@ -87,13 +87,13 @@ export default function BusinessPage() {
           <div className="flex gap-4 mt-4">
             <Link
               href="/auth/register"
-              className="px-6 py-4 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-950 font-extrabold text-xs transition-all shadow-lg shadow-[#fbbf24]/10 hover:scale-[1.01]"
+              className="px-6 py-4 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-900 font-extrabold text-xs transition-all shadow-md shadow-[#fbbf24]/10 hover:scale-[1.01]"
             >
               Register Corporate Account
             </Link>
             <Link
               href="/contact"
-              className="px-6 py-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold text-xs transition-all"
+              className="px-6 py-4 rounded-xl bg-slate-50 border border-slate-200/60 hover:bg-slate-100 text-slate-700 font-bold text-xs transition-all"
             >
               Contact Sales
             </Link>
@@ -102,41 +102,41 @@ export default function BusinessPage() {
 
         {/* Corporate dashboard mockup banner */}
         <div className="lg:col-span-5 w-full">
-          <div className="w-full glass-card p-6 rounded-[32px] border border-white/5 flex flex-col gap-4 shadow-2xl relative overflow-hidden bg-white/5 backdrop-blur-xl">
+          <div className="w-full bg-white p-6 rounded-[32px] border border-slate-100 flex flex-col gap-4 shadow-xl relative overflow-hidden text-left">
             <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-[#fbbf24]/5 blur-2xl pointer-events-none" />
             
-            <div className="flex items-center justify-between border-b border-white/5 pb-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-[#fbbf24]" />
-                <span className="text-sm font-bold text-white">Logistics Overview</span>
+                <Briefcase className="w-5 h-5 text-amber-600" />
+                <span className="text-sm font-bold text-slate-800">Logistics Overview</span>
               </div>
-              <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded border border-emerald-500/25 font-bold uppercase tracking-wider">
+              <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded border border-emerald-250/25 font-bold uppercase tracking-wider">
                 Active Account
               </span>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/5 p-4 rounded-xl border border-white/5 text-left">
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Credit Balance</p>
-                <p className="text-xl font-bold text-[#fbbf24] mt-1">₹25,450.00</p>
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-left">
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Credit Balance</p>
+                <p className="text-xl font-bold text-amber-655 mt-1">₹25,450.00</p>
               </div>
-              <div className="bg-white/5 p-4 rounded-xl border border-white/5 text-left">
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Employee Limit</p>
-                <p className="text-xl font-bold text-white mt-1">15 Active</p>
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-left">
+                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Employee Limit</p>
+                <p className="text-xl font-bold text-slate-800 mt-1">15 Active</p>
               </div>
             </div>
 
-            <div className="bg-white/5 p-4 rounded-xl border border-white/5 text-left flex flex-col gap-2">
-              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Recent Bulk Dispatch</p>
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-left flex flex-col gap-2">
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Recent Bulk Dispatch</p>
               <div className="flex justify-between items-center text-xs">
-                <span className="text-gray-300 font-semibold">manifest_June_11.csv</span>
-                <span className="text-[#fbbf24] font-extrabold">120 Dispatched</span>
+                <span className="text-slate-650 font-semibold">manifest_June_11.csv</span>
+                <span className="text-amber-600 font-extrabold">120 Dispatched</span>
               </div>
             </div>
             
             <Link
               href="/corporate"
-              className="w-full text-center py-3 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-white hover:bg-white/10 transition-all mt-2"
+              className="w-full text-center py-3 rounded-xl bg-slate-50 border border-slate-200/60 text-xs font-bold text-slate-700 hover:bg-slate-100 transition-all mt-2"
             >
               Test Corporate Panel
             </Link>
@@ -144,17 +144,17 @@ export default function BusinessPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full pt-12 border-t border-white/5 relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full pt-12 border-t border-slate-200/60 relative z-10">
         {corpBenefits.map((benefit, idx) => (
           <div
             key={idx}
-            className="glass-card p-6 rounded-2xl border border-white/5 flex flex-col gap-4 text-left bg-white/5"
+            className="bg-white p-6 rounded-2xl border border-slate-100 flex flex-col gap-4 text-left shadow-sm transition-all hover:shadow-md"
           >
-            <div className="bg-white/5 p-2.5 rounded-xl border border-white/5 w-fit">
+            <div className="bg-amber-50 p-2.5 rounded-xl border border-amber-100/50 w-fit">
               {benefit.icon}
             </div>
-            <h3 className="text-base font-bold text-white tracking-tight">{benefit.title}</h3>
-            <p className="text-xs text-gray-400 leading-relaxed font-semibold">{benefit.desc}</p>
+            <h3 className="text-base font-bold text-slate-800 tracking-tight">{benefit.title}</h3>
+            <p className="text-xs text-slate-500 leading-relaxed font-semibold">{benefit.desc}</p>
           </div>
         ))}
       </div>

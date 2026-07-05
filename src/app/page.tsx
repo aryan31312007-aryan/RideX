@@ -5,33 +5,35 @@ import Link from "next/link";
 import { 
   Bike, Car, Navigation, Zap, Shield, MapPin, ArrowRight, Star, Clock, 
   Heart, ShieldAlert, CheckCircle, ChevronRight, Sliders, Award, DollarSign, 
-  Smartphone, Activity, Compass, Users, Map, Cpu, CheckCircle2, Laptop
+  Smartphone, Activity, Compass, Users, CheckCircle2, Map
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFirebase } from "@/context/FirebaseContext";
-import CinematicCityCanvas from "@/components/layout/CinematicCityCanvas";
 
 export default function LandingPage() {
   const { user, profile } = useFirebase();
 
-  // Page-level styling reset to sleek premium dark-mode default
+  // Page-level styling reset to clean light-mode reference image layout
   useEffect(() => {
     const body = document.body;
     const prevBg = body.style.backgroundColor;
     const prevColor = body.style.color;
     
-    body.style.backgroundColor = "#030712";
-    body.style.color = "#f3f4f6";
+    body.style.backgroundColor = "#ffffff";
+    body.style.color = "#0f172a";
     
     const html = document.documentElement;
     const hasDark = html.classList.contains("dark");
-    if (!hasDark) {
-      html.classList.add("dark");
+    if (hasDark) {
+      html.classList.remove("dark");
     }
 
     return () => {
       body.style.backgroundColor = prevBg;
       body.style.color = prevColor;
+      if (hasDark) {
+        html.classList.add("dark");
+      }
     };
   }, []);
 
@@ -89,7 +91,7 @@ export default function LandingPage() {
   const [selectedSubService, setSelectedSubService] = useState<string>("mini_cab");
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   const [showBookingModal, setShowBookingModal] = useState(false);
-  const [activeTab, setActiveTab] = useState<"ride" | "delivery" | "transport" | "drive">("ride");
+  const [activeTab, setActiveTab] = useState<"ride" | "delivery" | "transport">("ride");
 
   const changeCategory = (cat: keyof typeof subServices) => {
     setSelectedCategory(cat);
@@ -173,46 +175,36 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="bg-[#030712] text-gray-100 min-h-screen relative font-sans overflow-x-hidden">
+    <div className="bg-[#f8fafc] text-slate-800 min-h-screen relative font-sans overflow-x-hidden">
       
-      {/* ================= HERO SECTION (CINEMATIC) ================= */}
-      <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden py-20 px-6 md:px-12 w-full border-b border-white/5">
-        {/* Glow ambient background rings */}
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#fbbf24]/5 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[-10%] left-[-20%] w-[500px] h-[500px] rounded-full bg-[#6366f1]/5 blur-[100px] pointer-events-none" />
-        
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.03)_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
+      {/* ================= HERO SECTION (LIGHT REFERENCE) ================= */}
+      <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden py-16 px-6 md:px-12 w-full bg-gradient-to-b from-white to-[#f8fafc] border-b border-slate-100">
+        {/* Ambient background grid pattern */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-60 pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center w-full relative z-10">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full relative z-10">
           
-          {/* Left Column: Premium Pitch */}
+          {/* Left Column: Heading, Subheading, Badges */}
           <div className="lg:col-span-7 flex flex-col gap-6 text-left relative z-20">
-            <span className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-[#fbbf24] w-fit shadow-md">
-              <Zap className="w-3.5 h-3.5 fill-[#fbbf24]/20 animate-pulse" />
-              Autonomous AI-Grid Operations Live
-            </span>
-            
-            <h1 className="text-4xl md:text-6.5xl font-black tracking-tight text-white leading-[1.1]">
+            <h1 className="text-4xl md:text-[56px] font-black tracking-tight text-slate-900 leading-[1.1]">
               Your Ride. Your City.<br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fbbf24] via-[#f59e0b] to-[#d97706] text-gradient-gold">
-                Ridex Karo. Aage Bado.
-              </span>
+              <span className="text-[#fbbf24]">Ridex Karo. Aage Bado.</span>
             </h1>
             
-            <p className="text-base md:text-lg text-gray-400 max-w-xl leading-relaxed font-medium">
-              Experience the next-gen urban mobility. Request rides, dispatch regional cargo packages, and track vehicles across a smart autonomous corridor. Safest, fastest, and transparent.
+            <p className="text-base md:text-lg text-slate-500 max-w-xl leading-relaxed font-semibold">
+              Book rides, delivery & transport in seconds.<br className="hidden sm:inline" />
+              Safe, reliable & affordable – always!
             </p>
 
             {/* Badges row */}
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 mt-4">
+            <div className="flex flex-wrap gap-3 mt-2">
               {[
-                { label: "Verified Drivers", icon: <Shield className="w-4 h-4 text-[#fbbf24]" /> },
-                { label: "Live Telemetry", icon: <Navigation className="w-4 h-4 text-[#fbbf24] rotate-45" /> },
-                { label: "No Hidden Costs", icon: <DollarSign className="w-4 h-4 text-[#fbbf24]" /> },
-                { label: "24x7 Assistance", icon: <Clock className="w-4 h-4 text-[#fbbf24]" /> }
+                { label: "Verified Drivers", icon: <Shield className="w-4.5 h-4.5 text-[#fbbf24] fill-[#fbbf24]/10" /> },
+                { label: "Live Tracking", icon: <Navigation className="w-4.5 h-4.5 text-[#fbbf24] rotate-45" /> },
+                { label: "Transparent Pricing", icon: <DollarSign className="w-4.5 h-4.5 text-[#fbbf24]" /> },
+                { label: "24x7 Support", icon: <Clock className="w-4.5 h-4.5 text-[#fbbf24]" /> }
               ].map((badge, i) => (
-                <div key={i} className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/5 border border-white/5 shadow-inner text-xs font-bold text-gray-300">
+                <div key={i} className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white border border-slate-200/50 shadow-sm text-xs font-bold text-slate-700">
                   {badge.icon}
                   {badge.label}
                 </div>
@@ -220,17 +212,16 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Right Column: Premium Booking / Driver Tabs Widget */}
+          {/* Right Column: Reference Booking Card */}
           <div className="lg:col-span-5 w-full relative z-20">
-            <div className="w-full max-w-md ml-auto glass-card p-6 md:p-8 rounded-[32px] border border-white/10 shadow-2xl flex flex-col gap-6 text-left bg-gray-900/50 backdrop-blur-xl">
+            <div className="w-full max-w-md ml-auto bg-white p-6 md:p-8 rounded-[32px] border border-slate-100 shadow-xl flex flex-col gap-6 text-left">
               
-              {/* Tab Selector */}
-              <div className="grid grid-cols-4 gap-1 p-1 bg-white/5 rounded-2xl border border-white/5">
+              {/* Tabs */}
+              <div className="grid grid-cols-3 gap-1 p-1 bg-slate-50 rounded-2xl border border-slate-100">
                 {[
                   { id: "ride", label: "Ride", icon: <Car className="w-4 h-4" /> },
-                  { id: "delivery", label: "Deliver", icon: <Activity className="w-4 h-4" /> },
-                  { id: "transport", label: "Cargo", icon: <Bike className="w-4 h-4" /> },
-                  { id: "drive", label: "Drive", icon: <Users className="w-4 h-4" /> }
+                  { id: "delivery", label: "Delivery", icon: <Activity className="w-4 h-4" /> },
+                  { id: "transport", label: "Transport", icon: <Sliders className="w-4 h-4" /> }
                 ].map((tab) => (
                   <button
                     key={tab.id}
@@ -241,10 +232,10 @@ export default function LandingPage() {
                       else if (tab.id === "delivery") changeCategory("parcel");
                       else if (tab.id === "transport") changeCategory("mini_truck");
                     }}
-                    className={`flex flex-col items-center gap-1.5 py-3 rounded-xl text-[10px] font-bold transition-all cursor-pointer ${
+                    className={`flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                       activeTab === tab.id
-                        ? "bg-[#fbbf24] text-slate-950 shadow-md font-extrabold"
-                        : "text-gray-400 hover:text-white"
+                        ? "bg-white text-slate-900 shadow-sm border border-slate-100"
+                        : "text-slate-500 hover:text-slate-800"
                     }`}
                   >
                     {tab.icon}
@@ -253,267 +244,210 @@ export default function LandingPage() {
                 ))}
               </div>
 
-              {/* Animate Tab Content */}
-              <AnimatePresence mode="wait">
-                {activeTab !== "drive" ? (
-                  <motion.div
-                    key="booking-form"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="flex flex-col gap-5"
-                  >
-                    {/* Sub-Category selection row */}
-                    {activeTab === "ride" && (
-                      <div className="flex gap-2 justify-between">
-                        {[
-                          { id: "cab", label: "Car", icon: <Car className="w-3.5 h-3.5" /> },
-                          { id: "bike", label: "Bike", icon: <Bike className="w-3.5 h-3.5" /> },
-                          { id: "auto", label: "Auto", icon: <Compass className="w-3.5 h-3.5" /> },
-                          { id: "premium", label: "VIP", icon: <Zap className="w-3.5 h-3.5" /> }
-                        ].map((cat) => (
-                          <button
-                            key={cat.id}
-                            type="button"
-                            onClick={() => changeCategory(cat.id as any)}
-                            className={`flex-1 py-2 rounded-xl border text-[10px] font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${
-                              selectedCategory === cat.id
-                                ? "bg-[#fbbf24]/10 border-[#fbbf24]/50 text-[#fbbf24]"
-                                : "bg-white/5 border-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
-                            }`}
-                          >
-                            {cat.icon}
-                            {cat.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+              {/* Sub-Category selection row */}
+              {activeTab === "ride" && (
+                <div className="flex gap-2 justify-between">
+                  {[
+                    { id: "cab", label: "Car", icon: <Car className="w-3.5 h-3.5" /> },
+                    { id: "bike", label: "Bike", icon: <Bike className="w-3.5 h-3.5" /> },
+                    { id: "auto", label: "Auto", icon: <Compass className="w-3.5 h-3.5" /> },
+                    { id: "premium", label: "Premium", icon: <Zap className="w-3.5 h-3.5" /> }
+                  ].map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => changeCategory(cat.id as any)}
+                      className={`flex-1 py-2 rounded-xl border text-[10px] font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${
+                        selectedCategory === cat.id
+                          ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
+                          : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
+                      }`}
+                    >
+                      {cat.icon}
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              )}
 
-                    {activeTab === "delivery" && (
-                      <div className="flex gap-2">
-                        {[
-                          { id: "parcel", label: "Courier Parcel", icon: <Activity className="w-3.5 h-3.5" /> },
-                          { id: "food", label: "Express Food", icon: <Heart className="w-3.5 h-3.5" /> }
-                        ].map((cat) => (
-                          <button
-                            key={cat.id}
-                            type="button"
-                            onClick={() => changeCategory(cat.id as any)}
-                            className={`flex-1 py-2 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                              selectedCategory === cat.id
-                                ? "bg-[#fbbf24]/10 border-[#fbbf24]/50 text-[#fbbf24]"
-                                : "bg-white/5 border-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
-                            }`}
-                          >
-                            {cat.icon}
-                            {cat.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+              {activeTab === "delivery" && (
+                <div className="flex gap-2">
+                  {[
+                    { id: "parcel", label: "Parcel Courier", icon: <Activity className="w-3.5 h-3.5" /> },
+                    { id: "food", label: "Food Delivery", icon: <Heart className="w-3.5 h-3.5" /> }
+                  ].map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => changeCategory(cat.id as any)}
+                      className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                        selectedCategory === cat.id
+                          ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
+                          : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
+                      }`}
+                    >
+                      {cat.icon}
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              )}
 
-                    {activeTab === "transport" && (
-                      <div className="flex gap-2">
-                        {[
-                          { id: "mini_truck", label: "Mini Truck", icon: <Sliders className="w-3.5 h-3.5" /> },
-                          { id: "pickup", label: "Pickup Loader", icon: <Navigation className="w-3.5 h-3.5 rotate-45" /> },
-                          { id: "tempo", label: "Tempo Shifter", icon: <Users className="w-3.5 h-3.5" /> }
-                        ].map((cat) => (
-                          <button
-                            key={cat.id}
-                            type="button"
-                            onClick={() => changeCategory(cat.id as any)}
-                            className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                              selectedCategory === cat.id
-                                ? "bg-[#fbbf24]/10 border-[#fbbf24]/50 text-[#fbbf24]"
-                                : "bg-white/5 border-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
-                            }`}
-                          >
-                            {cat.icon}
-                            {cat.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+              {activeTab === "transport" && (
+                <div className="flex gap-2">
+                  {[
+                    { id: "mini_truck", label: "Mini Truck", icon: <Sliders className="w-3.5 h-3.5" /> },
+                    { id: "pickup", label: "Pickup Loader", icon: <Navigation className="w-3.5 h-3.5 rotate-45" /> },
+                    { id: "tempo", label: "Large Tempo", icon: <Users className="w-3.5 h-3.5" /> }
+                  ].map((cat) => (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => changeCategory(cat.id as any)}
+                      className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        selectedCategory === cat.id
+                          ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
+                          : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
+                      }`}
+                    >
+                      {cat.icon}
+                      {cat.label}
+                    </button>
+                  ))}
+                </div>
+              )}
 
-                    {/* Booking Form Inputs */}
-                    <form onSubmit={handleBookRide} className="flex flex-col gap-4">
-                      {/* Pickup */}
-                      <div className="flex flex-col gap-1 text-left">
-                        <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Pickup Location</label>
-                        <div className="relative">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 absolute left-3 top-3.5 border border-white/15" />
-                          <input
-                            type="text"
-                            value={pickup}
-                            onChange={(e) => setPickup(e.target.value)}
-                            className="w-full pl-9 pr-10 py-3 rounded-xl border border-white/10 bg-white/5 text-xs text-white focus:outline-none focus:border-[#fbbf24] transition-all font-semibold"
-                            placeholder="Enter pickup address"
-                            required
-                          />
-                        </div>
-                      </div>
+              {/* Form */}
+              <form onSubmit={handleBookRide} className="flex flex-col gap-4">
+                {/* Pickup Location */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Pickup Location</label>
+                  <div className="relative">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 absolute left-3 top-4 border-2 border-white" />
+                    <input
+                      type="text"
+                      value={pickup}
+                      onChange={(e) => setPickup(e.target.value)}
+                      className="w-full pl-9 pr-10 py-3 rounded-xl border border-slate-100 bg-slate-50 focus:bg-white focus:outline-none focus:border-[#fbbf24] text-xs text-slate-800 transition-all font-semibold"
+                      placeholder="Enter pickup location"
+                      required
+                    />
+                    <button type="button" className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600">
+                      <Navigation className="w-4 h-4 rotate-45" />
+                    </button>
+                  </div>
+                </div>
 
-                      {/* Dropoff */}
-                      <div className="flex flex-col gap-1 text-left">
-                        <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Drop Location</label>
-                        <div className="relative">
-                          <span className="w-2.5 h-2.5 rounded-full bg-red-500 absolute left-3 top-3.5 border border-white/15" />
-                          <input
-                            type="text"
-                            value={drop}
-                            onChange={(e) => setDrop(e.target.value)}
-                            className="w-full pl-9 pr-10 py-3 rounded-xl border border-white/10 bg-white/5 text-xs text-white focus:outline-none focus:border-[#fbbf24] transition-all font-semibold"
-                            placeholder="Enter destination address"
-                            required
-                          />
-                        </div>
-                      </div>
+                {/* Drop Location */}
+                <div className="flex flex-col gap-1">
+                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Drop Location</label>
+                  <div className="relative">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500 absolute left-3 top-4 border-2 border-white" />
+                    <input
+                      type="text"
+                      value={drop}
+                      onChange={(e) => setDrop(e.target.value)}
+                      className="w-full pl-9 pr-10 py-3 rounded-xl border border-slate-100 bg-slate-50 focus:bg-white focus:outline-none focus:border-[#fbbf24] text-xs text-slate-800 transition-all font-semibold"
+                      placeholder="Enter drop location"
+                      required
+                    />
+                    <button type="button" className="absolute right-3.5 top-2.5 text-slate-400 hover:text-slate-600 font-bold text-lg">
+                      +
+                    </button>
+                  </div>
+                </div>
 
-                      {/* Type and Payment dropdowns */}
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="flex flex-col gap-1">
-                          <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Fleet Class</label>
-                          <select
-                            value={selectedSubService}
-                            onChange={(e) => setSelectedSubService(e.target.value)}
-                            className="w-full px-3 py-3 rounded-xl border border-white/10 bg-[#0f172a] text-xs text-white font-bold focus:outline-none focus:border-[#fbbf24]"
-                          >
-                            {(subServices[selectedCategory] || []).map((sub) => (
-                              <option key={sub.id} value={sub.id}>
-                                {sub.name}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div className="flex flex-col gap-1">
-                          <label className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Payment</label>
-                          <select
-                            className="w-full px-3 py-3 rounded-xl border border-white/10 bg-[#0f172a] text-xs text-white font-bold focus:outline-none focus:border-[#fbbf24]"
-                          >
-                            <option>RIDEX Wallet</option>
-                            <option>Credit / Debit</option>
-                            <option>UPI instant</option>
-                            <option>Cash hand</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      {/* Fare Calculation */}
-                      <div className="p-4 rounded-2xl bg-[#fbbf24]/5 border border-[#fbbf24]/10 flex justify-between items-center text-xs">
-                        <div>
-                          <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest block">Surge-Locked Fare</span>
-                          <span className="text-xl font-black text-[#fbbf24]">₹{getFareValue().toFixed(2)}</span>
-                        </div>
-                        <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-                          ✓ Rate Locked
-                        </span>
-                      </div>
-
-                      {/* Book button */}
-                      <button
-                        type="submit"
-                        disabled={isBookingLoading}
-                        className="w-full py-4 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-955 font-extrabold text-xs flex items-center justify-between px-6 transition-all shadow-lg shadow-[#fbbf24]/20 cursor-pointer disabled:opacity-80"
-                      >
-                        {isBookingLoading ? (
-                          <span>Scanning Local Fleet vectors...</span>
-                        ) : (
-                          <>
-                            <span>Dispatch Request</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </>
-                        )}
-                      </button>
-                    </form>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="driver-portal-info"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="flex flex-col gap-5 text-left"
-                  >
-                    <div>
-                      <h3 className="text-lg font-bold text-white mb-1">Drive & Earn on the AI corridor</h3>
-                      <p className="text-xs text-gray-400 leading-relaxed font-semibold">
-                        Get matched with logistics manifest orders, employee pickups, or local on-demand requests. Keep 100% of tips, get instant bank deposits, and enjoy flexible schedules.
-                      </p>
-                    </div>
-
-                    <div className="flex flex-col gap-3">
-                      {[
-                        "Zero commission for the first 30 days",
-                        "Weekly safety bonus & insurance covers",
-                        "Automated biometrics clearance registration"
-                      ].map((text, idx) => (
-                        <div key={idx} className="flex items-center gap-2.5 text-xs text-gray-300 font-semibold">
-                          <CheckCircle2 className="w-4.5 h-4.5 text-[#fbbf24]" />
-                          <span>{text}</span>
-                        </div>
+                {/* Dropdowns */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Vehicle Type</label>
+                    <select
+                      value={selectedSubService}
+                      onChange={(e) => setSelectedSubService(e.target.value)}
+                      className="w-full px-3 py-3 rounded-xl border border-slate-100 bg-slate-50 focus:bg-white focus:outline-none text-xs text-slate-800 font-bold"
+                    >
+                      {(subServices[selectedCategory] || []).map((sub) => (
+                        <option key={sub.id} value={sub.id}>
+                          {sub.name}
+                        </option>
                       ))}
-                    </div>
+                    </select>
+                  </div>
 
-                    <div className="flex gap-3 mt-2">
-                      <Link
-                        href="/auth/register"
-                        className="flex-1 py-3.5 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-950 font-extrabold text-xs text-center flex items-center justify-center gap-1.5 transition-all shadow-md shadow-[#fbbf24]/10"
-                      >
-                        Sign Up to Drive <ArrowRight className="w-4 h-4" />
-                      </Link>
-                      <Link
-                        href="/driver"
-                        className="flex-1 py-3.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-bold text-xs text-center transition-all"
-                      >
-                        Driver Portal
-                      </Link>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  <div>
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Payment</label>
+                    <select
+                      className="w-full px-3 py-3 rounded-xl border border-slate-100 bg-slate-50 focus:bg-white focus:outline-none text-xs text-slate-800 font-bold"
+                    >
+                      <option>RIDEX Wallet</option>
+                      <option>Credit / Debit Card</option>
+                      <option>UPI / Net Banking</option>
+                      <option>Cash</option>
+                    </select>
+                  </div>
+                </div>
 
+                {/* Estimate Fare */}
+                <div className="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-100 flex justify-between items-center text-xs">
+                  <div>
+                    <span className="text-[9px] font-bold text-slate-450 uppercase tracking-widest block">Estimated Fare</span>
+                    <span className="text-lg font-black text-slate-800">₹{getFareValue().toFixed(2)}</span>
+                  </div>
+                  <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 border border-emerald-100 rounded-full">
+                    ✓ Fares Locked
+                  </span>
+                </div>
+
+                {/* Submit button */}
+                <button
+                  type="submit"
+                  disabled={isBookingLoading}
+                  className="w-full py-3.5 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-900 font-extrabold text-xs flex items-center justify-between px-5 transition-all shadow-md shadow-[#fbbf24]/20 cursor-pointer disabled:opacity-85"
+                >
+                  {isBookingLoading ? (
+                    <span>Allocating Ride...</span>
+                  ) : (
+                    <>
+                      <span>Book Ride</span>
+                      <ArrowRight className="w-4 h-4 text-slate-900" />
+                    </>
+                  )}
+                </button>
+              </form>
             </div>
           </div>
-
         </div>
 
-        {/* Center overlay background car shadow */}
-        <div className="absolute inset-x-0 bottom-0 top-[30%] z-0 flex justify-center items-center pointer-events-none opacity-40">
+        {/* Center overlay background car illustration */}
+        <div className="absolute inset-x-0 bottom-0 top-[20%] z-0 flex justify-center items-center pointer-events-none opacity-90">
           <img 
             src="/ridex_hero_car.png" 
             alt="RIDEX Premium Sedan" 
-            className="w-full max-w-4xl object-contain object-bottom translate-y-[20%]"
+            className="w-full max-w-4xl object-contain object-bottom translate-y-[10%]"
           />
         </div>
       </section>
 
       {/* ================= CHOOSE YOUR SERVICE GRID ================= */}
-      <section id="categories" className="max-w-7xl mx-auto px-6 py-20 w-full relative">
-        <div className="absolute top-[20%] left-[5%] w-[400px] h-[400px] rounded-full bg-[#fbbf24]/2 opacity-10 blur-[80px] pointer-events-none" />
-        
-        <div className="flex justify-between items-end mb-12">
-          <div className="text-left flex flex-col gap-2">
-            <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">Multi-role logistics</span>
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">Choose Your Service</h2>
-          </div>
-          <Link href="/services" className="text-xs font-bold text-[#fbbf24] hover:text-[#e5ae20] flex items-center gap-0.5 border-b border-[#fbbf24]/30 pb-0.5">
-            View all categories <ChevronRight className="w-3.5 h-3.5" />
+      <section id="categories" className="max-w-7xl mx-auto px-6 py-20 w-full">
+        <div className="flex justify-between items-center mb-10">
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight text-left">Choose Your Service</h2>
+          <Link href="/services" className="text-xs font-bold text-[#fbbf24] hover:text-[#f59e0b] flex items-center gap-0.5">
+            View all <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { title: "Bike Taxi", desc: "Scooty, commuter & sport models", icon: <Bike className="w-6 h-6 text-[#fbbf24]" />, bg: "bg-[#fbbf24]/10", tab: "ride", type: "bike" },
-            { title: "Smart Auto", desc: "Electric and CNG local transport", icon: <Compass className="w-6 h-6 text-[#fbbf24]" />, bg: "bg-[#fbbf24]/10", tab: "ride", type: "auto" },
-            { title: "Comfort Cab", desc: "Sedans and spacious family hatchbacks", icon: <Car className="w-6 h-6 text-[#fbbf24]" />, bg: "bg-[#fbbf24]/10", tab: "ride", type: "cab" },
-            { title: "Premium VIP", desc: "Luxury Audi, BMW & Tesla EVs", icon: <Zap className="w-6 h-6 text-[#fbbf24]" />, bg: "bg-[#fbbf24]/10", tab: "ride", type: "premium" },
-            { title: "Parcel Courier", desc: "Instant documents & package delivery", icon: <Activity className="w-6 h-6 text-[#fbbf24]" />, bg: "bg-[#fbbf24]/10", tab: "delivery", type: "parcel" },
-            { title: "Express Food", desc: "Fresh groceries & restaurant meals", icon: <Heart className="w-6 h-6 text-[#fbbf24]" />, bg: "bg-[#fbbf24]/10", tab: "delivery", type: "food" },
-            { title: "Mini Truck Loader", desc: "Tata Ace loaders for local shifts", icon: <Sliders className="w-6 h-6 text-[#fbbf24]" />, bg: "bg-[#fbbf24]/10", tab: "transport", type: "mini_truck" },
-            { title: "Pickup Flatbed", desc: "Heavy flatbeds & open haulers", icon: <Navigation className="w-6 h-6 text-[#fbbf24] rotate-45" />, bg: "bg-[#fbbf24]/10", tab: "transport", type: "pickup" },
-            { title: "Closed Tempo", desc: "Sealed container cargo shifting", icon: <Users className="w-6 h-6 text-[#fbbf24]" />, bg: "bg-[#fbbf24]/10", tab: "transport", type: "tempo" },
+            { title: "Bike", desc: "Fast & Affordable", icon: <Bike className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "ride", type: "bike" },
+            { title: "Auto", desc: "Quick & Easy", icon: <Compass className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "ride", type: "auto" },
+            { title: "Cab", desc: "Comfort Rides", icon: <Car className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "ride", type: "cab" },
+            { title: "Premium", desc: "Luxury Rides", icon: <Zap className="w-6 h-6 text-amber-600 animate-pulse" />, bg: "bg-amber-50/50", tab: "ride", type: "premium" },
+            { title: "Parcel", desc: "Send Anything", icon: <Activity className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "delivery", type: "parcel" },
+            { title: "Food", desc: "Food Delivery", icon: <Heart className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "delivery", type: "food" },
+            { title: "Mini Truck", desc: "For Small Load", icon: <Sliders className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "transport", type: "mini_truck" },
+            { title: "Pickup", desc: "Move Anything", icon: <Navigation className="w-6 h-6 text-amber-600 rotate-45" />, bg: "bg-amber-50/50", tab: "transport", type: "pickup" },
+            { title: "Tempo", desc: "For Large Load", icon: <Users className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "transport", type: "tempo" },
           ].map((service, idx) => (
             <div 
               key={idx}
@@ -522,20 +456,18 @@ export default function LandingPage() {
                 changeCategory(service.type as any);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="glass-card border border-white/5 rounded-3xl p-6 flex items-center justify-between hover:border-[#fbbf24]/20 hover:bg-white/5 transition-all group cursor-pointer text-left"
+              className="bg-white border border-slate-100 rounded-3xl p-6 flex items-center justify-between hover:shadow-md hover:border-[#fbbf24]/30 transition-all group cursor-pointer text-left"
             >
               <div className="flex items-center gap-4">
-                <div className={`p-4.5 rounded-2xl ${service.bg} transition-transform group-hover:scale-105 duration-300`}>
+                <div className={`p-4 rounded-2xl ${service.bg} transition-transform group-hover:scale-105 duration-300`}>
                   {service.icon}
                 </div>
                 <div>
-                  <h4 className="text-base font-bold text-white">
-                    {service.title}
-                  </h4>
-                  <p className="text-xs text-gray-400 font-medium mt-1">{service.desc}</p>
+                  <h4 className="text-base font-bold text-slate-800">{service.title}</h4>
+                  <p className="text-xs text-slate-450 font-medium mt-0.5">{service.desc}</p>
                 </div>
               </div>
-              <div className="w-9 h-9 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 group-hover:bg-[#fbbf24] group-hover:text-slate-900 transition-all">
+              <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-[#fbbf24] group-hover:text-slate-900 transition-all">
                 <ChevronRight className="w-4 h-4" />
               </div>
             </div>
@@ -543,72 +475,54 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ================= CINEMATIC CITY CORRIDOR SIMULATION SECTION ================= */}
-      <section className="max-w-7xl mx-auto px-6 py-12 w-full border-t border-white/5 relative">
-        <div className="flex flex-col gap-3 mb-10 text-left">
-          <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">Experience the AI Network</span>
-          <h2 className="text-3xl font-extrabold text-white tracking-tight">Autonomous Dispatch Simulator</h2>
-          <p className="text-sm text-gray-400 max-w-xl leading-relaxed">
-            See the RideX neural dispatcher at work. Vikram Solanki's Tesla and cargo logistics vehicles traverse Delhi NCR green expressways with biometrics tracking, latency logs, and automated corridor optimization.
-          </p>
-        </div>
-        
-        <div className="w-full h-[550px] rounded-[32px] overflow-hidden border border-white/10 relative shadow-2xl">
-          <CinematicCityCanvas />
-        </div>
-      </section>
-
       {/* ================= SAFETY YOU CAN TRUST ================= */}
-      <section id="safety" className="max-w-7xl mx-auto px-6 py-20 w-full border-t border-white/5">
-        <div className="flex justify-between items-end mb-12">
-          <div className="text-left flex flex-col gap-2">
-            <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">RideX Guardianship</span>
-            <h2 className="text-3xl font-extrabold text-white tracking-tight">Safety You Can Trust</h2>
-          </div>
-          <Link href="/safety" className="text-xs font-bold text-[#fbbf24] hover:text-[#e5ae20] flex items-center gap-0.5 border-b border-[#fbbf24]/30 pb-0.5">
-            Safety framework <ChevronRight className="w-3.5 h-3.5" />
+      <section id="safety" className="max-w-7xl mx-auto px-6 py-20 w-full border-t border-slate-100">
+        <div className="flex justify-between items-center mb-10">
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight text-left">Safety You Can Trust</h2>
+          <Link href="/safety" className="text-xs font-bold text-[#fbbf24] hover:text-[#f59e0b] flex items-center gap-0.5">
+            View all <ChevronRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
         {/* Circular icons row */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-6 mb-12">
           {[
-            { label: "SOS Emergency", name: "SOS", icon: <ShieldAlert className="w-6 h-6 text-red-500 animate-pulse" />, bg: "bg-red-500/10 border-red-500/20" },
-            { label: "Live Location Share", name: "Live Route", icon: <MapPin className="w-6 h-6 text-emerald-400" />, bg: "bg-emerald-500/10 border-emerald-500/20" },
-            { label: "Driver Biometrics", name: "Identified Profile", icon: <Users className="w-6 h-6 text-blue-400" />, bg: "bg-blue-500/10 border-blue-500/20" },
-            { label: "Trip Insurance", name: "Comprehensive Cover", icon: <Shield className="w-6 h-6 text-indigo-400" />, bg: "bg-indigo-500/10 border-indigo-500/20" },
-            { label: "Women Safety Mode", name: "Preferred Matching", icon: <Heart className="w-6 h-6 text-purple-400" />, bg: "bg-purple-500/10 border-purple-500/20" },
+            { label: "SOS Emergency", name: "SOS", icon: <ShieldAlert className="w-6 h-6 text-red-500 animate-pulse" />, bg: "bg-red-50" },
+            { label: "Live Location", name: "Live Location", icon: <MapPin className="w-6 h-6 text-emerald-500" />, bg: "bg-emerald-50" },
+            { label: "Driver Verification", name: "Driver Verification", icon: <Users className="w-6 h-6 text-blue-500" />, bg: "bg-blue-50" },
+            { label: "Ride Insurance", name: "Ride Insurance", icon: <Shield className="w-6 h-6 text-indigo-500" />, bg: "bg-indigo-50" },
+            { label: "Women Safety Mode", name: "Women Safety Mode", icon: <Heart className="w-6 h-6 text-purple-500" />, bg: "bg-purple-50" },
           ].map((item, idx) => (
             <div 
               key={idx} 
-              className="flex flex-col items-center text-center gap-3.5 cursor-pointer group"
+              className="flex flex-col items-center text-center gap-3 cursor-pointer group"
               onClick={item.name === "SOS" ? handleSOS : undefined}
             >
-              <div className={`w-16 h-16 rounded-full ${item.bg} flex items-center justify-center border group-hover:scale-105 transition-all shadow-lg`}>
+              <div className={`w-14 h-14 rounded-full ${item.bg} flex items-center justify-center border border-slate-100 group-hover:scale-105 transition-all shadow-sm`}>
                 {item.icon}
               </div>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[9px] uppercase font-bold text-gray-400 tracking-widest">{item.name}</span>
-                <span className="text-xs font-bold text-white">{item.label}</span>
+              <div>
+                <span className="text-[9px] uppercase font-bold text-slate-400 block tracking-wider">{item.name}</span>
+                <span className="text-xs font-bold text-slate-700 block mt-0.5">{item.label}</span>
               </div>
             </div>
           ))}
         </div>
 
         {/* Safety Platform Card */}
-        <div className="w-full glass-card border border-white/5 rounded-[40px] p-8 md:p-12 overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative shadow-2xl bg-gray-900/40">
-          <div className="md:col-span-7 flex flex-col gap-5 text-left relative z-10">
-            <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">RIDEX GUARDIAN SPHERE</span>
-            <h3 className="text-3xl font-extrabold text-white leading-tight">
-              India's Safer Mobility Infrastructure
+        <div className="w-full bg-white border border-slate-100 rounded-[32px] p-8 md:p-12 overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative shadow-sm">
+          <div className="md:col-span-7 flex flex-col gap-4 text-left relative z-10">
+            <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">RIDEX SAFETY</span>
+            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800 leading-tight">
+              India's Safer Rides Platform
             </h3>
-            <p className="text-sm text-gray-400 leading-relaxed max-w-lg font-medium">
-              We verify driver biometrics, background checks, and vehicle diagnostics in real-time. In addition, our automated server loops track route deviations and trigger immediate responses.
+            <p className="text-sm text-slate-500 leading-relaxed max-w-lg font-semibold">
+              Your safety is our highest priority. We use verified drivers, live tracking algorithms, and instant emergency alerts to secure every single trip.
             </p>
             <button 
               type="button"
               onClick={() => setShowBookingModal(true)} 
-              className="px-6 py-3.5 rounded-xl bg-white hover:bg-gray-100 text-slate-950 text-xs font-bold w-fit mt-2 transition-all cursor-pointer shadow-md"
+              className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold w-fit mt-2 transition-all cursor-pointer shadow-sm"
             >
               Know More
             </button>
@@ -617,52 +531,51 @@ export default function LandingPage() {
             <img 
               src="/ridex_safety_banner.png" 
               alt="Safety Platform Banner" 
-              className="w-full max-w-xs object-contain filter drop-shadow-[0_15px_30px_rgba(251,191,36,0.15)]"
+              className="w-full max-w-xs object-contain"
             />
           </div>
         </div>
       </section>
 
       {/* ================= APP PROMOTION ================= */}
-      <section className="max-w-7xl mx-auto px-6 py-20 w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center border-t border-white/5">
+      <section className="max-w-7xl mx-auto px-6 py-20 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center border-t border-slate-100">
         <div className="lg:col-span-7 flex flex-col gap-6 text-left">
-          <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">Mobile Application</span>
-          <h3 className="text-3xl md:text-4.5xl font-extrabold text-white tracking-tight leading-tight">
-            RideX App is better <br />
+          <h3 className="text-3xl md:text-4.5xl font-black text-slate-800 tracking-tight leading-tight">
+            Ridex App is better <br />
             on the go!
           </h3>
           
-          <ul className="flex flex-col gap-3.5">
+          <ul className="flex flex-col gap-3">
             {[
-              "Instant AI Driver Dispatches",
-              "Exclusive Wallet Cashback Rewards",
-              "Sub-second Live Coordinate Tracking",
-              "One-click SOS Emergency Beacon"
+              "Faster Bookings",
+              "Exclusive Offers",
+              "Real-time Tracking",
+              "Easy Payments"
             ].map((bullet, idx) => (
-              <li key={idx} className="flex items-center gap-3 text-sm font-bold text-gray-300">
-                <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+              <li key={idx} className="flex items-center gap-3 text-sm font-bold text-slate-700">
+                <CheckCircle className="w-5 h-5 text-emerald-500" />
                 {bullet}
               </li>
             ))}
           </ul>
 
-          <div className="flex flex-wrap gap-4 mt-4">
-            <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 text-white px-5 py-3 rounded-2xl border border-white/10 transition-all cursor-pointer">
+          <div className="flex flex-wrap gap-4 mt-2">
+            <button className="flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-2xl transition-all cursor-pointer shadow-md">
               <svg className="w-5 h-5 fill-current text-[#fbbf24]" viewBox="0 0 24 24">
                 <path d="M5 3c-.28 0-.5.22-.5.5v17c0 .28.22.5.5.5.15 0 .28-.06.38-.16l9.62-9.62-9.62-9.62c-.1-.1-.23-.16-.38-.16zM16 11.25l-2.25 2.25 2.25 2.25c.41-.41.41-1.09 0-1.5l-1.5-1.5 1.5-1.5zm.75.75c0 .28-.11.53-.3.72l-2.28 2.28c-.39.39-1.02.39-1.41 0l-2.28-2.28c-.39-.39-.39-1.02 0-1.41l2.28-2.28c.39-.39 1.02-.39 1.41 0l2.28 2.28c.19.19.3.44.3.72z" />
               </svg>
               <div className="text-left leading-none">
-                <span className="text-[8px] block text-gray-400 uppercase font-mono">Get it on</span>
+                <span className="text-[8px] block text-slate-400 uppercase font-mono">Get it on</span>
                 <span className="text-xs font-bold block mt-1">Google Play</span>
               </div>
             </button>
 
-            <button className="flex items-center gap-3 bg-white/5 hover:bg-white/10 text-white px-5 py-3 rounded-2xl border border-white/10 transition-all cursor-pointer">
+            <button className="flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-2xl transition-all cursor-pointer shadow-md">
               <svg className="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 4.17c.66-.81 1.11-1.93.99-3.06-1 .04-2.2.67-2.92 1.49-.62.71-1.16 1.85-1.01 2.96 1.12.09 2.27-.58 2.94-1.39" />
               </svg>
               <div className="text-left leading-none">
-                <span className="text-[8px] block text-gray-400 uppercase font-mono">Download on the</span>
+                <span className="text-[8px] block text-slate-400 uppercase font-mono">Download on the</span>
                 <span className="text-xs font-bold block mt-1">App Store</span>
               </div>
             </button>
@@ -671,46 +584,45 @@ export default function LandingPage() {
 
         {/* Right Smartphone mockup rendering Live Tracking Map */}
         <div className="lg:col-span-5 flex justify-center w-full">
-          <div className="w-[310px] h-[600px] bg-slate-950 rounded-[52px] p-3.5 shadow-2xl relative border-[6px] border-slate-800">
+          <div className="w-[300px] h-[580px] bg-slate-900 rounded-[48px] p-3 shadow-2xl relative border-[5px] border-slate-800">
             {/* Notch */}
-            <div className="absolute top-5.5 left-1/2 -translate-x-1/2 w-32 h-5 bg-slate-800 rounded-full z-20 flex items-center justify-center">
+            <div className="absolute top-5 left-1/2 -translate-x-1/2 w-32 h-4.5 bg-slate-800 rounded-full z-20 flex items-center justify-center">
               <div className="w-2.5 h-2.5 rounded-full bg-slate-950" />
             </div>
 
             {/* Simulated Map Screen */}
-            <div className="w-full h-full bg-[#0c101d] rounded-[38px] overflow-hidden relative border border-white/5 flex flex-col justify-between pt-8">
+            <div className="w-full h-full bg-[#fafaff] rounded-[38px] overflow-hidden relative border border-slate-950/20 flex flex-col justify-between pt-8">
               
               {/* Telemetry status bar */}
-              <div className="p-4.5 bg-gray-900 border-b border-white/5 flex justify-between items-center z-10 relative">
+              <div className="p-3 bg-white border-b border-slate-100 flex justify-between items-center z-10 relative">
                 <div className="text-left">
-                  <span className="text-[8px] font-bold uppercase tracking-wider text-[#fbbf24] block">GPS Tracking</span>
-                  <span className="text-[10px] font-bold text-white">Trip RIDEX-2026</span>
+                  <span className="text-[8px] font-bold uppercase tracking-wider text-[#fbbf24] block">Tracking</span>
+                  <span className="text-[10px] font-bold text-slate-800">Trip RIDEX-2026</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[10px] font-extrabold text-[#fbbf24] flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 animate-pulse" /> 3.5 Mins
+                  <span className="text-[10px] font-extrabold text-slate-800 flex items-center gap-0.5">
+                    <Clock className="w-3 h-3 text-[#fbbf24] animate-pulse" /> 3.5 Mins
                   </span>
                 </div>
               </div>
 
               {/* Live SVG Map */}
-              <div className="flex-1 bg-slate-950 relative overflow-hidden">
+              <div className="flex-1 bg-slate-50 relative overflow-hidden">
                 <svg className="w-full h-full" viewBox="0 0 240 320">
-                  {/* Grid overlay lines */}
-                  <path d="M 0,40 L 240,40 M 0,120 L 240,120 M 0,200 L 240,200 M 0,280 L 240,280 M 60,0 L 60,320 M 140,0 L 140,320 M 200,0 L 200,320" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
+                  <path d="M 0,40 L 240,40 M 0,120 L 240,120 M 0,200 L 240,200 M 0,280 L 240,280 M 60,0 L 60,320 M 140,0 L 140,320 M 200,0 L 200,320" stroke="#e2e8f0" strokeWidth="1" />
                   
                   {/* Route path */}
-                  <path d="M 40,240 Q 120,40 200,160" fill="transparent" stroke="rgba(255,255,255,0.1)" strokeWidth="6" strokeLinecap="round" />
-                  <path d="M 40,240 Q 120,40 200,160" fill="transparent" stroke="#fbbf24" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="6 8" />
+                  <path d="M 40,240 Q 120,40 200,160" fill="transparent" stroke="#cbd5e1" strokeWidth="6" strokeLinecap="round" />
+                  <path d="M 40,240 Q 120,40 200,160" fill="transparent" stroke="#fbbf24" strokeWidth="3" strokeLinecap="round" strokeDasharray="5 7" />
 
                   {/* Pickup & Drop markers */}
-                  <circle cx="40" cy="240" r="6" fill="#10b981" stroke="#000" strokeWidth="2" />
-                  <circle cx="200" cy="160" r="6" fill="#f43f5e" stroke="#000" strokeWidth="2" />
+                  <circle cx="40" cy="240" r="5" fill="#10b981" stroke="#fff" strokeWidth="1.5" />
+                  <circle cx="200" cy="160" r="5" fill="#f43f5e" stroke="#fff" strokeWidth="1.5" />
 
                   {/* Car dot moving */}
                   <g transform={`translate(${currentVehiclePos.x * 0.7 + 10}, ${currentVehiclePos.y * 0.8 + 40})`}>
-                    <circle cx="0" cy="0" r="7" fill="#fbbf24" stroke="#000" strokeWidth="1.5" className="shadow-lg" />
-                    <circle cx="0" cy="0" r="14" fill="transparent" stroke="rgba(251, 191, 36, 0.4)" strokeWidth="1" className="animate-ping" />
+                    <circle cx="0" cy="0" r="7" fill="#fbbf24" stroke="#fff" strokeWidth="1.5" className="shadow-md" />
+                    <circle cx="0" cy="0" r="12" fill="transparent" stroke="rgba(251, 191, 36, 0.3)" strokeWidth="1" className="animate-ping" />
                   </g>
                 </svg>
 
@@ -718,25 +630,25 @@ export default function LandingPage() {
                 <button 
                   type="button"
                   onClick={() => setSimPlaying(!simPlaying)}
-                  className="absolute bottom-3 left-3 px-3 py-1.5 bg-[#0f172a]/90 backdrop-blur-md rounded-xl border border-white/10 text-[9px] font-bold text-gray-300 shadow-sm flex items-center gap-1.5 hover:text-white"
+                  className="absolute bottom-3 left-3 px-3 py-1 bg-white/95 backdrop-blur-md rounded-lg border border-slate-100 text-[9px] font-bold text-slate-700 shadow-sm flex items-center gap-1.5"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   {simPlaying ? "PAUSE SIM" : "PLAY SIM"}
                 </button>
               </div>
 
               {/* Bottom Sheet info inside phone */}
-              <div className="p-4 bg-gray-900 border-t border-white/5 flex flex-col gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-[#fbbf24]/10 border border-[#fbbf24]/30 flex items-center justify-center font-bold text-xs text-[#fbbf24]">
+              <div className="p-3 bg-white border-t border-slate-100 flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-xs text-slate-700">
                     VS
                   </div>
                   <div className="flex-grow min-w-0 text-left">
                     <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-bold text-white truncate">Vikram Solanki</span>
-                      <span className="text-[9px] font-bold text-[#fbbf24] bg-[#fbbf24]/10 px-1.5 py-0.2 rounded border border-[#fbbf24]/20">★ 4.95</span>
+                      <span className="text-[10px] font-bold text-slate-800 truncate">Vikram Solanki</span>
+                      <span className="text-[8px] font-bold text-amber-600 bg-amber-50 px-1 py-0.2 rounded">★ 4.9</span>
                     </div>
-                    <span className="text-[8px] text-gray-400 block font-mono">Toyota Camry · DL-1CA-8832</span>
+                    <span className="text-[8px] text-slate-400 block">Toyota Camry · DL-1CA-8832</span>
                   </div>
                 </div>
               </div>
@@ -747,41 +659,41 @@ export default function LandingPage() {
       </section>
 
       {/* ================= STATS & FEATURES ROW ================= */}
-      <section className="w-full bg-gray-900/30 border-y border-white/5 py-16 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col gap-12">
+      <section className="w-full bg-white border-y border-slate-100 py-12 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col gap-10">
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { stat: "1M+", label: "Happy Users", icon: <Users className="w-5 h-5 text-[#fbbf24] mx-auto mb-1.5" /> },
-              { stat: "50K+", label: "Verified Drivers", icon: <CheckCircle className="w-5 h-5 text-[#fbbf24] mx-auto mb-1.5" /> },
-              { stat: "10M+", label: "Rides Completed", icon: <Navigation className="w-5 h-5 text-[#fbbf24] rotate-45 mx-auto mb-1.5" /> },
-              { stat: "200+", label: "Cities Covered", icon: <Compass className="w-5 h-5 text-[#fbbf24] mx-auto mb-1.5" /> },
+              { stat: "1M+", label: "Happy Users", icon: <Users className="w-5 h-5 text-[#fbbf24] mx-auto mb-1" /> },
+              { stat: "50K+", label: "Verified Drivers", icon: <CheckCircle className="w-5 h-5 text-[#fbbf24] mx-auto mb-1" /> },
+              { stat: "10M+", label: "Rides Completed", icon: <Navigation className="w-5 h-5 text-[#fbbf24] rotate-45 mx-auto mb-1" /> },
+              { stat: "200+", label: "Cities Covered", icon: <Compass className="w-5 h-5 text-[#fbbf24] mx-auto mb-1" /> },
             ].map((stat, idx) => (
-              <div key={idx} className="flex flex-col gap-1.5">
+              <div key={idx} className="flex flex-col gap-1">
                 {stat.icon}
-                <span className="text-3xl font-black text-white">{stat.stat}</span>
-                <span className="text-xs text-gray-400 font-bold tracking-wider uppercase">{stat.label}</span>
+                <span className="text-2xl font-black text-slate-800">{stat.stat}</span>
+                <span className="text-xs text-slate-450 font-bold">{stat.label}</span>
               </div>
             ))}
           </div>
 
-          <hr className="border-white/5" />
+          <hr className="border-slate-100" />
 
           {/* Features */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
             {[
-              { title: "No Surge Traps", desc: "Estimated pricing holds transparently", icon: <DollarSign className="w-5 h-5 text-[#fbbf24]" /> },
-              { title: "Clean Diagnostics", desc: "Safety checks on vehicles weekly", icon: <Shield className="w-5 h-5 text-[#fbbf24]" /> },
-              { title: "SLA Elite Drivers", desc: "Consistently rated 4.85+ drivers", icon: <Star className="w-5 h-5 text-[#fbbf24] fill-[#fbbf24]" /> },
-              { title: "Instant Assistance", desc: "Automated chatbot and phone logs", icon: <Clock className="w-5 h-5 text-[#fbbf24]" /> },
+              { title: "No Hidden Charges", desc: "What you see is what you pay", icon: <DollarSign className="w-5 h-5 text-[#fbbf24]" /> },
+              { title: "Clean & Safe Rides", desc: "Well maintained vehicles", icon: <Shield className="w-5 h-5 text-[#fbbf24]" /> },
+              { title: "Top Rated Drivers", desc: "Trained & professional", icon: <Star className="w-5 h-5 text-[#fbbf24] fill-[#fbbf24]" /> },
+              { title: "24x7 Customer Support", desc: "We're always here to help", icon: <Clock className="w-5 h-5 text-[#fbbf24]" /> },
             ].map((prop, idx) => (
-              <div key={idx} className="flex gap-4">
-                <div className="p-3 rounded-xl bg-white/5 border border-white/5 h-fit shrink-0">
+              <div key={idx} className="flex gap-3">
+                <div className="p-2.5 rounded-xl bg-amber-50 h-fit">
                   {prop.icon}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white tracking-tight">{prop.title}</h4>
-                  <p className="text-xs text-gray-400 mt-1 font-medium leading-relaxed">{prop.desc}</p>
+                  <h4 className="text-sm font-bold text-slate-800 tracking-tight">{prop.title}</h4>
+                  <p className="text-xs text-slate-500 mt-0.5">{prop.desc}</p>
                 </div>
               </div>
             ))}
@@ -790,37 +702,34 @@ export default function LandingPage() {
       </section>
 
       {/* ================= REVIEWS & REFERRAL DUAL GRID ================= */}
-      <section className="max-w-7xl mx-auto px-6 py-20 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      <section className="max-w-7xl mx-auto px-6 py-16 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         {/* Left Column: What Our Customers Say */}
         <div className="lg:col-span-8 flex flex-col gap-6 text-left">
-          <div className="flex justify-between items-end">
-            <div>
-              <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider block mb-1">User Testimonials</span>
-              <h2 className="text-3xl font-extrabold text-white tracking-tight">What Our Customers Say</h2>
-            </div>
-            <Link href="/reviews" className="text-xs font-bold text-[#fbbf24] hover:text-[#e5ae20] flex items-center gap-0.5 border-b border-[#fbbf24]/30 pb-0.5">
-              Read reviews <ChevronRight className="w-3.5 h-3.5" />
+          <div className="flex justify-between items-center">
+            <h2 className="text-2xl font-extrabold text-slate-800 tracking-tight">What Our Customers Say</h2>
+            <Link href="/reviews" className="text-xs font-bold text-[#fbbf24] hover:text-[#f59e0b] flex items-center gap-0.5">
+              View all <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { name: "Great Service", review: "Outstanding safety. The telemetry matches perfectly and driver Vikram was incredibly professional.", stars: 5 },
-              { name: "On Time Always", review: "RideX is a next-gen commuter necessity. Price estimates lock accurately without random spikes.", stars: 5 },
-              { name: "Very Affordable", review: "Best courier dispatch interface. Batch manifests import works like a breeze for corporate fleet.", stars: 5 },
+              { name: "Great Service", review: "Very safe rides and polite drivers.", stars: 5 },
+              { name: "On Time Always", review: "Ridex is my go-to app for daily travel.", stars: 5 },
+              { name: "Very Affordable", review: "Best prices and no hidden charges.", stars: 5 },
             ].map((rev, idx) => (
               <div 
                 key={idx}
-                className="glass-card border border-white/5 rounded-3xl p-6 flex flex-col justify-between shadow-md relative text-left"
+                className="bg-white border border-slate-100 rounded-3xl p-6 flex flex-col justify-between shadow-sm relative text-left"
               >
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-0.5 text-[#fbbf24]">
+                <div>
+                  <div className="flex items-center gap-0.5 text-[#fbbf24] mb-3">
                     {[...Array(rev.stars)].map((_, i) => (
                       <Star key={i} className="w-3.5 h-3.5 fill-current" />
                     ))}
                   </div>
-                  <h4 className="text-sm font-bold text-white">{rev.name}</h4>
-                  <p className="text-xs text-gray-400 leading-relaxed font-semibold">{rev.review}</p>
+                  <h4 className="text-sm font-bold text-slate-800">{rev.name}</h4>
+                  <p className="text-xs text-slate-400 mt-2 leading-relaxed font-semibold">{rev.review}</p>
                 </div>
               </div>
             ))}
@@ -828,11 +737,9 @@ export default function LandingPage() {
         </div>
 
         {/* Right Column: Refer & Earn card */}
-        <div className="lg:col-span-4 bg-gray-900/40 border border-white/5 rounded-[40px] p-8 flex flex-col justify-between relative overflow-hidden shadow-2xl">
-          {/* Decorative radial spotlight */}
-          <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-[#fbbf24]/5 blur-2xl pointer-events-none" />
-          
-          <div className="absolute right-3 bottom-3 w-32 h-32 pointer-events-none z-0 opacity-20">
+        <div className="lg:col-span-4 bg-white border border-slate-100 rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden shadow-sm">
+          {/* gift box decorative image */}
+          <div className="absolute right-3 bottom-3 w-32 h-32 pointer-events-none z-0">
             <img 
               src="/ridex_refer_gift.png" 
               alt="Gift box with coins" 
@@ -840,21 +747,21 @@ export default function LandingPage() {
             />
           </div>
 
-          <div className="relative z-10 flex flex-col gap-3 text-left">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-[#fbbf24] bg-[#fbbf24]/10 px-2.5 py-1 rounded border border-[#fbbf24]/20 w-fit">Referral Program</span>
-            <h3 className="text-2xl font-extrabold text-white tracking-tight leading-tight mt-1">
+          <div className="relative z-10 flex flex-col gap-2 text-left">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100 w-fit">Referral Reward</span>
+            <h3 className="text-xl font-extrabold text-slate-800 tracking-tight leading-tight mt-1">
               Refer & Earn
             </h3>
-            <p className="text-xs text-gray-400 font-semibold leading-relaxed max-w-[220px]">
-              Invite your colleagues or friends and earn RIDEX Wallet Credits instantly on their first transit complete!
+            <p className="text-xs text-slate-400 font-semibold leading-relaxed max-w-[200px]">
+              Refer your friends & earn RIDEX Cash for your next trip!
             </p>
           </div>
 
-          <div className="relative z-10 mt-8 text-left">
+          <div className="relative z-10 mt-6 text-left">
             <button 
               type="button"
               onClick={() => setShowBookingModal(true)} 
-              className="px-6 py-3.5 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-950 text-xs font-bold transition-all shadow-md shadow-[#fbbf24]/10 cursor-pointer"
+              className="px-6 py-3.5 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-900 text-xs font-bold transition-all shadow-md shadow-[#fbbf24]/10 cursor-pointer animate-pulse"
             >
               Refer Now
             </button>
@@ -872,38 +779,36 @@ export default function LandingPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowBookingModal(false)}
-              className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
+              className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm"
             />
             {/* Card modal */}
             <motion.div 
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="w-full max-w-sm bg-gray-900 rounded-[32px] p-8 border border-white/10 shadow-2xl relative z-10 text-center flex flex-col items-center"
+              className="w-full max-w-sm bg-white rounded-3xl p-6 border border-slate-200 shadow-2xl relative z-10 text-center"
             >
-              <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center mb-5 shadow-lg">
-                <CheckCircle className="w-8 h-8 text-emerald-400" />
+              <div className="w-16 h-16 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-emerald-500" />
               </div>
-              
-              <h3 className="text-xl font-bold text-white mb-2">Action Dispatch Success!</h3>
-              
-              <p className="text-xs text-gray-400 mb-6 leading-relaxed font-semibold">
-                Your parameters have been logged and broadcasted to active drivers in the Delhi Grid area.
+              <h3 className="text-lg font-bold text-slate-800 mb-1">Action Initiated!</h3>
+              <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+                Your request has been successfully dispatched. Enjoy the new RIDEX mobility platform!
               </p>
 
-              <div className="flex gap-3 w-full">
+              <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => setShowBookingModal(false)}
-                  className="flex-1 py-3.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-bold text-white transition-all cursor-pointer"
+                  className="flex-1 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 transition-all cursor-pointer"
                 >
                   Close
                 </button>
                 <Link
                   href="/dashboard"
-                  className="flex-1 py-3.5 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-950 text-xs font-extrabold transition-all text-center flex items-center justify-center gap-1 shadow-md shadow-[#fbbf24]/10"
+                  className="flex-1 py-3 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-900 text-xs font-bold transition-all text-center flex items-center justify-center gap-1 shadow-md shadow-[#fbbf24]/10"
                 >
-                  Dashboard <ArrowRight className="w-3.5 h-3.5" />
+                  Go to Dashboard <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </motion.div>
@@ -919,12 +824,12 @@ export default function LandingPage() {
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.9 }}
-              className="bg-red-500 border border-red-650 text-white font-bold text-xs px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3"
+              className="bg-red-500 border border-red-650 text-white font-bold text-xs px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3"
             >
               <ShieldAlert className="w-5 h-5 text-white animate-bounce" />
               <div className="text-left">
-                <span className="font-extrabold block">SOS EMERGENCY ACTION BEACON</span>
-                <span className="text-[10px] text-red-150 block font-normal mt-0.5">Pushing coordinates to local dispatch and response teams...</span>
+                <span className="font-extrabold block">SOS ALERT TRIGGERED</span>
+                <span className="text-[10px] text-red-100 block font-normal mt-0.5">Contacting emergency dispatch services...</span>
               </div>
             </motion.div>
           </div>
