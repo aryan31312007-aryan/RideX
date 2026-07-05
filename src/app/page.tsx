@@ -418,12 +418,12 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Left-aligned overlay background car illustration (scaled up to cover the space) */}
-        <div className="absolute left-0 bottom-0 top-[10%] w-[120%] lg:w-[90%] z-0 flex justify-start items-end pointer-events-none opacity-95 -translate-x-[12%]">
+        {/* Center overlay background car illustration */}
+        <div className="absolute inset-x-0 bottom-0 top-[20%] z-0 flex justify-center items-center pointer-events-none opacity-90">
           <img 
             src="/ridex_hero_car.png" 
             alt="RIDEX Premium Sedan" 
-            className="w-full max-w-[140%] h-[115%] object-contain object-left-bottom"
+            className="w-full max-w-4xl object-contain object-bottom translate-y-[10%]"
           />
         </div>
       </section>
@@ -511,6 +511,15 @@ export default function LandingPage() {
 
         {/* Safety Platform Card */}
         <div className="w-full bg-white border border-slate-100 rounded-[32px] p-8 md:p-12 overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative shadow-sm">
+          {/* Image on the left (where RIDEX is printed on the car) */}
+          <div className="md:col-span-5 flex justify-center relative">
+            <img 
+              src="/ridex_safety_banner.png" 
+              alt="Safety Platform Banner" 
+              className="w-full max-w-xs object-contain"
+            />
+          </div>
+          {/* Text content on the right */}
           <div className="md:col-span-7 flex flex-col gap-4 text-left relative z-10">
             <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">RIDEX SAFETY</span>
             <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800 leading-tight">
@@ -526,13 +535,6 @@ export default function LandingPage() {
             >
               Know More
             </button>
-          </div>
-          <div className="md:col-span-5 flex justify-center relative">
-            <img 
-              src="/ridex_safety_banner.png" 
-              alt="Safety Platform Banner" 
-              className="w-full max-w-xs object-contain"
-            />
           </div>
         </div>
       </section>
