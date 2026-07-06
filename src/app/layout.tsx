@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { FirebaseProvider } from "@/context/FirebaseContext";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import SOSButton from "@/components/layout/SOSButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-grow flex flex-col">{children}</main>
           <Footer />
+          <SOSButton />
         </FirebaseProvider>
       </body>
     </html>

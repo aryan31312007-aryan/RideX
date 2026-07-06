@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { 
-  Bike, Car, Navigation, Zap, Shield, MapPin, ArrowRight, Star, Clock, 
-  Heart, ShieldAlert, CheckCircle, ChevronRight, Sliders, Award, DollarSign, 
+import {
+  Bike, Car, Navigation, Zap, Shield, MapPin, ArrowRight, Star, Clock,
+  Heart, ShieldAlert, CheckCircle, ChevronRight, Sliders, Award, DollarSign,
   Smartphone, Activity, Compass, Users, CheckCircle2, Map
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,10 +19,10 @@ export default function LandingPage() {
     const body = document.body;
     const prevBg = body.style.backgroundColor;
     const prevColor = body.style.color;
-    
+
     body.style.backgroundColor = "#ffffff";
     body.style.color = "#0f172a";
-    
+
     const html = document.documentElement;
     const hasDark = html.classList.contains("dark");
     if (hasDark) {
@@ -169,21 +169,21 @@ export default function LandingPage() {
 
   return (
     <div className="bg-[#f8fafc] text-slate-800 min-h-screen relative font-sans overflow-x-hidden">
-      
+
       {/* ================= HERO SECTION (LIGHT REFERENCE) ================= */}
       <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden py-16 px-6 md:px-12 w-full bg-gradient-to-b from-white to-[#f8fafc] border-b border-slate-100">
         {/* Ambient background grid pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-60 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full relative z-10">
-          
+
           {/* Left Column: Heading, Subheading, Badges */}
           <div className="lg:col-span-7 flex flex-col gap-6 text-left relative z-20">
             <h1 className="text-4xl md:text-[56px] font-black tracking-tight text-slate-900 leading-[1.1]">
               Your Ride. Your City.<br />
               <span className="text-[#fbbf24]">Ridex Karo. Aage Bado.</span>
             </h1>
-            
+
             <p className="text-base md:text-lg text-slate-500 max-w-xl leading-relaxed font-semibold">
               Book rides, delivery & transport in seconds.<br className="hidden sm:inline" />
               Safe, reliable & affordable – always!
@@ -208,7 +208,7 @@ export default function LandingPage() {
           {/* Right Column: Reference Booking Card */}
           <div className="lg:col-span-5 w-full relative z-20">
             <div className="w-full max-w-md ml-auto bg-white p-6 md:p-8 rounded-[32px] border border-slate-100 shadow-xl flex flex-col gap-6 text-left">
-              
+
               {/* Tabs */}
               <div className="grid grid-cols-3 gap-1 p-1 bg-slate-50 rounded-2xl border border-slate-100">
                 {[
@@ -225,11 +225,10 @@ export default function LandingPage() {
                       else if (tab.id === "delivery") changeCategory("parcel");
                       else if (tab.id === "transport") changeCategory("mini_truck");
                     }}
-                    className={`flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                      activeTab === tab.id
+                    className={`flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${activeTab === tab.id
                         ? "bg-white text-slate-900 shadow-sm border border-slate-100"
                         : "text-slate-500 hover:text-slate-800"
-                    }`}
+                      }`}
                   >
                     {tab.icon}
                     {tab.label}
@@ -250,11 +249,10 @@ export default function LandingPage() {
                       key={cat.id}
                       type="button"
                       onClick={() => changeCategory(cat.id as any)}
-                      className={`flex-1 py-2 rounded-xl border text-[10px] font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${
-                        selectedCategory === cat.id
+                      className={`flex-1 py-2 rounded-xl border text-[10px] font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${selectedCategory === cat.id
                           ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
                           : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
-                      }`}
+                        }`}
                     >
                       {cat.icon}
                       {cat.label}
@@ -273,11 +271,10 @@ export default function LandingPage() {
                       key={cat.id}
                       type="button"
                       onClick={() => changeCategory(cat.id as any)}
-                      className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                        selectedCategory === cat.id
+                      className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${selectedCategory === cat.id
                           ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
                           : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
-                      }`}
+                        }`}
                     >
                       {cat.icon}
                       {cat.label}
@@ -297,11 +294,10 @@ export default function LandingPage() {
                       key={cat.id}
                       type="button"
                       onClick={() => changeCategory(cat.id as any)}
-                      className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                        selectedCategory === cat.id
+                      className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${selectedCategory === cat.id
                           ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
                           : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
-                      }`}
+                        }`}
                     >
                       {cat.icon}
                       {cat.label}
@@ -413,9 +409,9 @@ export default function LandingPage() {
 
         {/* Center overlay background car illustration (scaled up to look good and be easily visible) */}
         <div className="absolute inset-x-0 bottom-0 top-[20%] z-0 flex justify-center items-center pointer-events-none opacity-90 -translate-x-[5%]">
-          <img 
-            src="/ridex_hero_car.png" 
-            alt="RIDEX Premium Sedan" 
+          <img
+            src="/ridex_hero_car.png"
+            alt="RIDEX Premium Sedan"
             className="w-full max-w-5xl object-contain object-bottom translate-y-[10%]"
           />
         </div>
@@ -442,7 +438,7 @@ export default function LandingPage() {
             { title: "Pickup", desc: "Move Anything", icon: <Navigation className="w-6 h-6 text-amber-600 rotate-45" />, bg: "bg-amber-50/50", tab: "transport", type: "pickup" },
             { title: "Tempo", desc: "For Large Load", icon: <Users className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "transport", type: "tempo" },
           ].map((service, idx) => (
-            <div 
+            <div
               key={idx}
               onClick={() => {
                 setActiveTab(service.tab as any);
@@ -477,7 +473,7 @@ export default function LandingPage() {
             See the RideX neural dispatcher at work. Vikram Solanki's Tesla and cargo logistics vehicles traverse Delhi NCR green expressways with biometrics tracking, latency logs, and automated corridor optimization.
           </p>
         </div>
-        
+
         <div className="w-full h-[550px] rounded-[32px] overflow-hidden border border-slate-200/60 relative shadow-xl bg-slate-900">
           <CinematicCityCanvas />
         </div>
@@ -501,8 +497,8 @@ export default function LandingPage() {
             { label: "Ride Insurance", name: "Ride Insurance", icon: <Shield className="w-6 h-6 text-indigo-500" />, bg: "bg-indigo-50" },
             { label: "Women Safety Mode", name: "Women Safety Mode", icon: <Heart className="w-6 h-6 text-purple-500" />, bg: "bg-purple-50" },
           ].map((item, idx) => (
-            <div 
-              key={idx} 
+            <div
+              key={idx}
               className="flex flex-col items-center text-center gap-3 cursor-pointer group"
               onClick={item.name === "SOS" ? handleSOS : undefined}
             >
@@ -521,9 +517,9 @@ export default function LandingPage() {
         <div className="w-full bg-white border border-slate-100 rounded-[32px] p-8 md:p-12 overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative shadow-sm">
           {/* Image on the left (where RIDEX is printed on the car - scaled up for visibility) */}
           <div className="md:col-span-5 flex justify-center relative">
-            <img 
-              src="/ridex_safety_banner.png" 
-              alt="Safety Platform Banner" 
+            <img
+              src="/ridex_safety_banner.png"
+              alt="Safety Platform Banner"
               className="w-full max-w-[420px] md:max-w-full object-contain transition-transform duration-300 hover:scale-[1.03]"
             />
           </div>
@@ -536,9 +532,9 @@ export default function LandingPage() {
             <p className="text-sm text-slate-500 leading-relaxed max-w-lg font-semibold">
               Your safety is our highest priority. We use verified drivers, live tracking algorithms, and instant emergency alerts to secure every single trip.
             </p>
-            <button 
+            <button
               type="button"
-              onClick={() => setShowBookingModal(true)} 
+              onClick={() => setShowBookingModal(true)}
               className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold w-fit mt-2 transition-all cursor-pointer shadow-sm"
             >
               Know More
@@ -554,7 +550,7 @@ export default function LandingPage() {
             Ridex App is better <br />
             on the go!
           </h3>
-          
+
           <ul className="flex flex-col gap-3">
             {[
               "Faster Bookings",
@@ -607,7 +603,7 @@ export default function LandingPage() {
 
             {/* Simulated Map Screen */}
             <div className="w-full h-full bg-[#fafaff] rounded-[38px] overflow-hidden relative border border-slate-950/20 flex flex-col justify-between pt-8">
-              
+
               {/* Telemetry status bar */}
               <div className="p-3 bg-white border-b border-slate-100 flex justify-between items-center z-10 relative">
                 <div className="text-left">
@@ -625,7 +621,7 @@ export default function LandingPage() {
               <div className="flex-1 bg-slate-50 relative overflow-hidden">
                 <svg className="w-full h-full" viewBox="0 0 240 320">
                   <path d="M 0,40 L 240,40 M 0,120 L 240,120 M 0,200 L 240,200 M 0,280 L 240,280 M 60,0 L 60,320 M 140,0 L 140,320 M 200,0 L 200,320" stroke="#e2e8f0" strokeWidth="1" />
-                  
+
                   {/* Route path */}
                   <path d="M 40,240 Q 120,40 200,160" fill="transparent" stroke="#cbd5e1" strokeWidth="6" strokeLinecap="round" />
                   <path d="M 40,240 Q 120,40 200,160" fill="transparent" stroke="#fbbf24" strokeWidth="3" strokeLinecap="round" strokeDasharray="5 7" />
@@ -642,7 +638,7 @@ export default function LandingPage() {
                 </svg>
 
                 {/* Map telemetry overlay control */}
-                <button 
+                <button
                   type="button"
                   onClick={() => setSimPlaying(!simPlaying)}
                   className="absolute bottom-3 left-3 px-3 py-1 bg-white/95 backdrop-blur-md rounded-lg border border-slate-100 text-[9px] font-bold text-slate-700 shadow-sm flex items-center gap-1.5"
@@ -733,7 +729,7 @@ export default function LandingPage() {
               { name: "On Time Always", review: "Ridex is my go-to app for daily travel.", stars: 5 },
               { name: "Very Affordable", review: "Best prices and no hidden charges.", stars: 5 },
             ].map((rev, idx) => (
-              <div 
+              <div
                 key={idx}
                 className="bg-white border border-slate-100 rounded-3xl p-6 flex flex-col justify-between shadow-sm relative text-left"
               >
@@ -755,9 +751,9 @@ export default function LandingPage() {
         <div className="lg:col-span-4 bg-white border border-slate-100 rounded-[32px] p-6 flex flex-col justify-between relative overflow-hidden shadow-sm">
           {/* gift box decorative image */}
           <div className="absolute right-3 bottom-3 w-32 h-32 pointer-events-none z-0">
-            <img 
-              src="/ridex_refer_gift.png" 
-              alt="Gift box with coins" 
+            <img
+              src="/ridex_refer_gift.png"
+              alt="Gift box with coins"
               className="w-full h-full object-contain"
             />
           </div>
@@ -773,9 +769,9 @@ export default function LandingPage() {
           </div>
 
           <div className="relative z-10 mt-6 text-left">
-            <button 
+            <button
               type="button"
-              onClick={() => setShowBookingModal(true)} 
+              onClick={() => setShowBookingModal(true)}
               className="px-6 py-3.5 rounded-xl bg-[#fbbf24] hover:bg-[#e5ae20] text-slate-900 text-xs font-bold transition-all shadow-md shadow-[#fbbf24]/10 cursor-pointer animate-pulse"
             >
               Refer Now
@@ -789,7 +785,7 @@ export default function LandingPage() {
         {showBookingModal && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             {/* Backdrop */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -797,7 +793,7 @@ export default function LandingPage() {
               className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm"
             />
             {/* Card modal */}
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
@@ -835,7 +831,7 @@ export default function LandingPage() {
       <AnimatePresence>
         {sosStatus === "triggered" && (
           <div className="fixed top-6 right-6 z-50">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.9 }}

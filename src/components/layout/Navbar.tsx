@@ -25,6 +25,10 @@ export default function Navbar() {
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
+  const triggerSOS = () => {
+    window.dispatchEvent(new CustomEvent("open-sos-modal"));
+  };
+
   const isHome = pathname === "/";
 
   // Dynamic style variables based on active path (standardized to premium clean light theme)
@@ -81,6 +85,14 @@ export default function Navbar() {
 
       {/* Action Buttons */}
       <div className="hidden lg:flex items-center gap-4">
+        <button
+          onClick={triggerSOS}
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-black bg-red-50 hover:bg-red-100 text-red-600 border border-red-200/60 shadow-sm transition-all cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
+        >
+          <ShieldAlert className="w-4 h-4 animate-pulse" />
+          <span>SOS EMERGENCY</span>
+        </button>
+
         {user && profile ? (
           <div className="relative">
             <button
@@ -200,6 +212,17 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className={`absolute top-full left-0 right-0 border-b lg:hidden flex flex-col p-6 gap-4 z-50 ${navBg}`}
           >
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                triggerSOS();
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm shadow-md shadow-red-600/10 active:scale-95 transition-all cursor-pointer"
+            >
+              <ShieldAlert className="w-5 h-5 animate-pulse" />
+              <span>EMERGENCY SOS DIRECTORY</span>
+            </button>
+
             {navLinks.map((link) => (
               <Link
                 key={link.name}
