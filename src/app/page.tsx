@@ -160,11 +160,11 @@ export default function LandingPage() {
     }, 1200);
   };
 
-  // State for SOS Alert simulation
   const [sosStatus, setSosStatus] = useState<"idle" | "triggered">("idle");
   const handleSOS = () => {
     setSosStatus("triggered");
     setTimeout(() => setSosStatus("idle"), 3000);
+    window.dispatchEvent(new CustomEvent("open-sos-modal"));
   };
 
   return (
