@@ -55,11 +55,15 @@ export default function SOSButton() {
   useEffect(() => {
     if (dispatching && countdown > 0) {
       countdownInterval.current = setTimeout(() => {
-        setCountdown((prev) => prev - 1);
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            setDispatching(false);
+            setDispatched(true);
+            return 0;
+          }
+          return prev - 1;
+        });
       }, 1000);
-    } else if (dispatching && countdown === 0) {
-      setDispatching(false);
-      setDispatched(true);
     }
     return () => {
       if (countdownInterval.current) clearTimeout(countdownInterval.current);
@@ -106,11 +110,11 @@ export default function SOSButton() {
     setDispatched(false);
   };
 
-  const cancelDispatch = () => {
+  function cancelDispatch() {
     setDispatching(false);
     if (countdownInterval.current) clearTimeout(countdownInterval.current);
     setCountdown(5);
-  };
+  }
 
   const copyLocationLink = () => {
     if (!coords) return;
