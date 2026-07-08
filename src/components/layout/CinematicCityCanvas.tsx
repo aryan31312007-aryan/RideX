@@ -98,6 +98,131 @@ const STORY_STEPS: StoryStep[] = [
   }
 ];
 
+// Color interpolation helper
+function interpolateColor(color1: string, color2: string, factor: number) {
+  // Basic hex/rgb parsing
+  const c1 = parseColor(color1);
+  const c2 = parseColor(color2);
+  
+  const r = Math.round(c1.r + (c2.r - c1.r) * factor);
+  const g = Math.round(c1.g + (c2.g - c1.g) * factor);
+  const b = Math.round(c1.b + (c2.b - c1.b) * factor);
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function parseColor(col: string) {
+  if (col.startsWith("#")) {
+    const hex = col.substring(1);
+    return {
+      r: parseInt(hex.substring(0, 2), 16),
+      g: parseInt(hex.substring(2, 4), 16),
+      b: parseInt(hex.substring(4, 6), 16),
+    };
+  }
+  if (col.startsWith("rgb")) {
+    const match = col.match(/\d+/g);
+    if (match) {
+      return { r: parseInt(match[0]), g: parseInt(match[1]), b: parseInt(match[2]) };
+    }
+  }
+  return { r: 255, g: 255, b: 255 };
+}
+
+function getNightIntensity(cycle: number) {
+  // Returns 0 to 1 depending on darkness level
+  if (cycle > 0.4 && cycle < 0.7) {
+    // Midnight peaking zone
+    return 1;
+  }
+  if (cycle >= 0.2 && cycle <= 0.4) {
+    return (cycle - 0.2) / 0.2; // fading night in
+  }
+  if (cycle >= 0.7 && cycle <= 0.9) {
+    return 1 - (cycle - 0.7) / 0.2; // fading night out
+  }
+  return 0;
+}
+
+function drawSkyline(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  cycle: number,
+  nightIntensity: number
+) {
+  // Generate silhouette building pillars
+  const bWidth = 60;
+  const spacing = 15;
+  const startY = height * 0.85;
+
+  ctx.save();
+  ctx.globalAlpha = 0.65;
+  
+  // Choose fill style depending on day cycle
+  const baseBuildingColor = nightIntensity > 0.5
+    ? "rgba(30, 41, 59, 0.4)"
+    : "rgba(226, 232, 240, 0.5)";
+
+  ctx.fillStyle = baseBuildingColor;
+
+  for (let x = 0; x < width; x += bWidth + spacing) {
+    // Semi-random height based on x index to keep layout static
+    const hSeed = Math.abs(Math.sin(x * 0.05)) * (height * 0.4) + 60;
+    ctx.fillRect(x, startY - hSeed, bWidth, hSeed);
+
+    // Blinking antenna towers
+    if (Math.floor(x) % 2 === 0) {
+      ctx.beginPath();
+      ctx.arc(x + bWidth / 2, startY - hSeed - 2, 2, 0, Math.PI * 2);
+      ctx.fillStyle = Math.sin(Date.now() * 0.007 + x) > 0 ? "#ef4444" : "transparent";
+      ctx.fill();
+    }
+
+    // Drawing window dots on building facades in light night conditions
+    if (nightIntensity > 0.3) {
+      ctx.fillStyle = `rgba(253, 224, 71, ${nightIntensity * 0.65})`;
+      for (let wy = startY - hSeed + 10; wy < startY - 10; wy += 20) {
+        for (let wx = x + 8; wx < x + bWidth - 8; wx += 14) {
+          // Randomize active glowing window cards
+          if (Math.sin(wx * wy) > -0.2) {
+            ctx.fillRect(wx, wy, 5, 5);
+          }
+        }
+      }
+      ctx.fillStyle = baseBuildingColor; // restore
+    }
+  }
+  ctx.restore();
+}
+
+function drawSmartRoads(
+  ctx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  cycle: number,
+  nightIntensity: number
+) {
+  const roadY = height * 0.82;
+  ctx.save();
+  // Grid Lines representing smart road tunnels
+  ctx.beginPath();
+  ctx.moveTo(0, roadY);
+  ctx.lineTo(width, roadY);
+  ctx.strokeStyle = nightIntensity > 0.4 ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
+  ctx.lineWidth = 6;
+  ctx.stroke();
+
+  // Smart glowing lanes underneath grid
+  ctx.beginPath();
+  ctx.moveTo(0, roadY + 8);
+  ctx.lineTo(width, roadY + 8);
+  ctx.strokeStyle = nightIntensity > 0.5 ? "rgba(139, 92, 246, 0.15)" : "rgba(139, 92, 246, 0.05)";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.restore();
+}
+
 export default function CinematicCityCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [currentStep, setCurrentStep] = useState(0);
@@ -198,7 +323,6 @@ export default function CinematicCityCanvas() {
 
     // Main animation loop
     let vehicleT = 0;
-    let cameraPulse = 0;
 
     const render = () => {
       // 1. CLEAR CANVAS
@@ -207,7 +331,7 @@ export default function CinematicCityCanvas() {
       // 2. DAY-TO-NIGHT SKY GRADIENT
       // Cycle: 0 (Day) -> 0.25 (Sunset) -> 0.5 (Night) -> 0.75 (Sunrise) -> 1 (Day)
       const cycle = dayNightProgress;
-      let skyGrad = ctx.createLinearGradient(0, 0, 0, height);
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
       
       if (cycle < 0.2) {
         // Daytime: Crisp sky blue to lavender white
@@ -261,7 +385,6 @@ export default function CinematicCityCanvas() {
       // 5. DRAW ACTIVE TRIP ROUTE (GLOW PATH)
       // Dynamic route glow depends on the current story phase
       const hasRouteLocked = currentStep >= 4 && currentStep <= 10;
-      const isCompletePhase = currentStep === 11 || currentStep === 11;
       
       const routeColor = currentStep === 10 ? "rgba(16, 185, 129, 0.4)" : "rgba(139, 92, 246, 0.35)";
       const activeColor = currentStep === 10 ? "#10b981" : "#8b5cf6";
@@ -398,7 +521,7 @@ export default function CinematicCityCanvas() {
         ctx.fillRect(6, 6, 4, 1);
 
         // Headlight beams
-        let glowGrad = ctx.createLinearGradient(12, 0, 32, 0);
+        const glowGrad = ctx.createLinearGradient(12, 0, 32, 0);
         glowGrad.addColorStop(0, "rgba(139, 92, 246, 0.4)");
         glowGrad.addColorStop(1, "rgba(139, 92, 246, 0)");
         ctx.fillStyle = glowGrad;
@@ -460,130 +583,7 @@ export default function CinematicCityCanvas() {
     };
   }, [currentStep, dayNightProgress]);
 
-  // Color interpolation helper
-  const interpolateColor = (color1: string, color2: string, factor: number) => {
-    // Basic hex/rgb parsing
-    const c1 = parseColor(color1);
-    const c2 = parseColor(color2);
-    
-    const r = Math.round(c1.r + (c2.r - c1.r) * factor);
-    const g = Math.round(c1.g + (c2.g - c1.g) * factor);
-    const b = Math.round(c1.b + (c2.b - c1.b) * factor);
-
-    return `rgb(${r}, ${g}, ${b})`;
-  };
-
-  const parseColor = (col: string) => {
-    if (col.startsWith("#")) {
-      const hex = col.substring(1);
-      return {
-        r: parseInt(hex.substring(0, 2), 16),
-        g: parseInt(hex.substring(2, 4), 16),
-        b: parseInt(hex.substring(4, 6), 16),
-      };
-    }
-    if (col.startsWith("rgb")) {
-      const match = col.match(/\d+/g);
-      if (match) {
-        return { r: parseInt(match[0]), g: parseInt(match[1]), b: parseInt(match[2]) };
-      }
-    }
-    return { r: 255, g: 255, b: 255 };
-  };
-
-  const getNightIntensity = (cycle: number) => {
-    // Returns 0 to 1 depending on darkness level
-    if (cycle > 0.4 && cycle < 0.7) {
-      // Midnight peaking zone
-      return 1;
-    }
-    if (cycle >= 0.2 && cycle <= 0.4) {
-      return (cycle - 0.2) / 0.2; // fading night in
-    }
-    if (cycle >= 0.7 && cycle <= 0.9) {
-      return 1 - (cycle - 0.7) / 0.2; // fading night out
-    }
-    return 0;
-  };
-
-  const drawSkyline = (
-    ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-    cycle: number,
-    nightIntensity: number
-  ) => {
-    // Generate silhouette building pillars
-    const bWidth = 60;
-    const spacing = 15;
-    const startY = height * 0.85;
-
-    ctx.save();
-    ctx.globalAlpha = 0.65;
-    
-    // Choose fill style depending on day cycle
-    const baseBuildingColor = nightIntensity > 0.5
-      ? "rgba(30, 41, 59, 0.4)"
-      : "rgba(226, 232, 240, 0.5)";
-
-    ctx.fillStyle = baseBuildingColor;
-
-    for (let x = 0; x < width; x += bWidth + spacing) {
-      // Semi-random height based on x index to keep layout static
-      const hSeed = Math.abs(Math.sin(x * 0.05)) * (height * 0.4) + 60;
-      ctx.fillRect(x, startY - hSeed, bWidth, hSeed);
-
-      // Blinking antenna towers
-      if (Math.floor(x) % 2 === 0) {
-        ctx.beginPath();
-        ctx.arc(x + bWidth / 2, startY - hSeed - 2, 2, 0, Math.PI * 2);
-        ctx.fillStyle = Math.sin(Date.now() * 0.007 + x) > 0 ? "#ef4444" : "transparent";
-        ctx.fill();
-      }
-
-      // Drawing window dots on building facades in light night conditions
-      if (nightIntensity > 0.3) {
-        ctx.fillStyle = `rgba(253, 224, 71, ${nightIntensity * 0.65})`;
-        for (let wy = startY - hSeed + 10; wy < startY - 10; wy += 20) {
-          for (let wx = x + 8; wx < x + bWidth - 8; wx += 14) {
-            // Randomize active glowing window cards
-            if (Math.sin(wx * wy) > -0.2) {
-              ctx.fillRect(wx, wy, 5, 5);
-            }
-          }
-        }
-        ctx.fillStyle = baseBuildingColor; // restore
-      }
-    }
-    ctx.restore();
-  };
-
-  const drawSmartRoads = (
-    ctx: CanvasRenderingContext2D,
-    width: number,
-    height: number,
-    cycle: number,
-    nightIntensity: number
-  ) => {
-    const roadY = height * 0.82;
-    ctx.save();
-    // Grid Lines representing smart road tunnels
-    ctx.beginPath();
-    ctx.moveTo(0, roadY);
-    ctx.lineTo(width, roadY);
-    ctx.strokeStyle = nightIntensity > 0.4 ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.04)";
-    ctx.lineWidth = 6;
-    ctx.stroke();
-
-    // Smart glowing lanes underneath grid
-    ctx.beginPath();
-    ctx.moveTo(0, roadY + 8);
-    ctx.lineTo(width, roadY + 8);
-    ctx.strokeStyle = nightIntensity > 0.5 ? "rgba(139, 92, 246, 0.15)" : "rgba(139, 92, 246, 0.05)";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.restore();
-  };
+  // Helpers are now declared statically outside the component block
 
   const currentStepData = STORY_STEPS[currentStep];
 

@@ -103,6 +103,7 @@ export default function AdminDashboard() {
       }
     });
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(false);
 
     return () => {
@@ -235,16 +236,16 @@ export default function AdminDashboard() {
           {/* Controls tabs panel */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="glass-card rounded-2xl border border-white/5 p-2 flex gap-1">
-              {[
+              {([
                 { tab: "orders", label: "Orders" },
                 { tab: "drivers", label: "Verification" },
                 { tab: "pricing", label: "Fares" },
                 { tab: "vehicles", label: "Vehicles" },
                 { tab: "notifications", label: "Broadcast" }
-              ].map((btn) => (
+              ] as const).map((btn) => (
                 <button
                   key={btn.tab}
-                  onClick={() => setActiveTab(btn.tab as any)}
+                  onClick={() => setActiveTab(btn.tab)}
                   className={`flex-1 py-2 rounded-xl text-[10px] font-bold uppercase transition-all cursor-pointer ${
                     activeTab === btn.tab ? "bg-primary text-white" : "text-gray-400 hover:text-white"
                   }`}

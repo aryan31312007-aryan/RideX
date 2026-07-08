@@ -95,9 +95,10 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
         // Try sign in
         const credential = await signInWithEmailAndPassword(auth, cleanEmail, mockPassword);
         firebaseUser = credential.user;
-      } catch (err: any) {
+      } catch (err) {
+        const fbErr = err as { code?: string };
         // If not found, create new user
-        if (err.code === "auth/user-not-found" || err.code === "auth/invalid-credential") {
+        if (fbErr.code === "auth/user-not-found" || fbErr.code === "auth/invalid-credential") {
           const credential = await createUserWithEmailAndPassword(auth, cleanEmail, mockPassword);
           firebaseUser = credential.user;
         } else {

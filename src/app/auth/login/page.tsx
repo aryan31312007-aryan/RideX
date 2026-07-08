@@ -72,9 +72,10 @@ export default function LoginPage() {
       } else {
         router.push("/dashboard");
       }
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Authentication failed. Check your network or credentials.");
+    } catch (err) {
+      const error = err as { message?: string };
+      console.error(error);
+      setError(error.message || "Authentication failed. Check your network or credentials.");
     } finally {
       setLoading(false);
     }

@@ -22,6 +22,7 @@ export default function ProfileSettings() {
       return;
     }
     if (profile) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setName(profile.name || "");
       setPhone(profile.phone || "");
       setCompanyName(profile.companyName || "");

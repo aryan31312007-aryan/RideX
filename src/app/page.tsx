@@ -211,16 +211,16 @@ export default function LandingPage() {
 
               {/* Tabs */}
               <div className="grid grid-cols-3 gap-1 p-1 bg-slate-50 rounded-2xl border border-slate-100">
-                {[
+                {([
                   { id: "ride", label: "Ride", icon: <Car className="w-4 h-4" /> },
                   { id: "delivery", label: "Delivery", icon: <Activity className="w-4 h-4" /> },
                   { id: "transport", label: "Transport", icon: <Sliders className="w-4 h-4" /> }
-                ].map((tab) => (
+                ] as const).map((tab) => (
                   <button
                     key={tab.id}
                     type="button"
                     onClick={() => {
-                      setActiveTab(tab.id as any);
+                      setActiveTab(tab.id);
                       if (tab.id === "ride") changeCategory("cab");
                       else if (tab.id === "delivery") changeCategory("parcel");
                       else if (tab.id === "transport") changeCategory("mini_truck");
@@ -239,16 +239,16 @@ export default function LandingPage() {
               {/* Sub-Category selection row */}
               {activeTab === "ride" && (
                 <div className="flex gap-2 justify-between">
-                  {[
+                  {([
                     { id: "cab", label: "Car", icon: <Car className="w-3.5 h-3.5" /> },
                     { id: "bike", label: "Bike", icon: <Bike className="w-3.5 h-3.5" /> },
                     { id: "auto", label: "Auto", icon: <Compass className="w-3.5 h-3.5" /> },
                     { id: "premium", label: "Premium", icon: <Zap className="w-3.5 h-3.5" /> }
-                  ].map((cat) => (
+                  ] as const).map((cat) => (
                     <button
                       key={cat.id}
                       type="button"
-                      onClick={() => changeCategory(cat.id as any)}
+                      onClick={() => changeCategory(cat.id)}
                       className={`flex-1 py-2 rounded-xl border text-[10px] font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${selectedCategory === cat.id
                           ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
                           : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
@@ -263,14 +263,14 @@ export default function LandingPage() {
 
               {activeTab === "delivery" && (
                 <div className="flex gap-2">
-                  {[
+                  {([
                     { id: "parcel", label: "Parcel Courier", icon: <Activity className="w-3.5 h-3.5" /> },
                     { id: "food", label: "Food Delivery", icon: <Heart className="w-3.5 h-3.5" /> }
-                  ].map((cat) => (
+                  ] as const).map((cat) => (
                     <button
                       key={cat.id}
                       type="button"
-                      onClick={() => changeCategory(cat.id as any)}
+                      onClick={() => changeCategory(cat.id)}
                       className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${selectedCategory === cat.id
                           ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
                           : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
@@ -285,15 +285,15 @@ export default function LandingPage() {
 
               {activeTab === "transport" && (
                 <div className="flex gap-2">
-                  {[
+                  {([
                     { id: "mini_truck", label: "Mini Truck", icon: <Sliders className="w-3.5 h-3.5" /> },
                     { id: "pickup", label: "Pickup Loader", icon: <Navigation className="w-3.5 h-3.5 rotate-45" /> },
                     { id: "tempo", label: "Large Tempo", icon: <Users className="w-3.5 h-3.5" /> }
-                  ].map((cat) => (
+                  ] as const).map((cat) => (
                     <button
                       key={cat.id}
                       type="button"
-                      onClick={() => changeCategory(cat.id as any)}
+                      onClick={() => changeCategory(cat.id)}
                       className={`flex-1 py-2.5 rounded-xl border text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${selectedCategory === cat.id
                           ? "bg-amber-50 border-[#fbbf24] text-amber-700 font-extrabold"
                           : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100"
@@ -427,7 +427,7 @@ export default function LandingPage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
+          {([
             { title: "Bike", desc: "Fast & Affordable", icon: <Bike className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "ride", type: "bike" },
             { title: "Auto", desc: "Quick & Easy", icon: <Compass className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "ride", type: "auto" },
             { title: "Cab", desc: "Comfort Rides", icon: <Car className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "ride", type: "cab" },
@@ -437,12 +437,12 @@ export default function LandingPage() {
             { title: "Mini Truck", desc: "For Small Load", icon: <Sliders className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "transport", type: "mini_truck" },
             { title: "Pickup", desc: "Move Anything", icon: <Navigation className="w-6 h-6 text-amber-600 rotate-45" />, bg: "bg-amber-50/50", tab: "transport", type: "pickup" },
             { title: "Tempo", desc: "For Large Load", icon: <Users className="w-6 h-6 text-amber-600" />, bg: "bg-amber-50/50", tab: "transport", type: "tempo" },
-          ].map((service, idx) => (
+          ] as const).map((service, idx) => (
             <div
               key={idx}
               onClick={() => {
-                setActiveTab(service.tab as any);
-                changeCategory(service.type as any);
+                setActiveTab(service.tab);
+                changeCategory(service.type);
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
               className="bg-white border border-slate-100 rounded-3xl p-6 flex items-center justify-between hover:shadow-md hover:border-[#fbbf24]/30 transition-all group cursor-pointer text-left"
@@ -470,7 +470,7 @@ export default function LandingPage() {
           <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">Experience the AI Network</span>
           <h2 className="text-3xl font-extrabold text-slate-800 tracking-tight">Autonomous Dispatch Simulator</h2>
           <p className="text-sm text-slate-500 max-w-xl leading-relaxed font-semibold">
-            See the RideX neural dispatcher at work. Vikram Solanki's Tesla and cargo logistics vehicles traverse Delhi NCR green expressways with biometrics tracking, latency logs, and automated corridor optimization.
+            See the RideX neural dispatcher at work. Vikram {"Solanki's"} Tesla and cargo logistics vehicles traverse Delhi NCR green expressways with biometrics tracking, latency logs, and automated corridor optimization.
           </p>
         </div>
 
@@ -535,7 +535,7 @@ export default function LandingPage() {
           <div className="md:col-span-7 flex flex-col gap-4 text-left relative z-10">
             <span className="text-xs font-bold text-[#fbbf24] uppercase tracking-wider">RIDEX SAFETY</span>
             <h3 className="text-2xl md:text-3xl font-extrabold text-slate-800 leading-tight">
-              India's Safer Rides Platform
+              {"India's"} Safer Rides Platform
             </h3>
             <p className="text-sm text-slate-500 leading-relaxed max-w-lg font-semibold">
               Your safety is our highest priority. We use verified drivers, live tracking algorithms, and instant emergency alerts to secure every single trip.

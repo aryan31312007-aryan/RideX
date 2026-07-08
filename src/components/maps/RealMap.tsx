@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useCallback } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface Point {
   lat: number;
@@ -96,12 +96,14 @@ export default function RealMap({
 
   // Only run on client (Leaflet is browser-only)
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsClient(true);
   }, []);
 
   // Fetch real road route whenever pickup/drop changes
   useEffect(() => {
     if (!pickup || !drop) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setRoadRoute([]);
       return;
     }
@@ -155,7 +157,7 @@ export default function RealMap({
 
       // Click handler — reads latest callback via ref (no stale closure)
       if (interactive) {
-        map.on("click", async (e: any) => {
+        map.on("click", async (e: import("leaflet").LeafletMouseEvent) => {
           const cb = onMapClickRef.current;
           if (!cb) return;
           const { lat, lng } = e.latlng;

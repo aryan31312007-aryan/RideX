@@ -22,6 +22,19 @@ interface PricingRule {
   type: string;
 }
 
+// Haversine formula — real-world distance between two GPS coordinates
+const haversineKm = (a: Point, b: Point) => {
+  const R = 6371;
+  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
+  const dLng = ((b.lng - a.lng) * Math.PI) / 180;
+  const s =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos((a.lat * Math.PI) / 180) *
+      Math.cos((b.lat * Math.PI) / 180) *
+      Math.sin(dLng / 2) ** 2;
+  return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s));
+};
+
 export default function CreateOrder() {
   const { user, profile, loading: authLoading } = useFirebase();
   const router = useRouter();
@@ -44,12 +57,21 @@ export default function CreateOrder() {
   const [packageNotes, setPackageNotes] = useState("");
   const [orderType, setOrderType] = useState<"ride" | "delivery">("delivery");
 
-  const [distance, setDistance] = useState<number>(0);
-  const [price, setPrice] = useState<number>(0);
-
   const [booking, setBooking] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Calculate distance and price on render
+  let distance = 0;
+  let price = 0;
+  if (pickup && drop) {
+    distance = haversineKm(pickup, drop);
+    const rules = pricingRules[vehicleType];
+    if (rules) {
+      const estDurationMin = distance * 2.5;
+      price = rules.baseFare + distance * rules.perKmRate + estDurationMin * rules.perMinuteRate;
+    }
+  }
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -70,36 +92,7 @@ export default function CreateOrder() {
     return () => unsubscribe();
   }, []);
 
-  // Haversine formula — real-world distance between two GPS coordinates
-  const haversineKm = (a: Point, b: Point) => {
-    const R = 6371;
-    const dLat = ((b.lat - a.lat) * Math.PI) / 180;
-    const dLng = ((b.lng - a.lng) * Math.PI) / 180;
-    const s =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos((a.lat * Math.PI) / 180) *
-        Math.cos((b.lat * Math.PI) / 180) *
-        Math.sin(dLng / 2) ** 2;
-    return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s));
-  };
-
-  // Compute distance and price when real coords change
-  useEffect(() => {
-    if (pickup && drop) {
-      const calculatedKm = haversineKm(pickup, drop);
-      setDistance(calculatedKm);
-
-      const rules = pricingRules[vehicleType];
-      if (rules) {
-        const estDurationMin = calculatedKm * 2.5;
-        const estPrice = rules.baseFare + calculatedKm * rules.perKmRate + estDurationMin * rules.perMinuteRate;
-        setPrice(estPrice);
-      }
-    } else {
-      setDistance(0);
-      setPrice(0);
-    }
-  }, [pickup, drop, vehicleType, pricingRules]);
+  // Compute distance and price when real coords change (State is now computed on render)
 
   // Handle map click
   const handleMapClick = (coords: Point, address: string) => {
@@ -124,6 +117,7 @@ export default function CreateOrder() {
     try {
       const ordersRef = ref(db, "orders");
       const newOrderRef = push(ordersRef);
+      // eslint-disable-next-line react-hooks/purity
       const orderId = newOrderRef.key || `order_${Date.now()}`;
 
       // Fetch REAL road route from OSRM and store it with the order
@@ -184,9 +178,10 @@ export default function CreateOrder() {
       setTimeout(() => {
         router.push(`/dashboard/track?id=${orderId}`);
       }, 2000);
-    } catch (error: any) {
-      console.error("Failed to write booking order:", error);
-      setErrorMsg(error?.message || "Failed to confirm booking. Check your database rules or connection.");
+    } catch (error) {
+      const err = error as { message?: string };
+      console.error("Failed to write booking order:", err);
+      setErrorMsg(err.message || "Failed to confirm booking. Check your database rules or connection.");
       setBooking(false);
     }
   };
@@ -279,15 +274,15 @@ export default function CreateOrder() {
             <div>
               <label className="text-[10px] text-gray-400 font-bold uppercase block mb-2">Transport Tier</label>
               <div className="grid grid-cols-3 gap-2">
-                {[
+                {([
                   { type: "bike", name: "Moto Ride", icon: <Bike className="w-4 h-4 text-primary" /> },
                   { type: "car", name: "Executive Cab", icon: <Car className="w-4 h-4 text-yellow-500" /> },
                   { type: "truck", name: "Logistics Truck", icon: <Truck className="w-4 h-4 text-green-500" /> }
-                ].map((veh) => (
+                ] as const).map((veh) => (
                   <button
                     key={veh.type}
                     type="button"
-                    onClick={() => setVehicleType(veh.type as any)}
+                    onClick={() => setVehicleType(veh.type)}
                     className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all cursor-pointer ${
                       vehicleType === veh.type
                         ? "bg-white/5 border-primary text-white"
