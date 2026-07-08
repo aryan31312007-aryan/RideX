@@ -200,14 +200,14 @@ export default function SOSButton() {
               {/* Tab Selector */}
               <div className="grid grid-cols-3 gap-1 p-1 bg-slate-50 border-b border-slate-100 shrink-0">
                 {[
-                  { id: "location", label: "Live Location" },
-                  { id: "sos", label: "SOS Dispatch" },
-                  { id: "both", label: "Both (Combined)" }
+                  { id: "location" as const, label: "Live Location" },
+                  { id: "sos" as const, label: "SOS Dispatch" },
+                  { id: "both" as const, label: "Both (Combined)" }
                 ].map((t) => (
                   <button
                     key={t.id}
                     type="button"
-                    onClick={() => setActiveTab(t.id as any)}
+                    onClick={() => setActiveTab(t.id)}
                     className={`py-2 rounded-xl text-[11px] font-extrabold transition-all cursor-pointer text-center ${
                       activeTab === t.id
                         ? "bg-white border border-slate-200/80 text-slate-900 shadow-sm"
