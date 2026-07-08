@@ -231,7 +231,7 @@ export default function Navbar() {
                 className={`py-2 text-base transition-colors ${
                   pathname === link.href 
                     ? "text-[#fbbf24] font-bold" 
-                    : "text-gray-300 hover:text-white"
+                    : "text-slate-600 hover:text-slate-900"
                 }`}
               >
                 {link.name}
@@ -241,38 +241,41 @@ export default function Navbar() {
             <hr className={`my-2 ${dividerStyle}`} />
 
             {user && profile ? (
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3 py-2 px-3 rounded-xl border border-white/10 bg-white/5">
+              <div className="flex flex-col gap-3 text-left">
+                <div className="flex items-center gap-3 py-2 px-3 rounded-xl border border-slate-200/80 bg-slate-50">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${profileBadgeBg}`}>
                     {profile.name[0]}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white">{profile.name}</p>
-                    <p className="text-xs capitalize text-gray-400">{profile.role}</p>
+                    <p className="text-sm font-semibold text-slate-800">{profile.name}</p>
+                    <p className="text-xs capitalize text-slate-500">{profile.role}</p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                <div className="flex flex-col gap-2">
                   <Link
                     href="/dashboard"
                     onClick={() => setIsOpen(false)}
-                    className="py-2.5 rounded-lg border border-white/10 text-white hover:bg-white/5"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl border border-slate-200/60 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-all font-semibold"
                   >
-                    Customer App
+                    <Sparkles className="w-4 h-4 text-[#fbbf24] shrink-0" />
+                    <span>Customer Dashboard</span>
                   </Link>
                   <Link
                     href="/driver"
                     onClick={() => setIsOpen(false)}
-                    className="py-2.5 rounded-lg border border-white/10 text-white hover:bg-white/5"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl border border-slate-200/60 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-all font-semibold"
                   >
-                    Driver Portal
+                    <Navigation className="w-4 h-4 text-[#fbbf24] shrink-0" />
+                    <span>Driver Portal</span>
                   </Link>
                   <Link
                     href="/corporate"
                     onClick={() => setIsOpen(false)}
-                    className="py-2.5 rounded-lg border border-white/10 text-white hover:bg-white/5"
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl border border-slate-200/60 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-all font-semibold"
                   >
-                    Corporate App
+                    <UserIcon className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>Corporate Solutions</span>
                   </Link>
                 </div>
 
@@ -281,7 +284,7 @@ export default function Navbar() {
                     setIsOpen(false);
                     logout();
                   }}
-                  className="w-full py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-semibold hover:bg-red-500/20 text-center transition-all mt-2 cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 font-bold text-center transition-all mt-2 cursor-pointer"
                 >
                   Sign Out
                 </button>
@@ -291,7 +294,7 @@ export default function Navbar() {
                 <Link
                   href="/auth/login"
                   onClick={() => setIsOpen(false)}
-                  className="w-full py-3 rounded-xl border border-white/10 text-white hover:bg-white/5 text-center transition-all"
+                  className="w-full py-3 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 text-center transition-all font-semibold"
                 >
                   Sign In
                 </Link>

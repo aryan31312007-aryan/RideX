@@ -23,6 +23,9 @@ export default function PricingPage() {
     return () => {
       body.style.backgroundColor = prevBg;
       body.style.color = prevColor;
+      if (hasDark) {
+        html.classList.add("dark");
+      }
     };
   }, []);
 

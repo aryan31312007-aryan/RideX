@@ -170,8 +170,8 @@ export default function LandingPage() {
   return (
     <div className="bg-[#f8fafc] text-slate-800 min-h-screen relative font-sans overflow-x-hidden">
 
-      {/* ================= HERO SECTION (LIGHT REFERENCE) ================= */}
-      <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden py-16 px-6 md:px-12 w-full bg-gradient-to-b from-white to-[#f8fafc] border-b border-slate-100">
+       {/* ================= HERO SECTION (LIGHT REFERENCE) ================= */}
+      <section className="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-8 pb-12 md:py-16 px-6 md:px-12 w-full bg-gradient-to-b from-white to-[#f8fafc] border-b border-slate-100">
         {/* Ambient background grid pattern */}
         <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1.5px,transparent_1.5px)] [background-size:24px_24px] opacity-60 pointer-events-none" />
 
@@ -190,7 +190,7 @@ export default function LandingPage() {
             </p>
 
             {/* Badges row */}
-            <div className="flex flex-wrap gap-3 mt-2">
+            <div className="hidden md:flex flex-wrap gap-3 mt-2">
               {[
                 { label: "Verified Drivers", icon: <Shield className="w-4.5 h-4.5 text-[#fbbf24] fill-[#fbbf24]/10" /> },
                 { label: "Live Tracking", icon: <Navigation className="w-4.5 h-4.5 text-[#fbbf24] rotate-45" /> },
@@ -347,7 +347,7 @@ export default function LandingPage() {
                 </div>
 
                 {/* Dropdowns */}
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Vehicle Type</label>
                     <select
@@ -408,7 +408,7 @@ export default function LandingPage() {
         </div>
 
         {/* Center overlay background car illustration (scaled up to look good and be easily visible) */}
-        <div className="absolute inset-x-0 bottom-0 top-[20%] z-0 flex justify-center items-center pointer-events-none opacity-90 -translate-x-[5%]">
+        <div className="absolute inset-x-0 bottom-0 top-[20%] z-0 hidden lg:flex justify-center items-center pointer-events-none opacity-90 -translate-x-[5%]">
           <img
             src="/ridex_hero_car.png"
             alt="RIDEX Premium Sedan"

@@ -46,6 +46,9 @@ export default function BusinessPage() {
     return () => {
       body.style.backgroundColor = prevBg;
       body.style.color = prevColor;
+      if (hasDark) {
+        html.classList.add("dark");
+      }
     };
   }, []);
 

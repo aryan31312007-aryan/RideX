@@ -25,6 +25,9 @@ export default function ServicesPage() {
     return () => {
       body.style.backgroundColor = prevBg;
       body.style.color = prevColor;
+      if (hasDark) {
+        html.classList.add("dark");
+      }
     };
   }, []);
 
