@@ -500,7 +500,7 @@ export default function LandingPage() {
             <div
               key={idx}
               className="flex flex-col items-center text-center gap-3 cursor-pointer group"
-              onClick={item.name === "SOS" ? handleSOS : undefined}
+              onClick={item.name === "SOS" || item.name === "Live Location" ? handleSOS : undefined}
             >
               <div className={`w-14 h-14 rounded-full ${item.bg} flex items-center justify-center border border-slate-100 group-hover:scale-105 transition-all shadow-sm`}>
                 {item.icon}
