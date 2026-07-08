@@ -500,7 +500,15 @@ export default function LandingPage() {
             <div
               key={idx}
               className="flex flex-col items-center text-center gap-3 cursor-pointer group"
-              onClick={item.name === "SOS" || item.name === "Live Location" ? handleSOS : undefined}
+              onClick={() => {
+                if (item.name === "SOS") {
+                  setSosStatus("triggered");
+                  setTimeout(() => setSosStatus("idle"), 3000);
+                  window.dispatchEvent(new CustomEvent("open-sos-modal", { detail: { tab: "sos" } }));
+                } else if (item.name === "Live Location") {
+                  window.dispatchEvent(new CustomEvent("open-sos-modal", { detail: { tab: "location" } }));
+                }
+              }}
             >
               <div className={`w-14 h-14 rounded-full ${item.bg} flex items-center justify-center border border-slate-100 group-hover:scale-105 transition-all shadow-sm`}>
                 {item.icon}
