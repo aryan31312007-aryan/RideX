@@ -262,28 +262,9 @@ export default function LandingPage() {
           {/* Bezel frame container for desktop */}
           <div className="w-full max-w-[410px] bg-slate-950 lg:rounded-[48px] lg:p-3 lg:shadow-[0_20px_50px_rgba(109,40,217,0.18)] lg:border-[8px] lg:border-slate-900 relative aspect-[9/19] flex flex-col overflow-hidden">
             
-            {/* Phone Notch */}
-            <div className="hidden lg:block absolute top-5 left-1/2 -translate-x-1/2 w-28 h-5.5 bg-slate-900 rounded-full z-45 flex items-center justify-center pointer-events-none">
-              <div className="w-2 h-2 rounded-full bg-slate-950 mr-2" />
-              <div className="w-8 h-0.5 bg-slate-800 rounded-full" />
-            </div>
-
             {/* Simulated App Screen */}
             <div className="flex-grow bg-white text-slate-800 flex flex-col justify-between relative overflow-y-auto scrollbar-none lg:rounded-[38px] max-h-full">
               
-              {/* STATUS BAR */}
-              <div className="sticky top-0 bg-white z-40 px-5 pt-3 pb-1 flex justify-between items-center text-[10px] font-bold text-slate-900 pointer-events-none">
-                <span>7:23 AM</span>
-                <div className="flex items-center gap-1.5 font-mono">
-                  <span>📶</span>
-                  <span>📶</span>
-                  <span>100%</span>
-                  <div className="w-5.5 h-2.5 border border-slate-900 rounded-[2.5px] p-[1.2px] flex items-center">
-                    <div className="h-full w-full bg-slate-900 rounded-[0.5px]" />
-                  </div>
-                </div>
-              </div>
-
               {/* MOCK PAGE ALERTS */}
               <AnimatePresence>
                 {mockAlert && (
@@ -291,7 +272,7 @@ export default function LandingPage() {
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="absolute top-10 inset-x-4 bg-slate-900 text-white font-bold text-[10px] py-2.5 px-4 rounded-xl shadow-lg z-50 text-center flex items-center justify-center gap-2 border border-slate-800"
+                    className="absolute top-4 inset-x-4 bg-slate-900 text-white font-bold text-[10px] py-2.5 px-4 rounded-xl shadow-lg z-50 text-center flex items-center justify-center gap-2 border border-slate-800"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-[#fbbf24] animate-ping" />
                     {mockAlert}
@@ -300,7 +281,7 @@ export default function LandingPage() {
               </AnimatePresence>
 
               {/* APP HEADER */}
-              <div className="px-4 py-2.5 flex justify-between items-center bg-white sticky top-[18px] z-30 border-b border-slate-50 shadow-sm/50">
+              <div className="px-4 py-2.5 flex justify-between items-center bg-white sticky top-0 z-30 border-b border-slate-50 shadow-sm/50">
                 <div className="flex items-center gap-1.5">
                   <span className="w-7 h-7 rounded-lg bg-[#fbbf24] flex items-center justify-center text-slate-950 font-black text-sm">
                     R
@@ -845,7 +826,7 @@ export default function LandingPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 bg-[#fafaff] z-42 flex flex-col justify-between pt-8"
+                    className="absolute inset-0 bg-[#fafaff] z-42 flex flex-col justify-between pt-0"
                   >
                     {/* Live Tracking Header */}
                     <div className="p-3 bg-white border-b border-slate-100 flex justify-between items-center relative z-10 text-left">
