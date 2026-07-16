@@ -6,6 +6,7 @@ import {
   AlertTriangle, BellRing, Info, ShieldCheck, RefreshCw
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 interface Helpline {
   name: string;
@@ -15,6 +16,7 @@ interface Helpline {
 }
 
 export default function SOSButton() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [countdown, setCountdown] = useState(5);
@@ -134,6 +136,8 @@ export default function SOSButton() {
     { name: "Road Accident Helpline", number: "1073", desc: "Highway and local traffic accident response registry", category: "Support" },
     { name: "RIDEX Direct Safety Desk", number: "+1 (800) 743-3972", desc: "24/7 internal crisis team for active RideX dispatch routes", category: "General" }
   ];
+
+  if (pathname === "/") return null;
 
   return (
     <>

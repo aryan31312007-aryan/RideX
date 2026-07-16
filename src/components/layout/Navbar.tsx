@@ -48,6 +48,8 @@ export default function Navbar() {
   const dividerStyle = "border-slate-100";
   const profileBadgeBg = "bg-amber-100 border-amber-200 text-amber-800 font-bold";
 
+  if (pathname === "/") return null;
+
   return (
     <nav className={`sticky top-0 z-50 w-full py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-300 ${navBg}`}>
       {/* Logo */}

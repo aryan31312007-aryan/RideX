@@ -21,6 +21,8 @@ export default function Footer() {
   const bottomText = "text-slate-400";
   const bottomHover = "hover:text-amber-500 text-slate-400";
 
+  if (pathname === "/") return null;
+
   return (
     <footer className={`w-full py-12 px-6 md:px-12 mt-auto transition-all duration-300 ${footerBg}`}>
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
