@@ -5,9 +5,9 @@ import Link from "next/link";
 import {
   Bike, Car, Navigation, Zap, Shield, MapPin, ArrowRight, Star, Clock,
   Heart, ShieldAlert, CheckCircle, ChevronRight, Sliders, DollarSign,
-  Smartphone, Activity, Compass, Users, CheckCircle2, Map, Bell, HelpCircle,
+  Activity, Compass, Users, CheckCircle2, Map, Bell, HelpCircle,
   QrCode, ArrowUpRight, Wallet, History, X, Plus, AlertCircle, Play, Pause, ChevronDown, Check,
-  User, Send, Landmark, RefreshCw, BarChart2, Briefcase, Award, ArrowDownLeft, CreditCard, Tv, ZapOff
+  User, Send, Landmark, RefreshCw, BarChart2, Briefcase, Award, ArrowDownLeft, ZapOff
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useFirebase } from "@/context/FirebaseContext";
@@ -121,16 +121,15 @@ export default function LandingPage() {
 
   // Fintech specific transfers & bills states
   const [showFintechDrawer, setShowFintechDrawer] = useState(false);
-  const [fintechDrawerType, setFintechDrawerType] = useState<"contact" | "upi" | "balance" | "recharge" | "gold">("contact");
+  const [fintechDrawerType, setFintechDrawerType] = useState<"contact" | "upi" | "balance" | "gold">("contact");
   const [transferTarget, setTransferTarget] = useState("");
   const [transferAmount, setTransferAmount] = useState("");
-  const [selectedUtility, setSelectedUtility] = useState<"mobile" | "dth" | "electricity" | "rent">("mobile");
   
   // Dynamic Transaction Ledger State
   const [transactions, setTransactions] = useState<Transaction[]>([
     { id: "TXN5832", type: "debit", title: "Mini Cab Booking", desc: "Connaught Place to IGI Airport", amount: 195, date: "Today, 11:20 AM", status: "Success", category: "ride" },
     { id: "TXN5691", type: "credit", title: "Wallet Loaded", desc: "UPI top-up via GPay", amount: 500, date: "Yesterday, 3:15 PM", status: "Success", category: "wallet" },
-    { id: "TXN5412", type: "debit", title: "Mobile Recharge", desc: "Jio Prepaid +91 98765 43210", amount: 299, date: "14 Jul, 09:30 AM", status: "Success", category: "utility" },
+    { id: "TXN5412", type: "debit", title: "UPI Payment", desc: "Sent to Friend", amount: 299, date: "14 Jul, 09:30 AM", status: "Success", category: "transfer" },
     { id: "TXN5002", type: "credit", title: "Gold Investment Refund", desc: "PhonePe Wealth Brokerage", amount: 1500, date: "12 Jul, 04:10 PM", status: "Success", category: "investment" }
   ]);
 
@@ -272,9 +271,8 @@ export default function LandingPage() {
   };
 
   // Fintech Action Triggers
-  const openFintechAction = (type: typeof fintechDrawerType, utility?: typeof selectedUtility) => {
+  const openFintechAction = (type: typeof fintechDrawerType) => {
     setFintechDrawerType(type);
-    if (utility) setSelectedUtility(utility);
     setTransferAmount("");
     setTransferTarget("");
     setShowFintechDrawer(true);
@@ -304,19 +302,7 @@ export default function LandingPage() {
       setMockAlert(`Successfully transferred ₹${amt}!`);
       setTimeout(() => setMockAlert(null), 3000);
     } 
-    else if (fintechDrawerType === "recharge") {
-      // Pay via Bank Account
-      if (bankBalance < amt) {
-        setMockAlert("Insufficient bank account balance!");
-        setTimeout(() => setMockAlert(null), 3000);
-        return;
-      }
-      setBankBalance((b) => b - amt);
-      logTransaction("debit", `${selectedUtility.toUpperCase()} Payment`, `A/C Number: ${transferTarget}`, amt, "utility");
-      setShowFintechDrawer(false);
-      setMockAlert(`Successfully paid ₹${amt} utility bill!`);
-      setTimeout(() => setMockAlert(null), 3000);
-    }
+
     else if (fintechDrawerType === "gold") {
       // Buy gold
       if (bankBalance < amt) {
@@ -469,7 +455,7 @@ export default function LandingPage() {
                           <span className="text-[9px] font-black tracking-widest text-purple-200 uppercase">SUPER COMMUTE SALE</span>
                           <h3 className="text-xs md:text-sm font-black leading-tight">
                             Your City. Your Ride. <br />
-                            Book cabs & recharges in seconds!
+                            Book cabs in seconds!
                           </h3>
                           <button
                             onClick={() => openBookingFlow("cab")}
@@ -537,54 +523,7 @@ export default function LandingPage() {
                       </div>
                     </div>
 
-                    {/* PHONEPE CARD 2: RECHARGE & PAY BILLS */}
-                    <div className="px-3">
-                      <div className="bg-white border border-slate-100 rounded-3xl p-3.5 shadow-sm text-left">
-                        <span className="text-[10px] font-black uppercase text-slate-400 tracking-wider block mb-3">Recharge & Pay Bills</span>
-                        
-                        <div className="grid grid-cols-4 gap-2">
-                          <button
-                            onClick={() => openFintechAction("recharge", "mobile")}
-                            className="flex flex-col items-center gap-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-                          >
-                            <div className="w-11 h-11 rounded-2xl bg-blue-50 text-blue-650 flex items-center justify-center shadow-inner">
-                              <Smartphone className="w-5 h-5" />
-                            </div>
-                            <span className="text-[9px] font-black text-slate-700 text-center leading-tight">Mobile Recharge</span>
-                          </button>
 
-                          <button
-                            onClick={() => openFintechAction("recharge", "dth")}
-                            className="flex flex-col items-center gap-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-                          >
-                            <div className="w-11 h-11 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center shadow-inner">
-                              <Tv className="w-5 h-5" />
-                            </div>
-                            <span className="text-[9px] font-black text-slate-700 text-center leading-tight">DTH</span>
-                          </button>
-
-                          <button
-                            onClick={() => openFintechAction("recharge", "electricity")}
-                            className="flex flex-col items-center gap-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-                          >
-                            <div className="w-11 h-11 rounded-2xl bg-yellow-50 text-yellow-600 flex items-center justify-center shadow-inner">
-                              <Zap className="w-5 h-5" />
-                            </div>
-                            <span className="text-[9px] font-black text-slate-700 text-center leading-tight">Electricity</span>
-                          </button>
-
-                          <button
-                            onClick={() => openFintechAction("recharge", "rent")}
-                            className="flex flex-col items-center gap-1.5 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
-                          >
-                            <div className="w-11 h-11 rounded-2xl bg-emerald-50 text-emerald-650 flex items-center justify-center shadow-inner">
-                              <CreditCard className="w-5 h-5" />
-                            </div>
-                            <span className="text-[9px] font-black text-slate-700 text-center leading-tight">Rent Payment</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
 
                     {/* BOOK YOUR RIDE Mobility Panel */}
                     <div className="px-3 text-left">
@@ -740,29 +679,7 @@ export default function LandingPage() {
                             {s.icon}
                             <span className="text-[9px] font-black text-slate-700 text-center leading-tight">{s.name}</span>
                           </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* section: recharges */}
-                    <div className="flex flex-col gap-2 mt-1">
-                      <span className="text-[10px] uppercase font-black text-slate-450 tracking-wider">Recharge & Utilities</span>
-                      <div className="grid grid-cols-4 gap-2">
-                        {[
-                          { name: "Mobile", icon: <Smartphone className="w-4.5 h-4.5 text-blue-500" />, key: "mobile" },
-                          { name: "DTH", icon: <Tv className="w-4.5 h-4.5 text-orange-500" />, key: "dth" },
-                          { name: "Electricity", icon: <Zap className="w-4.5 h-4.5 text-yellow-500" />, key: "electricity" },
-                          { name: "Rent", icon: <CreditCard className="w-4.5 h-4.5 text-emerald-500" />, key: "rent" }
-                        ].map((s, i) => (
-                          <button
-                            key={i}
-                            onClick={() => openFintechAction("recharge", s.key as any)}
-                            className="bg-white border border-slate-100 p-2 rounded-2xl shadow-sm/50 flex flex-col items-center gap-1.5 cursor-pointer active:scale-95"
-                          >
-                            {s.icon}
-                            <span className="text-[8.5px] font-black text-slate-700 text-center leading-none">{s.name}</span>
-                          </button>
-                        ))}
+                          ))}
                       </div>
                     </div>
 
@@ -1043,7 +960,6 @@ export default function LandingPage() {
                         <span className="text-xs font-black uppercase text-slate-800 tracking-wider">
                           {fintechDrawerType === "contact" && "Transfer to Mobile"}
                           {fintechDrawerType === "upi" && "Send to UPI / Bank"}
-                          {fintechDrawerType === "recharge" && `Pay ${selectedUtility.toUpperCase()} Bill`}
                           {fintechDrawerType === "gold" && "Buy 24K Digital Gold"}
                         </span>
                         <button
@@ -1084,21 +1000,7 @@ export default function LandingPage() {
                           </div>
                         )}
 
-                        {fintechDrawerType === "recharge" && (
-                          <div className="flex flex-col gap-1 text-left">
-                            <label className="text-[9px] font-black uppercase text-slate-400 tracking-wider">
-                              {selectedUtility === "mobile" ? "Mobile Number" : "Account / Consumer Number"}
-                            </label>
-                            <input
-                              type="text"
-                              value={transferTarget}
-                              onChange={(e) => setTransferTarget(e.target.value)}
-                              className="w-full px-3 py-2.5 rounded-xl border border-slate-100 bg-slate-50 text-xs font-black focus:bg-white focus:outline-none focus:border-[#7c3aed]"
-                              placeholder="Enter account / number details"
-                              required
-                            />
-                          </div>
-                        )}
+
 
                         {fintechDrawerType === "gold" && (
                           <div className="p-3 bg-amber-50 rounded-2xl border border-amber-100 text-xs text-amber-800 font-bold mb-1">
